@@ -1,0 +1,174 @@
+
+
+\documentclass[12pt]{article}
+\usepackage{subfig}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{pstricks,pst-node}
+\usepackage{stmaryrd}
+\usepackage{gastex}
+\usepackage{comment}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{url}
+\usepackage[margin=1.3in]{geometry}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{wrapfig}
+
+
+\catcode`\_=12
+
+\definecolor{mGreen}{rgb}{0,0.6,0}
+\definecolor{mGray}{rgb}{0.5,0.5,0.5}
+\definecolor{mPurple}{rgb}{0.58,0,0.82}
+\definecolor{backgroundColour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{CStyle}{
+    backgroundcolor=\color{backgroundColour},   
+    commentstyle=\color{mGreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{mGray},
+    stringstyle=\color{mPurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=C
+}
+
+
+\begin{document}
+
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} 
+\center
+
+
+\textsc{\Large Cahier des charges}\\[0.5cm]
+
+\HRule \\[0.4cm]
+{\huge \bfseries Project of Gestural Interaction}\\[0.4cm] 
+\HRule \\[1.5cm]
+
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Equipe:}\\~\\
+Qingyuan \textsc{Yao}\\
+Alan \textsc{Adamiak}\\
+David \textsc{Leconte}\\
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Encadrants:} \\~\\
+Gilles \textsc{Bailly}\\~\\~\\
+\end{flushright}
+\end{minipage}\\[2cm]
+
+
+\includegraphics[scale=0.5]{logo.png}\\[1cm] 
+
+\vfill
+
+\end{titlepage}
+
+
+
+
+%DEBUT DU DOC 
+\topskip0pt
+
+\newpage
+
+\renewcommand{\contentsname}{Sommaire}
+\tableofcontents
+\newpage
+
+
+\section{Introduction}
+This is a project of 3 students in the first year of our master degree at Sorbonne Université.
+
+The purpose of this project is to compare gestural interactions with keyboard input. We will compare the two primarily on execution speed and learning speed. In order to do that, we will make an interactive survey to record and gather input data from users and perform analysis based of that data. 
+
+We hope that this research project would prove the superiority of keyboard input and serves as an counterargument for papers that overestimate gestural interaction.
+
+Down below, you will find the explanations on each step of our project and how we plan to tackle them.
+
+\section{Definitions}
+Firstly, we would like to precise on the terms we use and comparisons we will make, as there exists multiple types of gestural interactions. 
+
+\subsection{Keyboard Input}
+The keyboard input should come from a physical keyboard, with at least 26 Latin letters and modifier keys such as shift, control (command on Mac), alt, etc.
+
+\subsection{Gestural Interaction}
+The gestural interaction consists actions with only one pointer and it should come from a mouse or a touchpad. Touch screen interaction is not considered in this project.
+
+\subsection{Platform}
+In order to test the speed of both types of interactions, the devices on which the test to be done are required to have both Input methods available. Ideally, all tests should be done one a computer with a keyboard and a mouse (or touchpad).
+
+\section{Stages}
+
+The project will be carried out in 5 stages, some stages can be done in parallel with others.
+
+\subsection{Gesture and Keystroke Design}
+A set of actions, ranging from copy-pasting to spatial movement would be defined as commands that will be activated with a gestural interaction as well as a keyboard input. 
+
+The commands and inputs should be related and intuitive enough for everyday use as such is what we intend to simulate.
+
+\subsection{Models}
+Before turning the designs we've conceptualized into code, we need to define the models of data we want to record in order to code the program to our need.
+
+The models would be combination of input time, the evolution of input speed, parameters on the users, etc.
+
+\subsection{Interactive Survey}
+% The survey would be realized in Unity, a web version of the program will be hosted on a lip6 server for more people to access and take the test. The gamification of the survey is an option of consider, as we will be using Unity and game motivates people to take the test.
+The survey will be available online to facilitate its access.
+The gamification of the survey is an option that we could consider if time allows us to.
+
+\subsubsection{Direct Commands}
+The first part of the test would be command with specific actions such as "Click Control X to execute" or "Draw X to execute"
+
+\subsubsection{Natural Commands}
+The second part is set out to test the learning speed for both types of input, so instead of showing "Click Control X to execute", the command would simply be "Execute"
+
+\subsection{Tests}
+The test will be carried out online, and ideally, people of all socio-professional background would participate.
+
+\subsection{Analysis}
+After gathering enough data from the test. We will analyse......
+
+% \section{Progress Estimation}
+
+\section{Tasks Distribution}
+
+\textbf{Setting up the experimental protocol:} 1-2 weeks, 3 persons \\
+\textbf{Modeling of the expected results:} 2 weeks, 1 person \\
+\textbf{Building the survey website:} 1 month, 2 persons \\
+\textbf{Experimental phase:} 1-2 weeks, no one \\
+\textbf{Analysis of the results:} starting 1 week after the beginning of the experimental phase, remaining time available, 3 persons
+
+
+\newpage
+\begin{thebibliography}{12}
+\bibitem{git} 
+Source code: \path{https://github.com/MRVNY/ProjectGI.git}
+
+\end{thebibliography}
+
+
+
+\end{document}
