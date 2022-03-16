@@ -1,0 +1,128 @@
+<block xmlns="http://www.w3.org/1999/xhtml" type="design" id="i5k|bw#:DPh)bHv,!^/!">
+  <field name="designName">test2</field>
+  <field name="designColor">#ff0000</field>
+  <field name="numberOfParticipants">20</field>
+  <field name="averageDuration">5</field>
+  <field name="intertrialTime">1</field>
+  <field name="interblockTime">1</field>
+  <statement name="blockInput">
+    <block type="block" id="!]MS3P+g_Ey.OuWDe~Z(">
+      <field name="counterbalancingStrategy">latin</field>
+      <field name="replications">2</field>
+      <field name="serial">false</field>
+      <statement name="independentVariables">
+        <block type="independentvariable" id="%:yMj|q%[cyHx@A4o7wJ">
+          <field name="ivID">First</field>
+          <field name="ivName">First</field>
+          <statement name="levels">
+            <block type="level" id="6HPT26/TGu3RF__8D][r">
+              <field name="levelName">N</field>
+              <next>
+                <block type="level" id=")RCAmo((HfG6JFn=}t0F">
+                  <field name="levelName">S</field>
+                  <next>
+                    <block type="level" id="PR5!%DpDQ(0S|gX|VI+l">
+                      <field name="levelName">E</field>
+                      <next>
+                        <block type="level" id="nev,[UseSYtGBjc!,Y:2">
+                          <field name="levelName">W</field>
+                          <next>
+                            <block type="level" id="rPAy_Ghb^}^~7{Q^7yAI">
+                              <field name="levelName">NE</field>
+                              <next>
+                                <block type="level" id="`y9%m6|5TcK=!ljCzt9-">
+                                  <field name="levelName">NW</field>
+                                  <next>
+                                    <block type="level" id="YTf+i9sZ(|eA)gF5z~},">
+                                      <field name="levelName">SE</field>
+                                      <next>
+                                        <block type="level" id="1?[3sDO9wj+`*?T*Yd99">
+                                          <field name="levelName">SW</field>
+                                        </block>
+                                      </next>
+                                    </block>
+                                  </next>
+                                </block>
+                              </next>
+                            </block>
+                          </next>
+                        </block>
+                      </next>
+                    </block>
+                  </next>
+                </block>
+              </next>
+            </block>
+          </statement>
+          <next>
+            <block type="independentvariable" id="tu(DYrvzys2+N|o-QpvM">
+              <field name="ivID">First</field>
+              <field name="ivName">First</field>
+              <statement name="levels">
+                <block type="level" id="o(jJw%BuPy`Caga=KL@^">
+                  <field name="levelName">N</field>
+                  <next>
+                    <block type="level" id="$KW+=.AqG,wm,%Qx_*AS">
+                      <field name="levelName">S</field>
+                      <next>
+                        <block type="level" id="7|PhWQ_vEUY_sIwo|Ld#">
+                          <field name="levelName">E</field>
+                          <next>
+                            <block type="level" id="Gbys(7PAhN(X9B};L*j_">
+                              <field name="levelName">W</field>
+                              <next>
+                                <block type="level" id="wE=_U[@Xv#O=jC-Jko:O">
+                                  <field name="levelName">NE</field>
+                                  <next>
+                                    <block type="level" id="0qPT~ws-=BdZ^=_$q/gy">
+                                      <field name="levelName">NW</field>
+                                      <next>
+                                        <block type="level" id="]J[4Oj/x)XyA[$$e]R[H">
+                                          <field name="levelName">SE</field>
+                                          <next>
+                                            <block type="level" id="LRp^{gQft%Zv`^r(UAm-">
+                                              <field name="levelName">SW</field>
+                                            </block>
+                                          </next>
+                                        </block>
+                                      </next>
+                                    </block>
+                                  </next>
+                                </block>
+                              </next>
+                            </block>
+                          </next>
+                        </block>
+                      </next>
+                    </block>
+                  </next>
+                </block>
+              </statement>
+              <next>
+                <block type="independentvariable" id="iTcdEx(`3V:yp3@),tuC">
+                  <field name="ivID">Size</field>
+                  <field name="ivName">Size</field>
+                  <statement name="levels">
+                    <block type="level" id="!(-%Z.BB|eianaVLx3Aq">
+                      <field name="levelName">1</field>
+                      <next>
+                        <block type="level" id="M$F)jh,`qf{Zx*,|8VWZ">
+                          <field name="levelName">2</field>
+                          <next>
+                            <block type="level" id="Eqm*5bNxTifyNP(@j@ks">
+                              <field name="levelName">3</field>
+                            </block>
+                          </next>
+                        </block>
+                      </next>
+                    </block>
+                  </statement>
+                </block>
+              </next>
+            </block>
+          </next>
+        </block>
+      </statement>
+    </block>
+  </statement>
+</block>
