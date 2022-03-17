@@ -1,4 +1,4 @@
-DesignName,ParticipantID,TrialID,Block1,First,First,Size
+DesignName,ParticipantID,TrialID,Block1,First,Second,Size
 test2,1,1,1,S,SW,2
 test2,1,2,2,E,S,1
 test2,1,3,3,NE,SE,1
