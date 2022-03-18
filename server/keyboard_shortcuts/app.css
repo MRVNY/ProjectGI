@@ -1,0 +1,29 @@
+#info {
+    position: absolute;
+    bottom: 2%;
+    width: 25%;
+    left: 37.5%;
+}
+
+p {
+    text-align: center;
+}
+
+button {
+    padding: 14px 20px;
+    border: none;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+}
+
+button:enabled {
+    background-color: #4CAF50;
+    color: white;
+    
+}
+
+button:disabled {
+    background-color: #ccc;
+    color: black;
+}

@@ -1,0 +1,4 @@
+DesignName,ParticipantID,TrialID,Block1,Letter,Modifier,Size,Time
+test2,1,2,2,E,S,1,2.342
+test2,1,3,3,NE,SE,1,8.203
+test2,1,4,4,N,SE,3,1.58
