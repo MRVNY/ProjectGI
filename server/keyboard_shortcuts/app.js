@@ -167,8 +167,8 @@ document.onkeydown = function(e) {
     if (modKey1) {
         e.preventDefault();
     }
-    //console.log(e.code.toUpperCase())
-    shortcutSuccess = isRecording && e.code.toUpperCase() == "KEY" + trial["Letter"] && key1 == modKey1 && key2 == modKey2 && key3 == modKey3
+    //console.log(e.key.toUpperCase())
+    shortcutSuccess = isRecording && e.key.toUpperCase() == trial["Letter"] && key1 == modKey1 && key2 == modKey2 && key3 == modKey3
     if (shortcutSuccess) {
         var next = document.getElementById("next");
         if (next.disabled) {
@@ -176,6 +176,19 @@ document.onkeydown = function(e) {
             time = (end - start) / 1000
                 //console.log(time + "s")
             data.push(time)
+
+            exp = experiments[block];
+
+            sendToLogger(
+                exp["DesignName"],
+                exp["ParticipantID"],
+                exp["TrialID"],
+                exp["Block1"],
+                exp["First"],
+                exp["Second"],
+                exp["Size"],
+                time
+            );
         }
         next.disabled = false;
     }

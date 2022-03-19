@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
 
     if (req.query.exptype != null && req.query.exptype == "gestures") {
         folder = "gestures"
-    } else {
+    } else if (req.query.exptype == null || req.query.exptype == "keyboard") {
         folder = "keyboard_shortcuts"
     }
 
