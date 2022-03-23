@@ -1,0 +1,27 @@
+# Left: 
+QWEASDZXC
+## YES
+EZXC
+## NO
+QW
+## MAYBE
+ADS
+
+# Middle: 
+RFVTGBYHU
+## YES
+VH
+## NO
+T
+## MAYBE
+FRTYBGU
+
+# Right: 
+IJNMKOPL
+## YES
+M
+## NO
+N
+## MAYBE
+IJNKOPL
+

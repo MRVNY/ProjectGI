@@ -1,4 +1,3 @@
-DesignName,ParticipantID,TrialID,Block1,Letter,Modifier,Size,Time
 test1,1,1,1,M,CMD_Shift,1,2.463
 test1,1,2,2,M,CMD,2,1.345
 test1,1,3,3,X,CMD_Shift,2,2.119
