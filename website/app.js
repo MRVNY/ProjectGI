@@ -1,113 +1,129 @@
 /* To-Do */
-/* - Faire en sorte que le bouton "Next" soit toujours visible */
-/* - Afficher au dessus du bouton "Next" le nom du raccourci */
 /* - Rendre solide la cible */
 /* - Trouver un moyen de montrer que la cible est cliquée */
 /* - Acceder au fichier config.csv */
-/* - Randomiser l'experience */
-/* - Faire en sorte que la position de la cible soit celle des experiences */
-/* - Enregistrer les temps de chaque experience */
 /* - Enregister les résultats dans un fichier CSV */
 /* - Faire la page d'accueil */
+/* Log toutes les actions */
 
-
-function parseCSV(csv) {
-    var lines = csv.split("\n");
-    var result = [];
-    var headers = lines[0].split(",");
-    for (var i = 1; i < lines.length; i++) {
-        var obj = {};
-        var currentline = lines[i].split(",");
-        for (var j = 0; j < headers.length; j++) {
-        obj[headers[j]] = currentline[j];
-        }
-        result.push(obj);
-    }
-    return result;
-}
-
-async function loadExperiment() {
-    console.log("Loading CSV file...");
-    const response = await fetch('./config.csv');
-    console.log("CSV file loaded.");
-    console.log("Fetching CSV file...");
-    const text = await response.text();
-    console.log("CSV file fetched.");
-    return parseCSV(text);
-
-}
-
-// var experiment = async () => {
-//     let res = await loadExperiment();
-//     return res;
-// };
-
-function recordTime() {
-    var time = new Date();
-    var timeString = time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
-    return timeString;
-}
-
-var experiments = loadExperiment();
-
-
-var osModKey = navigator.userAgent.match(/Mac/i) ? "cmd" : "ctrl";
-
-var isRecording = false;
-
-
-
-//console.log(experiment);
-
-var shortcuts = ["h", osModKey+"+x", osModKey+"+shift+g", osModKey+"+shift+alt+k"];
-const shortcutElement = document.getElementById("shortcut");
-var shortcutIndex = Math.floor(Math.random() * shortcuts.length);
-shortcutElement.innerHTML = shortcuts[shortcutIndex];
-
-var target = document.createElement("div");
-target.id = "target";
-target.style.position = "fixed";
-target.style.top = 100 + Math.floor(Math.random() * (window.innerHeight - target.clientHeight - 200)) + "px";
-target.style.left = 100 +  Math.floor(Math.random() * (window.innerWidth - target.clientWidth - 200)) + "px";
-var targetSize = Math.random() * 100 + 25;
-target.style.width = targetSize + "px";
-target.style.height = targetSize + "px";
-target.style.borderRadius = "50%";
-target.style.border = "2px solid black";
-target.onclick = function() {
-    isRecording = true;
-    target.style.backgroundColor = "lightgray";
-}
-document.body.appendChild(target);
-
-function nextTest() {
-    var next = document.getElementById("next");
-    shortcutIndex = Math.floor(Math.random() * shortcuts.length);
-    shortcutElement.innerHTML = shortcuts[shortcutIndex];
-    target.style.backgroundColor = "";
+function moveTarget(size) {
+    target.classList.remove("selected");
     target.style.top = 100 + Math.floor(Math.random() * (window.innerHeight - target.clientHeight - 200)) + "px";
     target.style.left = 100 +  Math.floor(Math.random() * (window.innerWidth - target.clientWidth - 200)) + "px";
-    var targetSize = Math.random() * 100 + 25;
+    var targetSize =  size * 25;
     target.style.width = targetSize + "px";
     target.style.height = targetSize + "px";
-    isRecording = false;
-    next.disabled = true;
 }
+
+// fetch keyboard configuration (Mac/Windows)
+var osModKey = navigator.userAgent.match(/Mac/i) ? "cmd" : "ctrl";
+
+// init useful global variables
+var cpt = 0;
+var isRecording = false;
+var startTime = Date.now();
+var mod1Done = false;
+var mod2Done = false;
+var mod3Done = false;
+var keyDone = false;
+
+// load experiment
+var experiments = loadExperiment();
+var experimentResults = generateExperimentsResults(experiments);
+var experimentsNames = experiments.map(({name}) => name);
+var experimentIndex = Math.floor(Math.random() * experimentsNames.length);
+
+// website interactivity
+
+const nextButton = document.getElementById("next");
+
+function nextTest() {
+    experimentIndex = Math.floor(Math.random() * experimentsNames.length);
+    shortcutElement.innerHTML = experimentsNames[experimentIndex];
+    moveTarget(experiments[experimentIndex].targetSize);
+    isRecording = false;
+    nextButton.disabled = true;
+    startTime = Date.now();
+}
+
+
+const shortcutElement = document.getElementById("shortcut");
+shortcutElement.innerHTML = experimentsNames[experimentIndex];
+
+
+var target = document.createElement("div");
+target.className = "target";
+moveTarget(experiments[experimentIndex].targetSize);
+
+target.onclick = function() {
+    if (!isRecording) {
+        experimentResults[experiments[experimentIndex].experimentID].targetDist.push(Math.sqrt(Math.pow(target.offsetLeft - nextButton.offsetLeft, 2) + Math.pow(target.offsetTop - nextButton.offsetHeight, 2)));
+        experimentResults[experiments[experimentIndex].experimentID].travelTime.push(Date.now() - startTime);
+        startTime = Date.now();
+    }
+    isRecording = true;
+    target.classList.add("selected");
+}
+
+document.body.appendChild(target);
+
 
 document.onkeydown = function(e) {
     var modKey1 = navigator.userAgent.match(/Mac/i) ? e.metaKey : e.ctrlKey;
     var modKey2 = e.shiftKey;
     var modKey3 = e.altKey;
+    var currentExperiment = experiments[experimentIndex];
+    var currentExperimentID = currentExperiment.experimentID;
+
     if (modKey1) {
         e.preventDefault();
     }
-    shortcutSuccess = isRecording && (
-        (shortcutIndex == 0 && e.keyCode == 72 && !modKey1 && !modKey2 && !modKey3) ||
-        (shortcutIndex == 1 && e.keyCode == 88 &&  modKey1 && !modKey2 && !modKey3) ||
-        (shortcutIndex == 2 && e.keyCode == 71 &&  modKey1 &&  modKey2 && !modKey3) ||
-        (shortcutIndex == 3 && e.keyCode == 75 &&  modKey1 &&  modKey2 &&  modKey3));
+
+    if (isRecording && !mod1Done && modKey1 == currentExperiment.mod1 && modKey1 == true) {
+        experimentResults[currentExperimentID].executionTimeMod1.push(Date.now() - startTime);
+        mod1Done = true;
+    }
+    if (isRecording && !mod2Done && modKey2 == currentExperiment.mod2 && modKey2 == true) {
+        experimentResults[currentExperimentID].executionTimeMod2.push(Date.now() - startTime);
+        mod2Done = true;
+    }
+    if (isRecording && !mod3Done && modKey3 == currentExperiment.mod3 && modKey3 == true) {
+        experimentResults[currentExperimentID].executionTimeMod3.push(Date.now() - startTime);
+        mod3Done = true;
+    }
+    if (isRecording && !keyDone && e.keyCode == currentExperiment.key.charCodeAt()) {
+        experimentResults[currentExperimentID].executionTimeKey.push(Date.now() - startTime);
+        keyDone = true;
+    }
+
+    var shortcutSuccess = isRecording && 
+        modKey1 == currentExperiment.mod1 &&
+        modKey2 == currentExperiment.mod2 &&
+        modKey3 == currentExperiment.mod3 &&
+        e.keyCode == currentExperiment.key.charCodeAt();
     if (shortcutSuccess) {
-        var next = document.getElementById("next");
-        next.disabled = false;
+        if (currentExperiment.mod1 == false) {
+            experimentResults[currentExperimentID].executionTimeMod1.push(-1);
+        }
+        if (currentExperiment.mod2 == false) {
+            experimentResults[currentExperimentID].executionTimeMod2.push(-1);
+        }
+        if (currentExperiment.mod3 == false) {
+            experimentResults[currentExperimentID].executionTimeMod3.push(-1);
+        }
+        experimentResults[currentExperimentID].totalExecutionTime.push(Date.now() - startTime);
+
+        nextButton.disabled = false;
+        mod1Done = false;
+        mod2Done = false;
+        mod3Done = false;
+        keyDone = false;
+
+        cpt += 1;
+        if (cpt == 10) {
+            exportCSVFile(experimentResults, "results");
+            cpt = 0;
+        }
+        startTime = Date.now();
     }
 }

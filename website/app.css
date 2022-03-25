@@ -27,3 +27,17 @@ button:disabled {
     background-color: #ccc;
     color: black;
 }
+
+div.target {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid black;
+}
+
+div.target:hover {
+    background-color: lightgray;
+}
+
+div.target.selected {
+    background-color: gray;
+}
