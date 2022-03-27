@@ -9,14 +9,7 @@ const file_prefix = "p";
 app.use(express.static(__dirname));
 
 app.get('/', (req, res) => {
-
-    if (req.query.exptype != null && req.query.exptype == "gestures") {
-        folder = "gestures"
-    } else if (req.query.exptype == null || req.query.exptype == "keyboard") {
-        folder = "keyboard_shortcuts"
-    }
-
-    res.sendFile(__dirname + "/" + folder + "/experiment.html");
+    res.sendFile(__dirname + "/experiment.html");
 });
 
 app.get('/logger', (req, res) => {
