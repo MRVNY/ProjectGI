@@ -3,7 +3,6 @@ const fs = require('fs')
 const app = express();
 const port = 4000;
 
-const params_names = ["DesignName", "ParticipantID", "TrialID", "Block1", "Letter", "Modifier", "Size", "Time"];
 const file_prefix = "p";
 
 app.use(express.static(__dirname));
@@ -12,18 +11,13 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + "/experiment.html");
 });
 
-app.get('/logger', (req, res) => {
-    participant_ID = req.query.ParticipantID
-    params = Object.values(req.query);
+app.post('/logger', (req, res) => {
+    csv = req.query.csv;
+    file_path = __dirname + "/logs/" + file_prefix + "_" + Date.now() + ".csv";
 
-    CSV_params_names = params_names.join(",");
-    CSV_params = params.join(",");
+    console.log(csv)
 
-    file_path = __dirname + "/logs/" + file_prefix + participant_ID + ".csv";
-
-    content = (fs.existsSync(file_path)) ? "\n" + params : CSV_params_names + "\n" + params;
-
-    fs.appendFile(file_path, content, err => {
+    fs.appendFile(file_path, csv, err => {
         if (err) {
             console.error(err)
             return

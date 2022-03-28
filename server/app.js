@@ -10,34 +10,17 @@
 /* - Enregister les résultats dans un fichier CSV */
 /* - Faire la page d'accueil */
 
-async function loadExperiment() {
-    console.log("Loading CSV file...");
-    const response = await fetch('./config.csv');
-    console.log("CSV file loaded.");
-    console.log("Fetching CSV file...");
-    const text = await response.text();
-    console.log("CSV file fetched.");
-    return parseCSV(text);
+// function recordTime() {
+//     var time = new Date();
+//     var timeString = time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
+//     return timeString;
 
-}
-
-function recordTime() {
-    var time = new Date();
-    var timeString = time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
-    return timeString;
-}
-
-var data = []
+//     return Date.now();
+// }
 
 var isRecording = false;
 
 var osModKey = navigator.userAgent.match(/Mac/i) ? "cmd" : "ctrl";
-var shortcuts = ["h", osModKey + "+x", osModKey + "+shift+g", osModKey + "+shift+alt+k"];
-
-var block = 0
-var trial
-var start
-var end
 
 var isGestures = false;
 
@@ -61,7 +44,7 @@ var targetSize
 target.style.borderRadius = "50%";
 target.style.border = "2px solid black";
 
-var shortcutIndex, angleIndex1, angleIndex2;
+var shortcutIndex, angle1, angle2;
 var canvas;
 var ctx;
 let coord = { x: 0, y: 0 };
@@ -76,71 +59,120 @@ window.addEventListener("resize", resize);
 document.body.appendChild(target);
 
 var experiments;
+var experimentResults;
+var experimentsNames;
+var currentExperiment;
+
+var trialIndex;
+var trial
+var startTime;
+var end
+var cpt = 0;
+
+var mod1Done = false;
+var mod2Done = false;
+var mod3Done = false;
+var keyDone = false;
 
 launch();
 
 async function launch() {
     experiments = await loadExperiment();
+    experimentResults = generateExperimentsResults(experiments);
+    experimentsNames = experiments.map(({ name }) => name);
+
     toggleExperimentType();
+
+    canvas = document.createElement("canvas");
+    canvas.id = "canvas";
+    document.querySelector("body").prepend(canvas);
+
+    ctx = canvas.getContext("2d");
+    ctx.fillStyle = "blue";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
     resize();
     nextTest();
-}
-
-function toggleExperimentType() {
-    let selector = "#info";
-    isGestures = isGestures == true ? false : true;
-
-    if (isGestures) {
-        document.querySelector(selector + " p").innerHTML = "Draw <b id=\"shortcut\"></b> to unlock next level.";
-
-        canvas = document.createElement("canvas");
-        canvas.id = "canvas";
-        document.querySelector("body").prepend(canvas);
-
-        ctx = canvas.getContext("2d");
-        ctx.fillStyle = "blue";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-    } else {
-        document.querySelector(selector + " p").innerHTML = "Press <b id=\"shortcut\"></b> to unlock next level.";
-    }
-
-    shortcutElement = document.getElementById("shortcut");
 }
 
 function nextTest() {
     var next = document.getElementById("next");
 
-    start = recordTime();
-    block += 1;
-    trial = experiments[block]
-        //console.log(trial)
+    trialIndex = Math.floor(Math.random() * experimentsNames.length);
 
-    if (block % 5 == 0) toggleExperimentType();
+    currentExperiment = experiments[trialIndex];
+    isGestures = currentExperiment.type == "gestures" ? true : false;
+    toggleExperimentType(isGestures);
+
+    //console.log(currentExperiment);
 
     if (isGestures) {
-        keys = Object.keys(angles);
-        angleIndex1 = Math.floor(Math.random() * keys.length);
-        angleIndex2 = Math.floor(Math.random() * keys.length);
-        shortcutElement.innerHTML = keys[angleIndex1] + " " + keys[angleIndex2];
+        angle1 = angles[currentExperiment.firstDirection];
+        angle2 = angles[currentExperiment.secondDirection];
+        shortcutElement.innerHTML = currentExperiment.firstDirection + " " + currentExperiment.secondDirection;
     } else {
-        shortcutIndex = Math.floor(Math.random() * shortcuts.length);
-        shortcutElement.innerHTML = shortcuts[shortcutIndex];
+        var shortcut = "";
+
+        if (currentExperiment.mod1 == 1) shortcut = shortcut.concat(osModKey + " + ");
+        if (currentExperiment.mod2 == 1) shortcut = shortcut.concat("shift + ");
+        if (currentExperiment.mod3 == 1) shortcut = shortcut.concat("alt + ");
+
+        shortcut = shortcut.concat(currentExperiment.key);
+        shortcutElement.innerHTML = shortcut;
     }
 
     target.style.backgroundColor = "";
     target.style.top = 100 + Math.floor(Math.random() * (window.innerHeight - target.clientHeight - 200)) + "px";
     target.style.left = 100 + Math.floor(Math.random() * (window.innerWidth - target.clientWidth - 200)) + "px";
-    var targetSize = Math.random() * 100 + 25;
+    targetSize = Math.random() * 100 + 25;
     target.style.width = targetSize + "px";
     target.style.height = targetSize + "px";
 
-    isRecording = true;
+    isRecording = false;
+    target.classList.remove("selected");
+
     next.disabled = true;
+    startTime = Date.now();
 }
 
 function resize() {
     ctx.canvas.width = window.innerWidth;
     ctx.canvas.height = window.innerHeight;
+}
+
+function moveTarget(size) {
+    target.classList.remove("selected");
+    target.style.top = 100 + Math.floor(Math.random() * (window.innerHeight - target.clientHeight - 200)) + "px";
+    target.style.left = 100 + Math.floor(Math.random() * (window.innerWidth - target.clientWidth - 200)) + "px";
+    var targetSize = size * 25;
+    target.style.width = targetSize + "px";
+    target.style.height = targetSize + "px";
+}
+
+target.onclick = function() {
+    if (!isRecording) {
+        experimentResults[cpt].experimentType.push(experiments[trialIndex].type);
+        experimentResults[cpt].targetDist.push(Math.sqrt(Math.pow(target.offsetLeft - next.offsetLeft, 2) + Math.pow(target.offsetTop - next.offsetHeight, 2)));
+        experimentResults[cpt].travelTime.push(Date.now() - startTime);
+
+        experimentResults[cpt].targetSize.push(targetSize);
+        startTime = Date.now();
+    }
+    isRecording = true;
+    target.classList.add("selected");
+}
+
+function fillInEmptyFields() {
+    if (isGestures) {
+        experimentResults[cpt].executionTimeMod1.push(-1);
+        experimentResults[cpt].executionTimeMod2.push(-1);
+        experimentResults[cpt].executionTimeMod3.push(-1);
+        experimentResults[cpt].executionTimeKey.push(-1);
+        experimentResults[cpt].key.push("null");
+    } else {
+        experimentResults[cpt].firstDirection.push("null");
+        experimentResults[cpt].secondDirection.push("null");
+    }
 }
 
 /* Keyboard shortcuts part */
@@ -149,38 +181,66 @@ document.onkeydown = function(e) {
     var modKey1 = navigator.userAgent.match(/Mac/i) ? e.metaKey : e.ctrlKey;
     var modKey2 = e.shiftKey;
     var modKey3 = e.altKey;
+
+    var key = e.keyCode + 32;
+
     if (modKey1) {
         e.preventDefault();
     }
-    shortcutSuccess = isRecording && (
-        (shortcutIndex == 0 && e.keyCode == 72 && !modKey1 && !modKey2 && !modKey3) ||
-        (shortcutIndex == 1 && e.keyCode == 88 && modKey1 && !modKey2 && !modKey3) ||
-        (shortcutIndex == 2 && e.keyCode == 71 && modKey1 && modKey2 && !modKey3) ||
-        (shortcutIndex == 3 && e.keyCode == 75 && modKey1 && modKey2 && modKey3));
+
+    if (isRecording && !mod1Done && modKey1 == currentExperiment.mod1 && modKey1 == true) {
+        experimentResults[cpt].executionTimeMod1.push(Date.now() - startTime);
+        mod1Done = true;
+    }
+    if (isRecording && !mod2Done && modKey2 == currentExperiment.mod2 && modKey2 == true) {
+        experimentResults[cpt].executionTimeMod2.push(Date.now() - startTime);
+        mod2Done = true;
+    }
+    if (isRecording && !mod3Done && modKey3 == currentExperiment.mod3 && modKey3 == true) {
+        experimentResults[cpt].executionTimeMod3.push(Date.now() - startTime);
+        mod3Done = true;
+    }
+    if (isRecording && !keyDone && key == currentExperiment.key.charCodeAt()) {
+        experimentResults[cpt].executionTimeKey.push(Date.now() - startTime);
+        keyDone = true;
+    }
+
+    var shortcutSuccess = isRecording &&
+        modKey1 == Boolean(parseInt(currentExperiment.mod1)) &&
+        modKey2 == Boolean(parseInt(currentExperiment.mod2)) &&
+        modKey3 == Boolean(parseInt(currentExperiment.mod3)) &&
+        key == currentExperiment.key.charCodeAt();
+
     if (shortcutSuccess) {
+        if (currentExperiment.mod1 == false) {
+            experimentResults[cpt].executionTimeMod1.push(-1);
+        }
+        if (currentExperiment.mod2 == false) {
+            experimentResults[cpt].executionTimeMod2.push(-1);
+        }
+        if (currentExperiment.mod3 == false) {
+            experimentResults[cpt].executionTimeMod3.push(-1);
+        }
+
+        experimentResults[cpt].key.push(currentExperiment.key);
+        experimentResults[cpt].totalExecutionTime.push(Date.now() - startTime);
+
+        mod1Done = false;
+        mod2Done = false;
+        mod3Done = false;
+        keyDone = false;
+
         var next = document.getElementById("next");
         next.disabled = false;
 
-        exp = experiments[block];
-
-        sendToLogger(
-            exp["DesignName"],
-            exp["ParticipantID"],
-            exp["TrialID"],
-            exp["Block1"],
-            exp["First"],
-            exp["Second"],
-            exp["Size"],
-            time
-        );
+        fillInEmptyFields();
+        checkLogging(cpt, experimentResults);
+        startTime = Date.now();
+        cpt++;
     }
 }
 
 /* Gestural interaction part */
-
-target.onmouseover = function() {
-    target.style.backgroundColor = "lightgray";
-}
 
 function getAngle(firstP, lastP) {
     dy = firstP[1] - lastP[1]
@@ -211,37 +271,27 @@ function mouseUp() {
         // l2lastP = lines[1][lines[1].length-1][1]
         firstP = lines[0][0][0]
         lastP = lines[0][lines[0].length - 1][1]
-        console.log(getAngle(firstP, lastP))
+            //console.log(getAngle(firstP, lastP))
 
         firstDrawn = getAngle(firstP, lastP)
             // firstDrawn = getAngle()%20/20 * 360 + getAngle()
             // secondDrawn = getAngle()%20 * 360 + getAngle()
 
         keys = Object.keys(angles);
-        firstAngle = angles[keys[angleIndex1]]
-        secondAngle = angles[keys[angleIndex2]]
-
-        shortcutSuccess = isRecording && Math.abs(firstAngle - firstDrawn) < 20 //&& Math.abs(secondAngle-secondDrawn) < 20 && lines.length==2
+        shortcutSuccess = isRecording && Math.abs(angle1 - firstDrawn) < 20 //&& Math.abs(secondAngle-secondDrawn) < 20 && lines.length==2
 
         if (shortcutSuccess) {
             var next = document.getElementById("next");
             next.disabled = false;
-            end = recordTime()
-            time = (end - start) / 1000
-            console.log(time + "s")
 
-            exp = experiments[block];
+            experimentResults[cpt].firstDirection.push(currentExperiment.firstDirection);
+            experimentResults[cpt].secondDirection.push(currentExperiment.secondDirection);
+            experimentResults[cpt].totalExecutionTime.push(Date.now() - startTime);
 
-            sendToLogger(
-                exp["DesignName"],
-                exp["ParticipantID"],
-                exp["TrialID"],
-                exp["Block1"],
-                exp["First"],
-                exp["Second"],
-                exp["Size"],
-                time
-            );
+            fillInEmptyFields();
+            checkLogging(cpt, experimentResults);
+            startTime = Date.now();
+            cpt++;
         }
     }
     lines = [
