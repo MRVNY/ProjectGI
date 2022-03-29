@@ -21,7 +21,7 @@
 var participantID = 0;
 var isRecording = false;
 
-var osModKey = navigator.userAgent.match(/Mac/i) ? "cmd" : "ctrl";
+var osModKey = navigator.userAgent.match(/Mac/i) ? "CMD" : "Ctrl";
 
 var isGestures = false;
 
@@ -63,11 +63,9 @@ var experiments;
 var experimentResults;
 var experimentsNames;
 var currentExperiment;
+var experimentType;
 
-var trialIndex;
-var trial
 var startTime;
-var end
 var cpt = 0;
 
 var mod1Done = false;
@@ -75,14 +73,18 @@ var mod2Done = false;
 var mod3Done = false;
 var keyDone = false;
 
+var zoneLeft = ["A", "Z", "E", "S", "D", "X", "C", "R"];
+var zoneMiddle = ["R", "F", "V", "G", "B", "Y", "H"];
+var zoneRight = ["U", "I", "J", "O", "K", "P", "L", "M"];
+
 launch();
 
 async function launch() {
     while (participantID == 0 || participantID == null) {
-        participantID = parseInt(window.prompt("Entrez votre ID de participant"));
+        participantID = parseInt(window.prompt("Enter your participant ID"));
     }
 
-    experiments = await loadExperiment();
+    experiments = await loadExperiment(participantID);
     experimentResults = generateExperimentsResults(experiments);
     experimentsNames = experiments.map(({ name }) => name);
 
@@ -103,27 +105,52 @@ async function launch() {
 function nextTest() {
     var next = document.getElementById("next");
 
-    trialIndex = Math.floor(Math.random() * experimentsNames.length);
+    // 0 : 1 key, 1 : 2 keys, 2 : gestures
+    experimentType = Math.floor(Math.random() * 3);
 
-    currentExperiment = experiments[trialIndex];
-    isGestures = currentExperiment.type == "gestures" ? true : false;
+    // 2 keys not implemented yet
+    if (experimentType == 1) experimentType = 0;
+
+    currentExperiment = experiments[experimentType][cpt];
+    isGestures = experimentType == 2 ? true : false;
     toggleExperimentType(isGestures);
 
     //console.log(currentExperiment);
 
     if (isGestures) {
-        angle1 = angles[currentExperiment.firstDirection];
-        angle2 = angles[currentExperiment.secondDirection];
-        shortcutElement.innerHTML = currentExperiment.firstDirection + " " + currentExperiment.secondDirection;
+        angle1 = angles[currentExperiment.First];
+        //angle2 = angles[currentExperiment.Second];
+        shortcutElement.innerHTML = currentExperiment.First;
+        //shortcutElement.innerHTML = currentExperiment.firstDirection + " " + currentExperiment.Second;
     } else {
-        var shortcut = "";
+        if (experimentType == 0) {
+            var shortcut = "";
+            var modifiers = currentExperiment.Modifier1.split("_");
 
-        if (currentExperiment.mod1 == 1) shortcut = shortcut.concat(osModKey + " + ");
-        if (currentExperiment.mod2 == 1) shortcut = shortcut.concat("shift + ");
-        if (currentExperiment.mod3 == 1) shortcut = shortcut.concat("alt + ");
+            currentExperiment.mod1 = false;
+            currentExperiment.mod2 = false;
+            currentExperiment.mod3 = false;
 
-        shortcut = shortcut.concat(currentExperiment.key);
-        shortcutElement.innerHTML = shortcut;
+            if (modifiers.includes("CMD")) {
+                currentExperiment.mod1 = true;
+                shortcut = shortcut.concat(osModKey + " + ");
+            }
+
+            if (modifiers.includes("Shift")) {
+                currentExperiment.mod2 = true;
+                shortcut = shortcut.concat("Shift + ");
+            }
+
+            if (modifiers.includes("Alt")) {
+                currentExperiment.mod3 = true;
+                shortcut = shortcut.concat("Alt + ");
+            }
+
+            currentExperiment.Key = getKeyFromKeyboardZone(currentExperiment.Letter1).toLowerCase();
+
+            shortcut = shortcut.concat(currentExperiment.Key.toUpperCase());
+            shortcutElement.innerHTML = shortcut;
+        }
     }
 
     target.style.backgroundColor = "";
@@ -156,7 +183,9 @@ function moveTarget(size) {
 
 target.onclick = function() {
     if (!isRecording) {
-        experimentResults[cpt].experimentType.push(experiments[trialIndex].type);
+        var expTypeVerbose = (experimentType == 0 || experimentType == 1) ? "keyboard" : "gestures";
+        experimentResults[cpt].experimentType.push(expTypeVerbose);
+
         experimentResults[cpt].targetDist.push(Math.sqrt(Math.pow(target.offsetLeft - next.offsetLeft, 2) + Math.pow(target.offsetTop - next.offsetHeight, 2)));
         experimentResults[cpt].travelTime.push(Date.now() - startTime);
 
@@ -182,6 +211,16 @@ function fillInEmptyFields() {
 
 /* Keyboard shortcuts part */
 
+function getKeyFromKeyboardZone(zone) {
+    if (zone == "Left") {
+        return zoneLeft[Math.floor(Math.random() * zoneLeft.length)];
+    } else if (zone == "Middle") {
+        return zoneMiddle[Math.floor(Math.random() * zoneMiddle.length)];
+    } else {
+        return zoneRight[Math.floor(Math.random() * zoneRight.length)];
+    }
+}
+
 document.onkeydown = function(e) {
     var modKey1 = navigator.userAgent.match(/Mac/i) ? e.metaKey : e.ctrlKey;
     var modKey2 = e.shiftKey;
@@ -205,16 +244,16 @@ document.onkeydown = function(e) {
         experimentResults[cpt].executionTimeMod3.push(Date.now() - startTime);
         mod3Done = true;
     }
-    if (isRecording && !keyDone && key == currentExperiment.key.charCodeAt()) {
+    if (isRecording && !keyDone && key == currentExperiment.Key.charCodeAt()) {
         experimentResults[cpt].executionTimeKey.push(Date.now() - startTime);
         keyDone = true;
     }
 
     var shortcutSuccess = isRecording &&
-        modKey1 == Boolean(parseInt(currentExperiment.mod1)) &&
-        modKey2 == Boolean(parseInt(currentExperiment.mod2)) &&
-        modKey3 == Boolean(parseInt(currentExperiment.mod3)) &&
-        key == currentExperiment.key.charCodeAt();
+        modKey1 == currentExperiment.mod1 &&
+        modKey2 == currentExperiment.mod2 &&
+        modKey3 == currentExperiment.mod3 &&
+        key == currentExperiment.Key.charCodeAt();
 
     if (shortcutSuccess) {
         if (currentExperiment.mod1 == false) {
@@ -227,7 +266,7 @@ document.onkeydown = function(e) {
             experimentResults[cpt].executionTimeMod3.push(-1);
         }
 
-        experimentResults[cpt].key.push(currentExperiment.key);
+        experimentResults[cpt].key.push(currentExperiment.Key);
         experimentResults[cpt].totalExecutionTime.push(Date.now() - startTime);
 
         mod1Done = false;
@@ -289,8 +328,8 @@ function mouseUp() {
             var next = document.getElementById("next");
             next.disabled = false;
 
-            experimentResults[cpt].firstDirection.push(currentExperiment.firstDirection);
-            experimentResults[cpt].secondDirection.push(currentExperiment.secondDirection);
+            experimentResults[cpt].firstDirection.push(currentExperiment.First);
+            experimentResults[cpt].secondDirection.push("null");
             experimentResults[cpt].totalExecutionTime.push(Date.now() - startTime);
 
             fillInEmptyFields();
