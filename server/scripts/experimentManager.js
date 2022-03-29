@@ -1,3 +1,5 @@
+var maxTrials = 100;
+
 async function loadExperiment() {
     console.log("Loading CSV file...");
     const response = await fetch('./config.csv');
@@ -11,7 +13,7 @@ async function loadExperiment() {
 
 function generateExperimentsResults(experiments) {
     var results = [];
-    for (var i = 0; i < experiments.length; i++) {
+    for (var i = 0; i < maxTrials; i++) {
         results[i] = {
             "experimentType": [],
             "travelTime": [],

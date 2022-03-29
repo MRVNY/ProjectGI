@@ -1,1 +1,0 @@
-userID,experimentID,experimentType,travelTime,targetDist,firstDirection,secondDirection,key,executionTimeMod1,executionTimeMod2,executionTimeMod3,executionTimeKey,totalExecutionTime,targetSize\n1,0,gestures,1503,1669.8365189442948,S,SE,null,-1,-1,-1,-1,876,113.93609698526852\n1,1,keyboard,1147,459.8140928679764,null,null,x,391,-1,-1,615,615,26.937526397966614\n

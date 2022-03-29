@@ -18,6 +18,7 @@
 //     return Date.now();
 // }
 
+var participantID = 0;
 var isRecording = false;
 
 var osModKey = navigator.userAgent.match(/Mac/i) ? "cmd" : "ctrl";
@@ -77,6 +78,10 @@ var keyDone = false;
 launch();
 
 async function launch() {
+    while (participantID == 0 || participantID == null) {
+        participantID = parseInt(window.prompt("Entrez votre ID de participant"));
+    }
+
     experiments = await loadExperiment();
     experimentResults = generateExperimentsResults(experiments);
     experimentsNames = experiments.map(({ name }) => name);
@@ -234,7 +239,7 @@ document.onkeydown = function(e) {
         next.disabled = false;
 
         fillInEmptyFields();
-        checkLogging(cpt, experimentResults);
+        checkLogging(cpt, experimentResults, participantID);
         startTime = Date.now();
         cpt++;
     }
@@ -289,7 +294,7 @@ function mouseUp() {
             experimentResults[cpt].totalExecutionTime.push(Date.now() - startTime);
 
             fillInEmptyFields();
-            checkLogging(cpt, experimentResults);
+            checkLogging(cpt, experimentResults, participantID);
             startTime = Date.now();
             cpt++;
         }

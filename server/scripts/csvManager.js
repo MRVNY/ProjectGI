@@ -6,7 +6,7 @@ function parseCSV(csv) {
         var obj = {};
         var currentline = lines[i].split(",");
         for (var j = 0; j < headers.length; j++) {
-        obj[headers[j]] = currentline[j];
+            obj[headers[j]] = currentline[j];
         }
         result.push(obj);
     }

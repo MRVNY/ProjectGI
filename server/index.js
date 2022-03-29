@@ -12,10 +12,11 @@ app.get('/', (req, res) => {
 });
 
 app.post('/logger', (req, res) => {
-    csv = req.query.csv;
-    file_path = __dirname + "/logs/" + file_prefix + "_" + Date.now() + ".csv";
+    csv = decodeURIComponent(req.query.csv);
+    participantID = req.query.part_id;
+    file_path = __dirname + "/logs/" + file_prefix + participantID + ".csv";
 
-    console.log(csv)
+    csv = fs.existsSync(file_path) ? csv.substring(csv.indexOf("\n") + 1) : csv;
 
     fs.appendFile(file_path, csv, err => {
         if (err) {
