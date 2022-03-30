@@ -60,10 +60,10 @@ function generateExperimentsResults(experiments) {
     return results;
 }
 
-function toggleExperimentType(isGestures) {
+function toggleExperimentType(experimentType) {
     let selector = "#info";
 
-    if (isGestures) {
+    if (experimentType == 2) {
         document.querySelector(selector + " p").innerHTML = "Draw <b id=\"shortcut\"></b> to unlock next level.";
     } else {
         document.querySelector(selector + " p").innerHTML = "Press <b id=\"shortcut\"></b> to unlock next level.";

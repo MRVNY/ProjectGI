@@ -23,8 +23,6 @@ var isRecording = false;
 
 var osModKey = navigator.userAgent.match(/Mac/i) ? "CMD" : "Ctrl";
 
-var isGestures = false;
-
 var angles = {
     "N": 90,
     "S": 270,
@@ -105,19 +103,28 @@ async function launch() {
 function nextTest() {
     var next = document.getElementById("next");
 
-    // 0 : 1 key, 1 : 2 keys, 2 : gestures
-    experimentType = Math.floor(Math.random() * 3);
+    /*
+    If randomBetween0And3 gives 0-1 it is the corresponding keyboard experiment
+    If 2 or 3, it's gestures, so in the end the probability is half gestures and 1/4
+    for each keyboard experiment type
+    Final var experimentType val is 0 : 1 key, 1 : 2 keys, 2 : gestures
+    */
+
+    randomBetween0And3 = Math.floor(Math.random() * 4);
+
+    if (randomBetween0And3 == 2 || randomBetween0And3 == 3) {
+        experimentType = 2;
+    }
 
     // 2 keys not implemented yet
-    if (experimentType == 1) experimentType = 0;
+    else if (randomBetween0And3 == 1) experimentType = 0;
 
     currentExperiment = experiments[experimentType][cpt];
-    isGestures = experimentType == 2 ? true : false;
-    toggleExperimentType(isGestures);
+    toggleExperimentType(experimentType);
 
     //console.log(currentExperiment);
 
-    if (isGestures) {
+    if (experimentType == 2) {
         angle1 = angles[currentExperiment.First];
         //angle2 = angles[currentExperiment.Second];
         shortcutElement.innerHTML = currentExperiment.First;
@@ -181,7 +188,7 @@ function moveTarget(size) {
     target.style.height = targetSize + "px";
 }
 
-target.onclick = function() {
+target.onmousedown = function(event) {
     if (!isRecording) {
         var expTypeVerbose = (experimentType == 0 || experimentType == 1) ? "keyboard" : "gestures";
         experimentResults[cpt].experimentType.push(expTypeVerbose);
@@ -194,10 +201,15 @@ target.onclick = function() {
     }
     isRecording = true;
     target.classList.add("selected");
+
+    if (experimentType == 2) {
+        document.addEventListener("mousemove", draw);
+        mouseMove(event);
+    }
 }
 
 function fillInEmptyFields() {
-    if (isGestures) {
+    if (experimentType == 2) {
         experimentResults[cpt].executionTimeMod1.push(-1);
         experimentResults[cpt].executionTimeMod2.push(-1);
         experimentResults[cpt].executionTimeMod3.push(-1);
