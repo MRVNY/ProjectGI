@@ -34,6 +34,17 @@ var angles = {
     "SW": 225
 }
 
+var emoji = {
+    "N" : "⬆️",
+    "S" : "⬇️",
+    "E" : "➡️",
+    "W" : "⬅️",
+    "NE" : "↗️",
+    "NW" : "↖️", 
+    "SE" : "↘️", 
+    "SW" : "↙️"
+}
+
 var shortcutElement;
 
 var target = document.createElement("div");

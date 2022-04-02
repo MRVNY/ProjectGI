@@ -3,6 +3,7 @@ var maxTrials = 100;
 async function loadExperiment(participantID) {
     // console.log("Loading CSV file...");
     const response1Key = await fetch('./config/1key.csv');
+    const response2Key = await fetch('./config/2key.csv');
     // console.log("CSV file loaded.");
     // console.log("Fetching CSV file...");
     const text1Key = await response1Key.text();
@@ -23,8 +24,9 @@ async function loadExperiment(participantID) {
         throw new Error("This participant ID does not exist !");
     }
 
-    const responseGestures = await fetch('./config/gesture.csv');
-    const textGestures = await responseGestures.text();
+    const response1Dir = await fetch('./config/1dir.csv');
+    const response2Dir = await fetch('./config/2dir.csv');
+    const textGestures = await response1Dir.text();
     csvGestures = parseCSV(textGestures).sort(() => Math.random() - 0.5);
 
     for (let i = 0; i < csvGestures.length; i++) {
