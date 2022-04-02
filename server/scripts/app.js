@@ -18,6 +18,12 @@
 //     return Date.now();
 // }
 
+var ONEKEY = 0
+var TWOKEY = 1
+var ONEDIR = 2
+var TWODIR = 3
+
+
 var participantID = 0;
 var isRecording = false;
 
@@ -58,13 +64,7 @@ var shortcutIndex, angle1, angle2;
 var canvas;
 var ctx;
 let coord = { x: 0, y: 0 };
-lines = [
-    []
-]
-
-document.addEventListener("mousedown", mouseDown);
-document.addEventListener("mouseup", mouseUp);
-window.addEventListener("resize", resize);
+lines = [[]]
 
 document.body.appendChild(target);
 
@@ -89,6 +89,14 @@ var zoneRight = ["U", "I", "J", "O", "K", "P", "L", "M"];
 launch();
 
 async function launch() {
+    experimentType = Math.floor(Math.random() * 4); //randomBetween0And3
+
+    if (experimentType==ONEDIR || experimentType==TWODIR){
+        document.addEventListener("mousedown", mouseDown);
+        document.addEventListener("mouseup", mouseUp);
+        window.addEventListener("resize", resize);
+    }
+
     while (participantID == 0 || participantID == null) {
         participantID = parseInt(window.prompt("Enter your participant ID"));
     }
@@ -121,55 +129,109 @@ function nextTest() {
     Final var experimentType val is 0 : 1 key, 1 : 2 keys, 2 : gestures
     */
 
-    randomBetween0And3 = Math.floor(Math.random() * 4);
-
-    if (randomBetween0And3 == 2 || randomBetween0And3 == 3) {
-        experimentType = 2;
-    }
-
-    // 2 keys not implemented yet
-    else if (randomBetween0And3 == 1) experimentType = 0;
-
+   
     currentExperiment = experiments[experimentType][cpt];
     toggleExperimentType(experimentType);
 
     //console.log(currentExperiment);
 
-    if (experimentType == 2) {
+    if (experimentType == ONEKEY) { //1key
+        var shortcut = "";
+        var modifiers = currentExperiment.Modifier1.split("_");
+
+        currentExperiment.mod1 = false;
+        currentExperiment.mod2 = false;
+        currentExperiment.mod3 = false;
+
+        if (modifiers.includes("CMD")) {
+            currentExperiment.mod1 = true;
+            shortcut = shortcut.concat(osModKey + " + ");
+        }
+
+        if (modifiers.includes("Shift")) {
+            currentExperiment.mod2 = true;
+            shortcut = shortcut.concat("Shift + ");
+        }
+
+        if (modifiers.includes("Alt")) {
+            currentExperiment.mod3 = true;
+            shortcut = shortcut.concat("Alt + ");
+        }
+
+        currentExperiment.Key = getKeyFromKeyboardZone(currentExperiment.Letter1).toLowerCase();
+
+        shortcut = shortcut.concat(currentExperiment.Key.toUpperCase());
+        shortcutElement.innerHTML = shortcut;
+    }
+
+    else if (experimentType == TWOKEY) { //2key
+        console.log(currentExperiment)
+        var shortcut = "";
+        var modifiers1 = currentExperiment.Modifier1.split("_");
+        var modifiers2 = currentExperiment.Modifier2.split("_");
+
+        currentExperiment.mod1 = false;
+        currentExperiment.mod2 = false;
+        currentExperiment.mod3 = false;
+
+        // First
+        if (modifiers1.includes("CMD")) {
+            currentExperiment.mod1 = true;
+            shortcut = shortcut.concat(osModKey + " + ");
+        }
+
+        if (modifiers1.includes("Shift")) {
+            currentExperiment.mod2 = true;
+            shortcut = shortcut.concat("Shift + ");
+        }
+
+        if (modifiers1.includes("Alt")) {
+            currentExperiment.mod3 = true;
+            shortcut = shortcut.concat("Alt + ");
+        }
+
+        currentExperiment.Key1 = getKeyFromKeyboardZone(currentExperiment.Letter1).toLowerCase();
+        shortcut = shortcut.concat(currentExperiment.Key1.toUpperCase());
+        shortcut = shortcut.concat(" and then ");
+
+
+        //Second
+        if (modifiers2.includes("CMD")) {
+            // currentExperiment.mod1 = true;
+            shortcut = shortcut.concat(osModKey + " + ");
+        }
+
+        if (modifiers2.includes("Shift")) {
+            // currentExperiment.mod2 = true;
+            shortcut = shortcut.concat("Shift + ");
+        }
+
+        if (modifiers2.includes("Alt")) {
+            // currentExperiment.mod3 = true;
+            shortcut = shortcut.concat("Alt + ");
+        }
+
+        currentExperiment.Key2 = getKeyFromKeyboardZone(currentExperiment.Letter2).toLowerCase();
+        shortcut = shortcut.concat(currentExperiment.Key2.toUpperCase());
+        
+        shortcutElement.innerHTML = shortcut;
+    } 
+
+    else if (experimentType == ONEDIR) { //1dir
         angle1 = angles[currentExperiment.First];
         //angle2 = angles[currentExperiment.Second];
-        shortcutElement.innerHTML = currentExperiment.First;
+        shortcutElement.innerHTML = emoji[currentExperiment.First];
         //shortcutElement.innerHTML = currentExperiment.firstDirection + " " + currentExperiment.Second;
-    } else {
-        if (experimentType == 0) {
-            var shortcut = "";
-            var modifiers = currentExperiment.Modifier1.split("_");
-
-            currentExperiment.mod1 = false;
-            currentExperiment.mod2 = false;
-            currentExperiment.mod3 = false;
-
-            if (modifiers.includes("CMD")) {
-                currentExperiment.mod1 = true;
-                shortcut = shortcut.concat(osModKey + " + ");
-            }
-
-            if (modifiers.includes("Shift")) {
-                currentExperiment.mod2 = true;
-                shortcut = shortcut.concat("Shift + ");
-            }
-
-            if (modifiers.includes("Alt")) {
-                currentExperiment.mod3 = true;
-                shortcut = shortcut.concat("Alt + ");
-            }
-
-            currentExperiment.Key = getKeyFromKeyboardZone(currentExperiment.Letter1).toLowerCase();
-
-            shortcut = shortcut.concat(currentExperiment.Key.toUpperCase());
-            shortcutElement.innerHTML = shortcut;
-        }
     }
+
+    else if (experimentType == TWODIR) { //2dir
+        angle1 = angles[currentExperiment.First];
+        angle2 = angles[currentExperiment.Second];
+        shortcutElement.innerHTML = emoji[currentExperiment.First];
+        shortcutElement.innerHTML = emoji[currentExperiment.First] + " " + emoji[currentExperiment.Second];
+    } 
+    
+
 
     target.style.backgroundColor = "";
     target.style.top = 100 + Math.floor(Math.random() * (window.innerHeight - target.clientHeight - 200)) + "px";
@@ -201,7 +263,7 @@ function moveTarget(size) {
 
 target.onmousedown = function(event) {
     if (!isRecording) {
-        var expTypeVerbose = (experimentType == 0 || experimentType == 1) ? "keyboard" : "gestures";
+        var expTypeVerbose = (experimentType == ONEKEY || experimentType == TWOKEY) ? "keyboard" : "gestures";
         experimentResults[cpt].experimentType.push(expTypeVerbose);
 
         experimentResults[cpt].targetDist.push(Math.sqrt(Math.pow(target.offsetLeft - next.offsetLeft, 2) + Math.pow(target.offsetTop - next.offsetHeight, 2)));
@@ -213,14 +275,14 @@ target.onmousedown = function(event) {
     isRecording = true;
     target.classList.add("selected");
 
-    if (experimentType == 2) {
+    if (experimentType == ONEDIR) {
         document.addEventListener("mousemove", draw);
         mouseMove(event);
     }
 }
 
 function fillInEmptyFields() {
-    if (experimentType == 2) {
+    if (experimentType == ONEDIR) {
         experimentResults[cpt].executionTimeMod1.push(-1);
         experimentResults[cpt].executionTimeMod2.push(-1);
         experimentResults[cpt].executionTimeMod3.push(-1);
@@ -361,9 +423,7 @@ function mouseUp() {
             cpt++;
         }
     }
-    lines = [
-        []
-    ]
+    lines = [[]]
 }
 
 function mouseMove(event) {
