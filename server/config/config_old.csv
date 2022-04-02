@@ -1,0 +1,9 @@
+type,mod1,mod2,mod3,key,firstDirection,secondDirection,targetPosX,targetPosY
+keyboard,1,0,0,x,null,null,0.5,0.5
+keyboard,0,0,0,h,null,null,0.25,0.876
+keyboard,1,1,0,c,null,null,0.42,0.15
+keyboard,1,1,1,m,null,null,0.3,0.6
+gestures,-1,-1,-1,null,NW,NE,0.5,0.5
+gestures,-1,-1,-1,null,E,SW,0.25,0.876
+gestures,-1,-1,-1,null,NE,W,0.42,0.15
+gestures,-1,-1,-1,null,S,SE,0.3,0.6
