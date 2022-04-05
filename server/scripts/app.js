@@ -7,16 +7,8 @@
 /* - Randomiser l'experience */
 /* - Faire en sorte que la position de la cible soit celle des experiences */
 /* - Enregistrer les temps de chaque experience */
-/* - Enregister les résultats dans un fichier CSV */
+/* - Enregistrer les résultats dans un fichier CSV */
 /* - Faire la page d'accueil */
-
-// function recordTime() {
-//     var time = new Date();
-//     var timeString = time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
-//     return timeString;
-
-//     return Date.now();
-// }
 
 var ONEKEY = 0
 var TWOKEY = 1
@@ -77,9 +69,9 @@ var experimentType;
 var startTime;
 var cpt = 0;
 
-var mod1Done = false;
-var mod2Done = false;
-var mod3Done = false;
+var cmd1Done = false;
+var alt1Done = false;
+var shift1Done = false;
 var keyDone = false;
 
 var zoneLeft = ["A", "Z", "E", "S", "D", "X", "C", "R"];
@@ -102,7 +94,8 @@ async function launch() {
     }
 
     experiments = await loadExperiment(participantID);
-    experimentResults = generateExperimentsResults(experiments);
+    experimentResults = experiments[experimentType];
+    //experimentResults = generateExperimentsResults(experiments);
     experimentsNames = experiments.map(({ name }) => name);
 
     toggleExperimentType();
@@ -122,114 +115,61 @@ async function launch() {
 function nextTest() {
     var next = document.getElementById("next");
 
-    /*
-    If randomBetween0And3 gives 0-1 it is the corresponding keyboard experiment
-    If 2 or 3, it's gestures, so in the end the probability is half gestures and 1/4
-    for each keyboard experiment type
-    Final var experimentType val is 0 : 1 key, 1 : 2 keys, 2 : gestures
-    */
-
-   
     currentExperiment = experiments[experimentType][cpt];
     toggleExperimentType(experimentType);
 
-    //console.log(currentExperiment);
+    switch(experimentType) {
+        case ONEKEY: case TWOKEY:
+            var shortcut = "";
 
-    if (experimentType == ONEKEY) { //1key
-        var shortcut = "";
-        var modifiers = currentExperiment.Modifier1.split("_");
+            //First
+            var modifiers1 = currentExperiment.Modifier1.split("_");
+    
+            currentExperiment.cmd1 = modifiers1.includes("CMD");
+            currentExperiment.alt1 = modifiers1.includes("Alt");
+            currentExperiment.shift1 = modifiers1.includes("Shift");
+            currentExperiment.key1 = getKeyFromKeyboardZone(currentExperiment.Letter1).toLowerCase();
+    
+            for(i=0;i<modifiers1.length;i++){
+                if(modifiers1[i]=="CMD") shortcut += osModKey + " + ";
+                else if(modifiers1[i]=="None") shortcut += " ";
+                else shortcut += modifiers1[i] + " + ";
+            }
+            shortcut += currentExperiment.key1.toUpperCase();
 
-        currentExperiment.mod1 = false;
-        currentExperiment.mod2 = false;
-        currentExperiment.mod3 = false;
-
-        if (modifiers.includes("CMD")) {
-            currentExperiment.mod1 = true;
-            shortcut = shortcut.concat(osModKey + " + ");
-        }
-
-        if (modifiers.includes("Shift")) {
-            currentExperiment.mod2 = true;
-            shortcut = shortcut.concat("Shift + ");
-        }
-
-        if (modifiers.includes("Alt")) {
-            currentExperiment.mod3 = true;
-            shortcut = shortcut.concat("Alt + ");
-        }
-
-        currentExperiment.Key = getKeyFromKeyboardZone(currentExperiment.Letter1).toLowerCase();
-
-        shortcut = shortcut.concat(currentExperiment.Key.toUpperCase());
-        shortcutElement.innerHTML = shortcut;
-    }
-
-    else if (experimentType == TWOKEY) { //2key
-        console.log(currentExperiment)
-        var shortcut = "";
-        var modifiers1 = currentExperiment.Modifier1.split("_");
-        var modifiers2 = currentExperiment.Modifier2.split("_");
-
-        currentExperiment.mod1 = false;
-        currentExperiment.mod2 = false;
-        currentExperiment.mod3 = false;
-
-        // First
-        if (modifiers1.includes("CMD")) {
-            currentExperiment.mod1 = true;
-            shortcut = shortcut.concat(osModKey + " + ");
-        }
-
-        if (modifiers1.includes("Shift")) {
-            currentExperiment.mod2 = true;
-            shortcut = shortcut.concat("Shift + ");
-        }
-
-        if (modifiers1.includes("Alt")) {
-            currentExperiment.mod3 = true;
-            shortcut = shortcut.concat("Alt + ");
-        }
-
-        currentExperiment.Key1 = getKeyFromKeyboardZone(currentExperiment.Letter1).toLowerCase();
-        shortcut = shortcut.concat(currentExperiment.Key1.toUpperCase());
-        shortcut = shortcut.concat(" and then ");
-
-
-        //Second
-        if (modifiers2.includes("CMD")) {
-            // currentExperiment.mod1 = true;
-            shortcut = shortcut.concat(osModKey + " + ");
-        }
-
-        if (modifiers2.includes("Shift")) {
-            // currentExperiment.mod2 = true;
-            shortcut = shortcut.concat("Shift + ");
-        }
-
-        if (modifiers2.includes("Alt")) {
-            // currentExperiment.mod3 = true;
-            shortcut = shortcut.concat("Alt + ");
-        }
-
-        currentExperiment.Key2 = getKeyFromKeyboardZone(currentExperiment.Letter2).toLowerCase();
-        shortcut = shortcut.concat(currentExperiment.Key2.toUpperCase());
+            //Second
+            if(experimentType==TWOKEY){
+                shortcut += " and then "
+                //var modifiers2 = currentExperiment.Modifier2.split("_");
+                var modifiers2 = currentExperiment.Modifier1.split("_");
         
-        shortcutElement.innerHTML = shortcut;
-    } 
+                currentExperiment.cmd2 = modifiers2.includes("CMD");
+                currentExperiment.alt2 = modifiers2.includes("Alt");
+                currentExperiment.shift2 = modifiers2.includes("Shift");
+                currentExperiment.key2 = getKeyFromKeyboardZone(currentExperiment.Letter2).toLowerCase();
+        
+                for(i=0;i<modifiers2.length;i++){
+                    if(modifiers2[i]=="CMD") shortcut += osModKey + " + ";
+                    else if(modifiers2[i]=="None") shortcut += " ";
+                    else shortcut += modifiers2[i] + " + ";
+                }
+                shortcut += currentExperiment.key2.toUpperCase();
+            }
 
-    else if (experimentType == ONEDIR) { //1dir
-        angle1 = angles[currentExperiment.First];
-        //angle2 = angles[currentExperiment.Second];
-        shortcutElement.innerHTML = emoji[currentExperiment.First];
-        //shortcutElement.innerHTML = currentExperiment.firstDirection + " " + currentExperiment.Second;
-    }
+            shortcutElement.innerHTML = shortcut;
+            break;
 
-    else if (experimentType == TWODIR) { //2dir
-        angle1 = angles[currentExperiment.First];
-        angle2 = angles[currentExperiment.Second];
-        shortcutElement.innerHTML = emoji[currentExperiment.First];
-        shortcutElement.innerHTML = emoji[currentExperiment.First] + " " + emoji[currentExperiment.Second];
-    } 
+        case ONEDIR:
+            angle1 = angles[currentExperiment.First];
+            shortcutElement.innerHTML = emoji[currentExperiment.First];
+            break;
+
+        case TWODIR:
+            angle1 = angles[currentExperiment.First];
+            angle2 = angles[currentExperiment.Second];
+            shortcutElement.innerHTML = emoji[currentExperiment.First] + " " + emoji[currentExperiment.Second];
+            break;
+      }
     
 
 
@@ -263,13 +203,13 @@ function moveTarget(size) {
 
 target.onmousedown = function(event) {
     if (!isRecording) {
-        var expTypeVerbose = (experimentType == ONEKEY || experimentType == TWOKEY) ? "keyboard" : "gestures";
-        experimentResults[cpt].experimentType.push(expTypeVerbose);
+        targetDist = Math.sqrt(Math.pow(target.offsetLeft - next.offsetLeft, 2) + Math.pow(target.offsetTop - next.offsetHeight, 2));
+        experimentResults[cpt].targetDist = targetDist;
 
-        experimentResults[cpt].targetDist.push(Math.sqrt(Math.pow(target.offsetLeft - next.offsetLeft, 2) + Math.pow(target.offsetTop - next.offsetHeight, 2)));
-        experimentResults[cpt].travelTime.push(Date.now() - startTime);
+        //experimentResults[cpt].travelTime.push(Date.now() - startTime);
 
-        experimentResults[cpt].targetSize.push(targetSize);
+        experimentResults[cpt].targetSize = targetSize;
+
         startTime = Date.now();
     }
     isRecording = true;
@@ -278,19 +218,6 @@ target.onmousedown = function(event) {
     if (experimentType == ONEDIR) {
         document.addEventListener("mousemove", draw);
         mouseMove(event);
-    }
-}
-
-function fillInEmptyFields() {
-    if (experimentType == ONEDIR) {
-        experimentResults[cpt].executionTimeMod1.push(-1);
-        experimentResults[cpt].executionTimeMod2.push(-1);
-        experimentResults[cpt].executionTimeMod3.push(-1);
-        experimentResults[cpt].executionTimeKey.push(-1);
-        experimentResults[cpt].key.push("null");
-    } else {
-        experimentResults[cpt].firstDirection.push("null");
-        experimentResults[cpt].secondDirection.push("null");
     }
 }
 
@@ -307,62 +234,53 @@ function getKeyFromKeyboardZone(zone) {
 }
 
 document.onkeydown = function(e) {
-    var modKey1 = navigator.userAgent.match(/Mac/i) ? e.metaKey : e.ctrlKey;
-    var modKey2 = e.shiftKey;
-    var modKey3 = e.altKey;
+    var cmdKey = navigator.userAgent.match(/Mac/i) ? e.metaKey : e.ctrlKey;
+    var shiftKey = e.shiftKey;
+    var altKey = e.altKey;
 
     var key = e.keyCode + 32;
 
-    if (modKey1) {
+    if (cmdKey) {
         e.preventDefault();
     }
 
-    if (isRecording && !mod1Done && modKey1 == currentExperiment.mod1 && modKey1 == true) {
-        experimentResults[cpt].executionTimeMod1.push(Date.now() - startTime);
-        mod1Done = true;
+    if (isRecording && !cmd1Done && cmdKey == currentExperiment.cmd1 && cmdKey == true) {
+        experimentResults[cpt].executionTimeCMD1 =  Date.now() - startTime;
+        cmd1Done = true;
     }
-    if (isRecording && !mod2Done && modKey2 == currentExperiment.mod2 && modKey2 == true) {
-        experimentResults[cpt].executionTimeMod2.push(Date.now() - startTime);
-        mod2Done = true;
+    if (isRecording && !alt1Done && altKey == currentExperiment.alt1 && altKey == true) {
+        experimentResults[cpt].executionTimeAlt1 = Date.now() - startTime;
+        alt1Done = true;
     }
-    if (isRecording && !mod3Done && modKey3 == currentExperiment.mod3 && modKey3 == true) {
-        experimentResults[cpt].executionTimeMod3.push(Date.now() - startTime);
-        mod3Done = true;
+    if (isRecording && !shift1Done && shiftKey == currentExperiment.shift1 && shiftKey == true) {
+        experimentResults[cpt].executionTimeShift1 = Date.now() - startTime;
+        shift1Done = true;
     }
-    if (isRecording && !keyDone && key == currentExperiment.Key.charCodeAt()) {
-        experimentResults[cpt].executionTimeKey.push(Date.now() - startTime);
+    if (isRecording && !keyDone && key == currentExperiment.key1.charCodeAt()) {
+        experimentResults[cpt].executionTimeKey = Date.now() - startTime;
         keyDone = true;
     }
 
     var shortcutSuccess = isRecording &&
-        modKey1 == currentExperiment.mod1 &&
-        modKey2 == currentExperiment.mod2 &&
-        modKey3 == currentExperiment.mod3 &&
-        key == currentExperiment.Key.charCodeAt();
+        cmdKey == currentExperiment.cmd1 &&
+        shiftKey == currentExperiment.shift1 &&
+        altKey == currentExperiment.alt1 &&
+        key == currentExperiment.key1.charCodeAt();
 
     if (shortcutSuccess) {
-        if (currentExperiment.mod1 == false) {
-            experimentResults[cpt].executionTimeMod1.push(-1);
-        }
-        if (currentExperiment.mod2 == false) {
-            experimentResults[cpt].executionTimeMod2.push(-1);
-        }
-        if (currentExperiment.mod3 == false) {
-            experimentResults[cpt].executionTimeMod3.push(-1);
-        }
 
-        experimentResults[cpt].key.push(currentExperiment.Key);
-        experimentResults[cpt].totalExecutionTime.push(Date.now() - startTime);
+        experimentResults[cpt].totalExecutionTime = Date.now() - startTime;
+        console.log(experimentResults[cpt])
 
-        mod1Done = false;
-        mod2Done = false;
-        mod3Done = false;
+        cmd1Done = false;
+        alt1Done = false;
+        shift1Done = false;
         keyDone = false;
 
         var next = document.getElementById("next");
         next.disabled = false;
 
-        fillInEmptyFields();
+        //fillInEmptyFields();
         checkLogging(cpt, experimentResults, participantID);
         startTime = Date.now();
         cpt++;
@@ -394,30 +312,26 @@ function mouseUp() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (lines[0].length > 0) {
-        // l1firstP = lines[0][0][0]
-        // l1lastP = lines[0][lines[0].length-1][1]
-        // l2firstP = lines[1][0][0]
-        // l2lastP = lines[1][lines[1].length-1][1]
         firstP = lines[0][0][0]
         lastP = lines[0][lines[0].length - 1][1]
-            //console.log(getAngle(firstP, lastP))
 
         firstDrawn = getAngle(firstP, lastP)
-            // firstDrawn = getAngle()%20/20 * 360 + getAngle()
-            // secondDrawn = getAngle()%20 * 360 + getAngle()
 
         keys = Object.keys(angles);
-        shortcutSuccess = isRecording && Math.abs(angle1 - firstDrawn) < 20 //&& Math.abs(secondAngle-secondDrawn) < 20 && lines.length==2
+        shortcutSuccess = isRecording && Math.abs(angle1 - firstDrawn) < 20
 
         if (shortcutSuccess) {
             var next = document.getElementById("next");
             next.disabled = false;
 
-            experimentResults[cpt].firstDirection.push(currentExperiment.First);
-            experimentResults[cpt].secondDirection.push("null");
-            experimentResults[cpt].totalExecutionTime.push(Date.now() - startTime);
+            experimentResults[cpt].totalExecutionTime = Date.now() - startTime;
 
-            fillInEmptyFields();
+            drawDist = Math.sqrt(Math.pow(firstP[0]-lastP[0],2) + Math.pow(firstP[1]-lastP[1],2));
+            experimentResults[cpt].drawDist = drawDist;
+
+            experimentResults[cpt].userAngle1 = firstDrawn;
+
+            console.log(experimentResults[cpt])
             checkLogging(cpt, experimentResults, participantID);
             startTime = Date.now();
             cpt++;
@@ -445,34 +359,6 @@ function draw(event) {
     ctx.lineTo(coord.x, coord.y);
     tmp2 = [coord.x, coord.y];
 
-    //E = length of input stroke / menu depth
-    // E = 50 / 2
-
-    // W = E * 0.3
-
-    // sensitivity = 0.75
-
-    // if(lines.length>0 && lines[lines.length-1].length>5 && lines[lines.length-1][0].length>0){
-    //     current = lines[lines.length-1]
-    //     A = current[0][0]
-    //     C = tmp2
-
-    //     for(i=0;i<current.length;i++){
-    //         B = current[i][1]
-    //         if(Math.abs(getAngle(A,B)-getAngle(B,C))>30){
-    //             lines.push([])
-    //             console.log(getAngle(A,B),getAngle(B,C))
-    //             break;
-    //         }
-    //     }
-
-    // pastSeqP2 = current[current.length-4][1]
-    // currentSeqP = current[current.length-3][0]
-    // if(Math.abs(getAngle(currentSeqP,tmp2)-getAngle(pastSeqP1,pastSeqP2))>40 && (pastSeqP2[0]-tmp2[0]>5 || pastSeqP2[1]-tmp2[1]>5)){
-    //     lines.push([])
-    //     console.log(getAngle(currentSeqP,tmp2),getAngle(pastSeqP1,pastSeqP2),pastSeqP2[0]-tmp2[0],pastSeqP2[1]-tmp2[1])
-    // }
-    // }
     lines[lines.length - 1].push([tmp1, tmp2]);
 
     ctx.stroke();

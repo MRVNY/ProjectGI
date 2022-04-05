@@ -17,7 +17,7 @@ function checkLogging(cpt, data, participantID) {
 
         var slicedData = data.slice(indexStart, cpt + 1);
         console.log(slicedData, indexStart, cpt + 1);
-        var csv = convertToCSV(slicedData, 1);
+        var csv = convertToCSV(slicedData);
         sendToLogger(csv, participantID);
     }
 }

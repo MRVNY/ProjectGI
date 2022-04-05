@@ -1,31 +1,20 @@
 var maxTrials = 100;
 
 async function loadExperiment(participantID) {
-    // console.log("Loading CSV file...");
     const response1Key = await fetch('./config/1key.csv');
     const response2Key = await fetch('./config/2key.csv');
-    // console.log("CSV file loaded.");
-    // console.log("Fetching CSV file...");
     const text1Key = await response1Key.text();
     const text2Key = await response2Key.text();
-    // console.log("CSV file fetched.");
-    csv1Key = parseCSV(text1Key).sort(() => Math.random() - 0.5);
-    csv2Key = parseCSV(text2Key).sort(() => Math.random() - 0.5);
+    csv1Key = parseCSV(text1Key);
+    csv2Key = parseCSV(text2Key);
+    onekey = [];
+    twokey = [];
 
     var containsParticipantID = false;
 
     for (let i = 0; i < csv1Key.length; i++) {
-        if (csv1Key[i].ParticipantID != participantID) {
-            csv1Key.splice(i, i + 1);
-        } else {
-            containsParticipantID = true;
-        }
-    }
-
-    for (let i = 0; i < csv2Key.length; i++) {
-        if (csv2Key[i].ParticipantID != participantID) {
-            csv2Key.splice(i, i + 1);
-        } else {
+        if (csv1Key[i].ParticipantID == participantID) {
+            onekey.push(csv1Key[i])
             containsParticipantID = true;
         }
     }
@@ -34,51 +23,37 @@ async function loadExperiment(participantID) {
         throw new Error("This participant ID does not exist !");
     }
 
+    for (let i = 0; i < csv2Key.length; i++) {
+        if (csv2Key[i].ParticipantID == participantID) {
+            twokey.push(csv2Key[i])
+            containsParticipantID = true;
+        }
+    }
+
     const response1Dir = await fetch('./config/1dir.csv');
     const response2Dir = await fetch('./config/2dir.csv');
     const text1Dir = await response1Dir.text();
     const text2Dir = await response2Dir.text();
-    csv1Dir = parseCSV(text1Dir).sort(() => Math.random() - 0.5);
-    csv2Dir = parseCSV(text2Dir).sort(() => Math.random() - 0.5);
+    csv1Dir = parseCSV(text1Dir);
+    csv2Dir = parseCSV(text2Dir);
+    onedir = []
+    twodir = []
 
     for (let i = 0; i < csv1Dir.length; i++) {
-        if (csv1Dir[i].ParticipantID != participantID) {
-            csv1Dir.splice(i, i + 1);
+        if (csv1Dir[i].ParticipantID == participantID) {
+            onedir.push(csv1Dir[i])
         }
     }
 
     for (let i = 0; i < csv2Dir.length; i++) {
-        if (csv2Dir[i].ParticipantID != participantID) {
-            csv2Dir.splice(i, i + 1);
+        if (csv2Dir[i].ParticipantID == participantID) {
+            twodir.push(csv2Dir[i])
         }
     }
 
     return [csv1Key, csv2Key, csv1Dir, csv2Dir];
 }
 
-function generateExperimentsResults(experiments) {
-    var results = [];
-    for (var i = 0; i < maxTrials; i++) {
-        results[i] = {
-            "experimentType": [],
-            "travelTime": [],
-            "targetDist": [],
-
-            "firstDirection": [],
-            "secondDirection": [],
-
-            "key": [],
-            "executionTimeMod1": [],
-            "executionTimeMod2": [],
-            "executionTimeMod3": [],
-            "executionTimeKey": [],
-
-            "totalExecutionTime": [],
-            "targetSize": [],
-        };
-    }
-    return results;
-}
 
 function toggleExperimentType(experimentType) {
     let selector = "#info";
