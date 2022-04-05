@@ -8,6 +8,10 @@ const file_prefix = "p";
 app.use(express.static(__dirname));
 
 app.get('/', (req, res) => {
+    res.sendFile(__dirname + "/home.html");
+});
+
+app.get('/experiment', (req, res) => {
     res.sendFile(__dirname + "/experiment.html");
 });
 

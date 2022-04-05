@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>ProjectGI</title>
+    <link rel="stylesheet" href="home.css" />
+</head>
+
+<body>
+    <h1>Welcome to the ProjectGI experiment !</h1>
+
+    <form method="GET" action="experiment">
+        <ul>
+            <li>Enter your participant number you were given <strong>carefully</strong> : <input type="number" required min="1" name="user_id"></li>
+            <li>
+                <p>Please select your keyboard type :</p>
+                <table>
+                    <thead>
+                        <th>AZERTY</th>
+                        <th>QWERTY</th>
+                    </thead>
+                    <tbody>
+                        <td><label for="input_azerty"><img alt="AZERTY keyboard image" src="res/azerty-keyboard.jpg" /></label</td>
+                        <td><label for="input_qwerty"><img alt="QWERTY keyboard image" src="res/qwerty-keyboard.jpg" /></label>
+                        </td>
+                    </tbody>
+                    <tfoot>
+                        <td><input type="radio" name="keyboard_layout" value="AZERTY" id="input_azerty" required /></td>
+                        <td><input type="radio" name="keyboard_layout" value="QWERTY" id="input_qwerty" required /></td>
+                    </tfoot>
+                </table>
+            </li>
+            <li>
+                <p>Please select your mouse type :</p>
+                <table>
+                    <thead>
+                        <th>Laptop touchpad </th>
+                        <th>Desktop mouse</th>
+                    </thead>
+                    <tbody>
+                        <td><label for="input_touchpad"><img alt="Touchpad image" src="res/touchpad.jpg" /></label></td>
+                        <td><label for="input_classic_mouse"><img alt="Classic mouse image" src="res/classic-mouse.jpg" /></label></td>
+                    </tbody>
+                    <tfoot>
+                        <td><input type="radio" name="mouse_type" value="touchpad" id="input_touchpad" required /></td>
+                        <td><input type="radio" name="mouse_type" value="classic_mouse" id="input_classic_mouse" required /></td>
+                    </tfoot>
+                </table>
+            </li>
+            <li>By clicking "I accept", you consent to sharing your performance data on our experiment as well as your personal data with us. All data will not be used on anything other than research purposes :</li>
+        </ul>
+        <button type="submit">I accept</button>
+    </form>
+</body>
+
+</html>

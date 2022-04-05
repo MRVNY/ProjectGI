@@ -1,0 +1,29 @@
+body {
+    text-align: center;
+    font-family: sans-serif;
+    background-color: whitesmoke;
+    padding: 2em;
+}
+
+h1,
+form,
+table {
+    margin: auto;
+}
+
+table img {
+    width: 30em;
+}
+
+li {
+    list-style: none;
+}
+
+li:last-of-type {
+    margin-top: 3em;
+    font-weight: bold;
+}
+
+label:hover {
+    cursor: pointer;
+}

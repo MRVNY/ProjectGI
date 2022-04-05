@@ -15,8 +15,23 @@ var TWOKEY = 1
 var ONEDIR = 2
 var TWODIR = 3
 
+var allKeyboardLayouts = ["AZERTY", "QWERTY"];
+var allMouseTypes = ["touchpad", "classic_mouse"];
+
+var params = new URLSearchParams(document.location.search);
+
+var user_id = params.get("user_id");
+var keyboard_layout = params.get("keyboard_layout");
+var mouse_type = params.get("mouse_type");
 
 var participantID = 0;
+
+if (!(parseInt(user_id) > 0 && allKeyboardLayouts.includes(keyboard_layout) && allMouseTypes.includes(mouse_type))) {
+    die("Broken experiment parameters in the URL, go back to the home page !");
+}
+
+participantID = user_id;
+
 var isRecording = false;
 
 var osModKey = navigator.userAgent.match(/Mac/i) ? "CMD" : "Ctrl";
@@ -33,14 +48,14 @@ var angles = {
 }
 
 var emoji = {
-    "N" : "⬆️",
-    "S" : "⬇️",
-    "E" : "➡️",
-    "W" : "⬅️",
-    "NE" : "↗️",
-    "NW" : "↖️", 
-    "SE" : "↘️", 
-    "SW" : "↙️"
+    "N": "⬆️",
+    "S": "⬇️",
+    "E": "➡️",
+    "W": "⬅️",
+    "NE": "↗️",
+    "NW": "↖️",
+    "SE": "↘️",
+    "SW": "↙️"
 }
 
 var shortcutElement;
@@ -56,7 +71,7 @@ var shortcutIndex, angle1, angle2;
 var canvas;
 var ctx;
 let coord = { x: 0, y: 0 };
-lines = [[]]
+lines = []
 
 document.body.appendChild(target);
 
@@ -78,19 +93,19 @@ var zoneLeft = ["A", "Z", "E", "S", "D", "X", "C", "R"];
 var zoneMiddle = ["R", "F", "V", "G", "B", "Y", "H"];
 var zoneRight = ["U", "I", "J", "O", "K", "P", "L", "M"];
 
+var sensitivity = 0.9;
+var M = 500;
+var angleThreshold = 360 / M / 2 / sensitivity;
+
 launch();
 
 async function launch() {
     experimentType = Math.floor(Math.random() * 4); //randomBetween0And3
 
-    if (experimentType==ONEDIR || experimentType==TWODIR){
+    if (experimentType == ONEDIR || experimentType == TWODIR) {
         document.addEventListener("mousedown", mouseDown);
         document.addEventListener("mouseup", mouseUp);
         window.addEventListener("resize", resize);
-    }
-
-    while (participantID == 0 || participantID == null) {
-        participantID = parseInt(window.prompt("Enter your participant ID"));
     }
 
     experiments = await loadExperiment(participantID);
@@ -118,39 +133,40 @@ function nextTest() {
     currentExperiment = experiments[experimentType][cpt];
     toggleExperimentType(experimentType);
 
-    switch(experimentType) {
-        case ONEKEY: case TWOKEY:
+    switch (experimentType) {
+        case ONEKEY:
+        case TWOKEY:
             var shortcut = "";
 
             //First
             var modifiers1 = currentExperiment.Modifier1.split("_");
-    
+
             currentExperiment.cmd1 = modifiers1.includes("CMD");
             currentExperiment.alt1 = modifiers1.includes("Alt");
             currentExperiment.shift1 = modifiers1.includes("Shift");
             currentExperiment.key1 = getKeyFromKeyboardZone(currentExperiment.Letter1).toLowerCase();
-    
-            for(i=0;i<modifiers1.length;i++){
-                if(modifiers1[i]=="CMD") shortcut += osModKey + " + ";
-                else if(modifiers1[i]=="None") shortcut += " ";
+
+            for (i = 0; i < modifiers1.length; i++) {
+                if (modifiers1[i] == "CMD") shortcut += osModKey + " + ";
+                else if (modifiers1[i] == "None") shortcut += " ";
                 else shortcut += modifiers1[i] + " + ";
             }
             shortcut += currentExperiment.key1.toUpperCase();
 
             //Second
-            if(experimentType==TWOKEY){
+            if (experimentType == TWOKEY) {
                 shortcut += " and then "
-                //var modifiers2 = currentExperiment.Modifier2.split("_");
+                    //var modifiers2 = currentExperiment.Modifier2.split("_");
                 var modifiers2 = currentExperiment.Modifier1.split("_");
-        
+
                 currentExperiment.cmd2 = modifiers2.includes("CMD");
                 currentExperiment.alt2 = modifiers2.includes("Alt");
                 currentExperiment.shift2 = modifiers2.includes("Shift");
                 currentExperiment.key2 = getKeyFromKeyboardZone(currentExperiment.Letter2).toLowerCase();
-        
-                for(i=0;i<modifiers2.length;i++){
-                    if(modifiers2[i]=="CMD") shortcut += osModKey + " + ";
-                    else if(modifiers2[i]=="None") shortcut += " ";
+
+                for (i = 0; i < modifiers2.length; i++) {
+                    if (modifiers2[i] == "CMD") shortcut += osModKey + " + ";
+                    else if (modifiers2[i] == "None") shortcut += " ";
                     else shortcut += modifiers2[i] + " + ";
                 }
                 shortcut += currentExperiment.key2.toUpperCase();
@@ -169,8 +185,8 @@ function nextTest() {
             angle2 = angles[currentExperiment.Second];
             shortcutElement.innerHTML = emoji[currentExperiment.First] + " " + emoji[currentExperiment.Second];
             break;
-      }
-    
+    }
+
 
 
     target.style.backgroundColor = "";
@@ -245,7 +261,7 @@ document.onkeydown = function(e) {
     }
 
     if (isRecording && !cmd1Done && cmdKey == currentExperiment.cmd1 && cmdKey == true) {
-        experimentResults[cpt].executionTimeCMD1 =  Date.now() - startTime;
+        experimentResults[cpt].executionTimeCMD1 = Date.now() - startTime;
         cmd1Done = true;
     }
     if (isRecording && !alt1Done && altKey == currentExperiment.alt1 && altKey == true) {
@@ -302,6 +318,39 @@ function getAngle(firstP, lastP) {
     return angle
 }
 
+function get3PointsAngle(A, B, C) {
+    var AB = Math.sqrt(Math.pow(B[0] - A[0], 2) + Math.pow(B[1] - A[1], 2));
+    var BC = Math.sqrt(Math.pow(B[0] - C[0], 2) + Math.pow(B[1] - C[1], 2));
+    var AC = Math.sqrt(Math.pow(C[0] - A[0], 2) + Math.pow(C[1] - A[1], 2));
+
+    return Math.acos((BC * BC + AB * AB - AC * AC) / (2 * BC * AB));
+}
+
+function getTotalDistance(lines) {
+    var total = 0;
+
+    for (let i = 1; i < lines.length; i++) {
+        let x1 = parseInt(lines[i - 1][0]);
+        let y1 = parseInt(lines[i - 1][1]);
+        let x2 = parseInt(lines[i][0]);
+        let y2 = parseInt(lines[i][1]);
+
+        let norm = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        total += norm;
+    }
+
+    return total;
+}
+
+function getDistance(p1, p2) {
+    let x1 = parseInt(p1[0]);
+    let y1 = parseInt(p1[1]);
+    let x2 = parseInt(p2[0]);
+    let y2 = parseInt(p2[1]);
+
+    return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+}
+
 function mouseDown(event) {
     document.addEventListener("mousemove", draw);
     mouseMove(event);
@@ -311,33 +360,148 @@ function mouseUp() {
     document.removeEventListener("mousemove", draw);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (lines[0].length > 0) {
-        firstP = lines[0][0][0]
-        lastP = lines[0][lines[0].length - 1][1]
+    var shortcutSuccess = false;
+    var firstDrawn, secondDrawn;
 
-        firstDrawn = getAngle(firstP, lastP)
+    if (experimentType == ONEDIR) {
+        firstDrawn = getAngle(lines[0], lines[lines.length - 1]);
+        // firstDrawn = getAngle()%20/20 * 360 + getAngle()
+        // secondDrawn = getAngle()%20 * 360 + getAngle()
 
-        keys = Object.keys(angles);
-        shortcutSuccess = isRecording && Math.abs(angle1 - firstDrawn) < 20
+        console.log(firstDrawn)
 
-        if (shortcutSuccess) {
-            var next = document.getElementById("next");
-            next.disabled = false;
+        shortcutSuccess = isRecording && Math.abs(angle1 - firstDrawn) < 20;
+    } else if (experimentType == TWODIR && lines.length > 0) {
 
-            experimentResults[cpt].totalExecutionTime = Date.now() - startTime;
+        var articulationPoints = [lines[0]];
 
-            drawDist = Math.sqrt(Math.pow(firstP[0]-lastP[0],2) + Math.pow(firstP[1]-lastP[1],2));
-            experimentResults[cpt].drawDist = drawDist;
+        var E = getTotalDistance(lines) / 2;
+        var W = E * 0.3;
 
-            experimentResults[cpt].userAngle1 = firstDrawn;
+        // l1firstP = lines[0][0][0]
+        // l1lastP = lines[0][lines[0].length-1][1]
+        // l2firstP = lines[1][0][0]
+        // l2lastP = lines[1][lines[1].length-1][1]
+        // var firstP = lines[0][0];
 
-            console.log(experimentResults[cpt])
-            checkLogging(cpt, experimentResults, participantID);
-            startTime = Date.now();
-            cpt++;
+        var Aindex = 0,
+            Bindex = 0,
+            Cindex = 0;
+        var keepLooping = true;
+
+        //console.log(W);
+
+        while (keepLooping) {
+            Cindex = -1;
+
+            for (let i = Aindex + 1; i < lines.length; i++) {
+                let slicedLines = lines.slice(Aindex, i);
+                if (getTotalDistance(slicedLines) > W) {
+                    Cindex = i;
+                    break;
+                }
+            }
+
+            if (Cindex == -1) {
+                keepLooping = false;
+                break
+            }
+
+            let L_ab_index = -1,
+                L_bc_index = -1;
+
+            for (let i = Aindex + 1; i < lines.length; i++) {
+                let slicedLines = lines.slice(Aindex, i);
+                if (getTotalDistance(slicedLines) > W / 8) {
+                    L_ab_index = i;
+                    break;
+                }
+            }
+
+            for (let i = Cindex - 1; i > Aindex; i--) {
+                let slicedLines = lines.slice(i, Cindex);
+                if (getTotalDistance(slicedLines) > W / 8) {
+                    L_bc_index = i;
+                    break;
+                }
+            }
+
+            let maxAngle = -360;
+
+            // console.log(L_ab_index, L_bc_index, Cindex, lines.length)
+
+            for (let j = L_ab_index; j <= L_bc_index; j++) {
+                let angle = get3PointsAngle(lines[Aindex], lines[j], lines[Bindex]);
+
+                if (angle > maxAngle) {
+                    maxAngle = angle;
+                    Bindex = j;
+                }
+            }
+
+            if (maxAngle > angleThreshold) {
+                articulationPoints.push(lines[Bindex]);
+                Aindex = Bindex;
+            } else {
+                Aindex++;
+            }
         }
+
+        //console.log(articulationPoints);
+        articulationPoints.push(lines[lines.length - 1]);
+
+        var strokeSegments = []
+
+        for (let i = 1; i < articulationPoints.length; i++) {
+            let x1 = parseInt(articulationPoints[i - 1][0]);
+            let y1 = parseInt(articulationPoints[i - 1][1]);
+            let x2 = parseInt(articulationPoints[i][0]);
+            let y2 = parseInt(articulationPoints[i][1]);
+
+            let norm = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+
+            if (norm >= 0.33 * E) {
+                strokeSegments.push([articulationPoints[i - 1], articulationPoints[i]]);
+            }
+        }
+
+        if (strokeSegments.length == 2) {
+            firstDrawn = getAngle(strokeSegments[0][0], strokeSegments[0][1]);
+            secondDrawn = getAngle(strokeSegments[1][0], strokeSegments[1][1]);
+        } else if (strokeSegments.length == 1) {
+            firstDrawn = getAngle(strokeSegments[0][0], strokeSegments[0][1]);
+            secondDrawn = getAngle(strokeSegments[0][0], strokeSegments[0][1]);
+        }
+
+        //console.log(firstDrawn, secondDrawn);
+
+        shortcutSuccess = isRecording && Math.abs(angle1 - firstDrawn) < 30 && Math.abs(angle2 - secondDrawn) < 30;
     }
-    lines = [[]]
+
+    if (shortcutSuccess) {
+        var firstP = lines[0],
+            lastP = lines[lines.length - 1];
+
+        var next = document.getElementById("next");
+        next.disabled = false;
+
+        experimentResults[cpt].totalExecutionTime = Date.now() - startTime;
+
+        drawDist = Math.sqrt(Math.pow(firstP[0] - lastP[0], 2) + Math.pow(firstP[1] - lastP[1], 2));
+        experimentResults[cpt].drawDist = drawDist;
+
+        experimentResults[cpt].userAngle1 = firstDrawn;
+
+        if (experimentType == ONEDIR) experimentResults[cpt].userAngle2 = "null";
+        else experimentResults[cpt].userAngle2 = secondDrawn;
+
+        //console.log(experimentResults[cpt])
+        checkLogging(cpt, experimentResults, participantID);
+        startTime = Date.now();
+        cpt++;
+    }
+
+    lines = [];
 }
 
 function mouseMove(event) {
@@ -359,7 +523,10 @@ function draw(event) {
     ctx.lineTo(coord.x, coord.y);
     tmp2 = [coord.x, coord.y];
 
-    lines[lines.length - 1].push([tmp1, tmp2]);
+    if (lines.length == 0) {
+        lines.push(tmp1);
+    }
+    lines.push(tmp2);
 
     ctx.stroke();
 }
