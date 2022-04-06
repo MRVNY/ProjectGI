@@ -128,6 +128,7 @@ async function launch() {
 }
 
 function nextTest() {
+    console.log(experimentResults[cpt])
     experimentResults[cpt].keyboardLayout = keyboard_layout;
     experimentResults[cpt].mouseType = mouse_type;
 
@@ -209,14 +210,14 @@ function resize() {
     ctx.canvas.height = window.innerHeight;
 }
 
-function moveTarget(size) {
-    target.classList.remove("selected");
-    target.style.top = 100 + Math.floor(Math.random() * (window.innerHeight - target.clientHeight - 200)) + "px";
-    target.style.left = 100 + Math.floor(Math.random() * (window.innerWidth - target.clientWidth - 200)) + "px";
-    var targetSize = size * 25;
-    target.style.width = targetSize + "px";
-    target.style.height = targetSize + "px";
-}
+// function moveTarget(size) {
+//     target.classList.remove("selected");
+//     target.style.top = 100 + Math.floor(Math.random() * (window.innerHeight - target.clientHeight - 200)) + "px";
+//     target.style.left = 100 + Math.floor(Math.random() * (window.innerWidth - target.clientWidth - 200)) + "px";
+//     var targetSize = size * 25;
+//     target.style.width = targetSize + "px";
+//     target.style.height = targetSize + "px";
+// }
 
 target.onmousedown = function(event) {
     if (!isRecording) {
