@@ -23,7 +23,7 @@ At the end of the experiment, you will be provided some charts showing your over
 And that's all, thanks for completing our experiment! 
 
 # Personal data
-Before continuing to the experiment, please tell you something about yourself:
+Before you go, please tell us something about yourself:
 * Age (range)
 * Gender
 * Education

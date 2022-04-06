@@ -1,4 +1,4 @@
-header = ["DesignName", "ParticipantID", "TrialID", "Block1", "Letter1", "Letter2", "Modifier1", "Modifier2", "Size", "targetDist", "targetSize", "executionTimeCMD1", "executionTimeAlt1", "executionTimeShift1", "executionTimeKey", "totalExecutionTime", "drawDist", "userAngle1"];
+header = ["DesignName", "ParticipantID", "TrialID", "Block1", "Letter1", "Letter2", "Modifier1", "Modifier2", "Size", "keyboardLayout", "mouseType", "targetDist", "targetSize", "executionTimeCMD1", "executionTimeAlt1", "executionTimeShift1", "executionTimeKey", "totalExecutionTime", "drawDist", "userAngle1", "userAngle2"];
 
 function parseCSV(csv) {
     var lines = csv.split("\r\n");

@@ -1,8 +1,20 @@
 body {
-    text-align: center;
-    font-family: sans-serif;
-    background-color: whitesmoke;
+    margin: auto;
+    text-align: center ;
+    font-family: 'Avenir';
+    background-color: white;
     padding: 2em;
+    font-size: large;
+    max-width: 50em;
+}
+
+li {
+    text-align: justify;
+}
+
+p {
+    font-weight: bold;
+    text-align: center;
 }
 
 h1,
@@ -12,7 +24,7 @@ table {
 }
 
 table img {
-    width: 30em;
+    width: 20em;
 }
 
 li {
@@ -21,7 +33,6 @@ li {
 
 li:last-of-type {
     margin-top: 3em;
-    font-weight: bold;
 }
 
 label:hover {

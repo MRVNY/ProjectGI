@@ -77,12 +77,12 @@ document.body.appendChild(target);
 
 var experiments;
 var experimentResults;
-var experimentsNames;
 var currentExperiment;
 var experimentType;
 
 var startTime;
 var cpt = 0;
+var totalNb;
 
 var cmd1Done = false;
 var alt1Done = false;
@@ -96,6 +96,8 @@ var zoneRight = ["U", "I", "J", "O", "K", "P", "L", "M"];
 var sensitivity = 0.9;
 var M = 500;
 var angleThreshold = 360 / M / 2 / sensitivity;
+var shortcutSuccess = false;
+var next = document.getElementById("next");
 
 launch();
 
@@ -103,15 +105,13 @@ async function launch() {
     experimentType = Math.floor(Math.random() * 4); //randomBetween0And3
 
     if (experimentType == ONEDIR || experimentType == TWODIR) {
-        document.addEventListener("mousedown", mouseDown);
         document.addEventListener("mouseup", mouseUp);
         window.addEventListener("resize", resize);
     }
 
-    experiments = await loadExperiment(participantID);
-    experimentResults = experiments[experimentType];
-    //experimentResults = generateExperimentsResults(experiments);
-    experimentsNames = experiments.map(({ name }) => name);
+    experiments = await loadExperiment(participantID, experimentType);
+    experimentResults = experiments;
+    totalNb = experiments.length;
 
     toggleExperimentType();
 
@@ -128,9 +128,10 @@ async function launch() {
 }
 
 function nextTest() {
-    var next = document.getElementById("next");
+    experimentResults[cpt].keyboardLayout = keyboard_layout;
+    experimentResults[cpt].mouseType = mouse_type;
 
-    currentExperiment = experiments[experimentType][cpt];
+    currentExperiment = experiments[cpt];
     toggleExperimentType(experimentType);
 
     switch (experimentType) {
@@ -192,7 +193,7 @@ function nextTest() {
     target.style.backgroundColor = "";
     target.style.top = 100 + Math.floor(Math.random() * (window.innerHeight - target.clientHeight - 200)) + "px";
     target.style.left = 100 + Math.floor(Math.random() * (window.innerWidth - target.clientWidth - 200)) + "px";
-    targetSize = Math.random() * 100 + 25;
+    targetSize = (currentExperiment.Size-1) * 60 + 40;
     target.style.width = targetSize + "px";
     target.style.height = targetSize + "px";
 
@@ -223,15 +224,14 @@ target.onmousedown = function(event) {
         experimentResults[cpt].targetDist = targetDist;
 
         //experimentResults[cpt].travelTime.push(Date.now() - startTime);
-
-        experimentResults[cpt].targetSize = targetSize;
+        //experimentResults[cpt].targetSize = targetSize;
 
         startTime = Date.now();
     }
     isRecording = true;
     target.classList.add("selected");
 
-    if (experimentType == ONEDIR) {
+    if ((experimentType == ONEDIR || experimentType == TWODIR) && next.disabled) {
         document.addEventListener("mousemove", draw);
         mouseMove(event);
     }
@@ -250,6 +250,9 @@ function getKeyFromKeyboardZone(zone) {
 }
 
 document.onkeydown = function(e) {
+    var next = document.getElementById("next");
+    if(!next.disabled) isRecording = false;
+
     var cmdKey = navigator.userAgent.match(/Mac/i) ? e.metaKey : e.ctrlKey;
     var shiftKey = e.shiftKey;
     var altKey = e.altKey;
@@ -296,7 +299,6 @@ document.onkeydown = function(e) {
         var next = document.getElementById("next");
         next.disabled = false;
 
-        //fillInEmptyFields();
         checkLogging(cpt, experimentResults, participantID);
         startTime = Date.now();
         cpt++;
@@ -351,22 +353,16 @@ function getDistance(p1, p2) {
     return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 }
 
-function mouseDown(event) {
-    document.addEventListener("mousemove", draw);
-    mouseMove(event);
-}
-
 function mouseUp() {
     document.removeEventListener("mousemove", draw);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    var shortcutSuccess = false;
+    shortcutSuccess = false;
     var firstDrawn, secondDrawn;
 
     if (experimentType == ONEDIR) {
         firstDrawn = getAngle(lines[0], lines[lines.length - 1]);
-        // firstDrawn = getAngle()%20/20 * 360 + getAngle()
-        // secondDrawn = getAngle()%20 * 360 + getAngle()
+
 
         console.log(firstDrawn)
 
@@ -377,12 +373,6 @@ function mouseUp() {
 
         var E = getTotalDistance(lines) / 2;
         var W = E * 0.3;
-
-        // l1firstP = lines[0][0][0]
-        // l1lastP = lines[0][lines[0].length-1][1]
-        // l2firstP = lines[1][0][0]
-        // l2lastP = lines[1][lines[1].length-1][1]
-        // var firstP = lines[0][0];
 
         var Aindex = 0,
             Bindex = 0,
@@ -404,7 +394,7 @@ function mouseUp() {
 
             if (Cindex == -1) {
                 keepLooping = false;
-                break
+                break;
             }
 
             let L_ab_index = -1,
@@ -473,12 +463,12 @@ function mouseUp() {
             secondDrawn = getAngle(strokeSegments[0][0], strokeSegments[0][1]);
         }
 
-        //console.log(firstDrawn, secondDrawn);
 
         shortcutSuccess = isRecording && Math.abs(angle1 - firstDrawn) < 30 && Math.abs(angle2 - secondDrawn) < 30;
     }
 
     if (shortcutSuccess) {
+    
         var firstP = lines[0],
             lastP = lines[lines.length - 1];
 
@@ -492,10 +482,10 @@ function mouseUp() {
 
         experimentResults[cpt].userAngle1 = firstDrawn;
 
-        if (experimentType == ONEDIR) experimentResults[cpt].userAngle2 = "null";
+        if (experimentType == ONEDIR) experimentResults[cpt].userAngle2 = "-1";
         else experimentResults[cpt].userAngle2 = secondDrawn;
+        console.log(experimentResults[cpt])
 
-        //console.log(experimentResults[cpt])
         checkLogging(cpt, experimentResults, participantID);
         startTime = Date.now();
         cpt++;
@@ -505,8 +495,10 @@ function mouseUp() {
 }
 
 function mouseMove(event) {
-    coord.x = event.clientX - canvas.offsetLeft;
-    coord.y = event.clientY - canvas.offsetTop;
+    if(next.disabled) {
+        coord.x = event.clientX - canvas.offsetLeft;
+        coord.y = event.clientY - canvas.offsetTop;
+    }
 }
 
 function draw(event) {
