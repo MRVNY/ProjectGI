@@ -222,7 +222,7 @@ function resize() {
 target.onmousedown = function(event) {
     if (!isRecording) {
         targetDist = Math.sqrt(Math.pow(target.offsetLeft - next.offsetLeft, 2) + Math.pow(target.offsetTop - next.offsetHeight, 2));
-        experimentResults[cpt].targetDist = targetDist;
+        experimentResults[currentExperiment.Block1].targetDist = targetDist;
         startTime = Date.now();
     }
     isRecording = true;
