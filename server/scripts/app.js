@@ -82,6 +82,7 @@ var experimentType;
 
 var startTime;
 var cpt = 0;
+var lv = 0;
 var cptMultiKey = 0;
 var totalNb;
 
@@ -188,6 +189,11 @@ function nextTest() {
         case TWODIR:
             angle1 = angles[currentExperiment.First];
             angle2 = angles[currentExperiment.Second];
+            if(Math.abs(angle1-angle2)==180 || angle1==angle2){
+                console.log("same direction")
+                cpt++;
+                nextTest();
+            }
             shortcutElement.innerHTML = emoji[currentExperiment.First] + " " + emoji[currentExperiment.Second];
             break;
     }
@@ -195,8 +201,8 @@ function nextTest() {
 
 
     target.style.backgroundColor = "";
-    target.style.top = 100 + Math.floor(Math.random() * (window.innerHeight - target.clientHeight - 200)) + "px";
-    target.style.left = 100 + Math.floor(Math.random() * (window.innerWidth - target.clientWidth - 200)) + "px";
+    target.style.top = 100 + Math.floor(Math.random() * (window.innerHeight - target.clientHeight - 350)) + "px";
+    target.style.left = 100 + Math.floor(Math.random() * (window.innerWidth - target.clientWidth - 300)) + "px";
     targetSize = (currentExperiment.Size-1) * 60 + 40;
     target.style.width = targetSize + "px";
     target.style.height = targetSize + "px";
@@ -213,23 +219,10 @@ function resize() {
     ctx.canvas.height = window.innerHeight;
 }
 
-// function moveTarget(size) {
-//     target.classList.remove("selected");
-//     target.style.top = 100 + Math.floor(Math.random() * (window.innerHeight - target.clientHeight - 200)) + "px";
-//     target.style.left = 100 + Math.floor(Math.random() * (window.innerWidth - target.clientWidth - 200)) + "px";
-//     var targetSize = size * 25;
-//     target.style.width = targetSize + "px";
-//     target.style.height = targetSize + "px";
-// }
-
 target.onmousedown = function(event) {
     if (!isRecording) {
         targetDist = Math.sqrt(Math.pow(target.offsetLeft - next.offsetLeft, 2) + Math.pow(target.offsetTop - next.offsetHeight, 2));
-        // experimentResults[currentExperiment.Block1].targetDist = targetDist;
-
-        //experimentResults[cpt].travelTime.push(Date.now() - startTime);
-        //experimentResults[cpt].targetSize = targetSize;
-
+        experimentResults[cpt].targetDist = targetDist;
         startTime = Date.now();
     }
     isRecording = true;
@@ -313,6 +306,7 @@ document.onkeydown = function(e) {
 
         //fillInEmptyFields();
         startTime = Date.now();
+        lv++;
     }
 }
 
@@ -500,6 +494,7 @@ function mouseUp() {
         checkLogging(cpt, experimentResults, participantID);
         startTime = Date.now();
         cpt++;
+        lv++;
     }
 
     lines = [];
