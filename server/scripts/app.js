@@ -82,16 +82,17 @@ var experimentType;
 
 var startTime;
 var cpt = 0;
+var cptMultiKey = 0;
 var totalNb;
 
-var cmd1Done = false;
-var alt1Done = false;
-var shift1Done = false;
+var cmdDone = false;
+var altDone = false;
+var shiftDone = false;
 var keyDone = false;
 
 var zoneLeft = ["A", "Z", "E", "S", "D", "X", "C", "R"];
 var zoneMiddle = ["R", "F", "V", "G", "B", "Y", "H"];
-var zoneRight = ["U", "I", "J", "O", "K", "P", "L", "M"];
+var zoneRight = ["U", "I", "J", "K", "P", "M"];
 
 var sensitivity = 0.9;
 var M = 500;
@@ -110,7 +111,7 @@ async function launch() {
     }
 
     experiments = await loadExperiment(participantID, experimentType);
-    experimentResults = experiments;
+    experimentResults = generateExperimentsResults(experiments);
     totalNb = experiments.length;
 
     toggleExperimentType();
@@ -128,50 +129,52 @@ async function launch() {
 }
 
 function nextTest() {
-    console.log(experimentResults[cpt])
-    experimentResults[cpt].keyboardLayout = keyboard_layout;
-    experimentResults[cpt].mouseType = mouse_type;
-
     currentExperiment = experiments[cpt];
     toggleExperimentType(experimentType);
+    var experimentID = currentExperiment.Block1;
+    experimentResults[experimentID].keyboardLayout = keyboard_layout;
+    experimentResults[experimentID].mouseType = mouse_type;
 
     switch (experimentType) {
         case ONEKEY:
-        case TWOKEY:
             var shortcut = "";
 
             //First
-            var modifiers1 = currentExperiment.Modifier1.split("_");
+            var modifiers = currentExperiment.Modifier1.split("_");
 
-            currentExperiment.cmd1 = modifiers1.includes("CMD");
-            currentExperiment.alt1 = modifiers1.includes("Alt");
-            currentExperiment.shift1 = modifiers1.includes("Shift");
-            currentExperiment.key1 = getKeyFromKeyboardZone(currentExperiment.Letter1).toLowerCase();
+            currentExperiment.cmds = [modifiers.includes("CMD")];
+            currentExperiment.alts = [modifiers.includes("Alt")];
+            currentExperiment.shifts = [modifiers.includes("Shift")];
+            currentExperiment.keys = [getKeyFromKeyboardZone(currentExperiment.Letter1).toLowerCase()];
 
-            for (i = 0; i < modifiers1.length; i++) {
-                if (modifiers1[i] == "CMD") shortcut += osModKey + " + ";
-                else if (modifiers1[i] == "None") shortcut += " ";
-                else shortcut += modifiers1[i] + " + ";
+            for (i = 0; i < modifiers.length; i++) {
+                if (modifiers[i] == "CMD") shortcut += osModKey + " + ";
+                else if (modifiers[i] == "None") shortcut += " ";
+                else shortcut += modifiers[i] + " + ";
             }
-            shortcut += currentExperiment.key1.toUpperCase();
+            shortcut += currentExperiment.keys[0].toUpperCase();
 
-            //Second
-            if (experimentType == TWOKEY) {
-                shortcut += " and then "
-                    //var modifiers2 = currentExperiment.Modifier2.split("_");
-                var modifiers2 = currentExperiment.Modifier1.split("_");
+            shortcutElement.innerHTML = shortcut;
+            break;
+        case TWOKEY:
+            var shortcut = "Press ";
+            //First
+            var modifiers = [currentExperiment.Modifier1.split("_"), currentExperiment.Modifier2.split("_")];
 
-                currentExperiment.cmd2 = modifiers2.includes("CMD");
-                currentExperiment.alt2 = modifiers2.includes("Alt");
-                currentExperiment.shift2 = modifiers2.includes("Shift");
-                currentExperiment.key2 = getKeyFromKeyboardZone(currentExperiment.Letter2).toLowerCase();
-
-                for (i = 0; i < modifiers2.length; i++) {
-                    if (modifiers2[i] == "CMD") shortcut += osModKey + " + ";
-                    else if (modifiers2[i] == "None") shortcut += " ";
-                    else shortcut += modifiers2[i] + " + ";
-                }
-                shortcut += currentExperiment.key2.toUpperCase();
+            currentExperiment.cmds = [modifiers[0].includes("CMD"), modifiers[1].includes("CMD")];
+            currentExperiment.alts = [modifiers[0].includes("Alt"), modifiers[1].includes("Alt")];
+            currentExperiment.shifts = [modifiers[0].includes("Shift"), modifiers[1].includes("Shift")];
+            currentExperiment.keys = [
+                getKeyFromKeyboardZone(currentExperiment.Letter1).toLowerCase(),
+                getKeyFromKeyboardZone(currentExperiment.Letter2).toLowerCase()
+            ];
+            
+            for (i = 0; i < modifiers.length; i++) {
+                if (currentExperiment.cmds[i]) shortcut += osModKey + " + ";
+                if (currentExperiment.alts[i]) shortcut += "alt + ";
+                if (currentExperiment.shifts[i]) shortcut += "shift + ";
+                shortcut += currentExperiment.keys[i].toUpperCase();
+                if (i < modifiers.length - 1) shortcut += ", then ";
             }
 
             shortcutElement.innerHTML = shortcut;
@@ -222,7 +225,7 @@ function resize() {
 target.onmousedown = function(event) {
     if (!isRecording) {
         targetDist = Math.sqrt(Math.pow(target.offsetLeft - next.offsetLeft, 2) + Math.pow(target.offsetTop - next.offsetHeight, 2));
-        experimentResults[cpt].targetDist = targetDist;
+        // experimentResults[currentExperiment.Block1].targetDist = targetDist;
 
         //experimentResults[cpt].travelTime.push(Date.now() - startTime);
         //experimentResults[cpt].targetSize = targetSize;
@@ -257,6 +260,7 @@ document.onkeydown = function(e) {
     var cmdKey = navigator.userAgent.match(/Mac/i) ? e.metaKey : e.ctrlKey;
     var shiftKey = e.shiftKey;
     var altKey = e.altKey;
+    var experimentID = currentExperiment.Block1;
 
     var key = e.keyCode + 32;
 
@@ -264,45 +268,51 @@ document.onkeydown = function(e) {
         e.preventDefault();
     }
 
-    if (isRecording && !cmd1Done && cmdKey == currentExperiment.cmd1 && cmdKey == true) {
-        experimentResults[cpt].executionTimeCMD1 = Date.now() - startTime;
-        cmd1Done = true;
+    if (isRecording && !cmdDone && cmdKey == currentExperiment.cmds[cptMultiKey] && cmdKey == true) {
+        experimentResults[experimentID].executionTimeCMD[cptMultiKey] = Date.now() - startTime;
+        cmdDone = true;
     }
-    if (isRecording && !alt1Done && altKey == currentExperiment.alt1 && altKey == true) {
-        experimentResults[cpt].executionTimeAlt1 = Date.now() - startTime;
-        alt1Done = true;
+    if (isRecording && !altDone && altKey == currentExperiment.alts[cptMultiKey] && altKey == true) {
+        experimentResults[experimentID].executionTimeAlt[cptMultiKey] = Date.now() - startTime;
+        altDone = true;
     }
-    if (isRecording && !shift1Done && shiftKey == currentExperiment.shift1 && shiftKey == true) {
-        experimentResults[cpt].executionTimeShift1 = Date.now() - startTime;
-        shift1Done = true;
+    if (isRecording && !shiftDone && shiftKey == currentExperiment.shifts[cptMultiKey] && shiftKey == true) {
+        experimentResults[experimentID].executionTimeShift[cptMultiKey] = Date.now() - startTime;
+        shiftDone = true;
     }
-    if (isRecording && !keyDone && key == currentExperiment.key1.charCodeAt()) {
-        experimentResults[cpt].executionTimeKey = Date.now() - startTime;
+    if (isRecording && !keyDone && key == currentExperiment.keys[cptMultiKey].charCodeAt()) {
+        if (cptMultiKey == 0) {
+            experimentResults[experimentID].executionTimeKey[cptMultiKey] = Date.now() - startTime;
+        }
         keyDone = true;
     }
 
     var shortcutSuccess = isRecording &&
-        cmdKey == currentExperiment.cmd1 &&
-        shiftKey == currentExperiment.shift1 &&
-        altKey == currentExperiment.alt1 &&
-        key == currentExperiment.key1.charCodeAt();
+        cmdKey == currentExperiment.cmds[cptMultiKey] &&
+        shiftKey == currentExperiment.shifts[cptMultiKey] &&
+        altKey == currentExperiment.alts[cptMultiKey] &&
+        key == currentExperiment.keys[cptMultiKey].charCodeAt();
 
     if (shortcutSuccess) {
-
-        experimentResults[cpt].totalExecutionTime = Date.now() - startTime;
-        console.log(experimentResults[cpt])
-
-        cmd1Done = false;
-        alt1Done = false;
-        shift1Done = false;
+        console.log("Success", cptMultiKey);
+        cmdDone = false;
+        altDone = false;
+        shiftDone = false;
         keyDone = false;
 
-        var next = document.getElementById("next");
-        next.disabled = false;
+        if (experimentType == ONEKEY || (experimentType == TWOKEY && cptMultiKey == 1)) {
+            experimentResults[experimentID].totalExecutionTime = Date.now() - startTime;
+            var next = document.getElementById("next");
+            next.disabled = false;
+            checkLogging(cpt, experimentResults, participantID);
+            cpt++;
+            cptMultiKey = 0;
+        } else {
+            cptMultiKey++;
+        }
 
-        checkLogging(cpt, experimentResults, participantID);
+        //fillInEmptyFields();
         startTime = Date.now();
-        cpt++;
     }
 }
 
@@ -472,20 +482,20 @@ function mouseUp() {
     
         var firstP = lines[0],
             lastP = lines[lines.length - 1];
+        var experimentID = currentExperiment.Block1;
 
         var next = document.getElementById("next");
         next.disabled = false;
 
-        experimentResults[cpt].totalExecutionTime = Date.now() - startTime;
+        experimentResults[experimentID].totalExecutionTime = Date.now() - startTime;
 
         drawDist = Math.sqrt(Math.pow(firstP[0] - lastP[0], 2) + Math.pow(firstP[1] - lastP[1], 2));
-        experimentResults[cpt].drawDist = drawDist;
+        experimentResults[experimentID].drawDist = drawDist;
 
-        experimentResults[cpt].userAngle1 = firstDrawn;
+        experimentResults[experimentID].userAngle1 = firstDrawn;
 
-        if (experimentType == ONEDIR) experimentResults[cpt].userAngle2 = "-1";
-        else experimentResults[cpt].userAngle2 = secondDrawn;
-        console.log(experimentResults[cpt])
+        if (experimentType == ONEDIR) experimentResults[experimentID].userAngle2 = "-1";
+        else experimentResults[experimentID].userAngle2 = secondDrawn;
 
         checkLogging(cpt, experimentResults, participantID);
         startTime = Date.now();

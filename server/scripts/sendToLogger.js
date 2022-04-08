@@ -14,6 +14,7 @@ function formatParams(params) {
 function checkLogging(cpt, data, participantID) {
     if (cpt != 0 && (cpt + 1) % sentBlockSize == 0) {
         var indexStart = cpt + 1 - sentBlockSize;
+        console.log(data);
 
         var slicedData = data.slice(indexStart, cpt + 1);
         console.log(slicedData, indexStart, cpt + 1);

@@ -1,9 +1,12 @@
 header = ["DesignName", "ParticipantID", "TrialID", "Block1", "Letter1", "Letter2", "Modifier1", "Modifier2", "Size", "keyboardLayout", "mouseType", "targetDist", "targetSize", "executionTimeCMD1", "executionTimeAlt1", "executionTimeShift1", "executionTimeKey", "totalExecutionTime", "drawDist", "userAngle1", "userAngle2"];
 
 function parseCSV(csv) {
-    var lines = csv.split("\r\n");
+    var test = "";
+    test.split
+    var lines = csv.split(/\r\n|\n/);
     var result = [];
     var headers = lines[0].split(",");
+    console.log(headers);
     for (var i = 1; i < lines.length; i++) {
         var obj = {};
         var currentline = lines[i].split(",");
