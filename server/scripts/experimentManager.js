@@ -70,10 +70,10 @@ async function loadExperiment(participantID, experimentType) {
 function toggleExperimentType(experimentType) {
     let selector = "#info";
 
-    if (experimentType == 2) {
-        document.querySelector(selector + " p").innerHTML = "Level "+(cpt+1)+"/"+totalNb+": Draw <b id=\"shortcut\"></b> to unlock next level.";
+    if (experimentType == ONEDIR || experimentType == TWODIR) {
+        document.querySelector(selector + " p").innerHTML = "Level "+(lv+1)+": Draw <b id=\"shortcut\"></b> to unlock next level.";
     } else {
-        document.querySelector(selector + " p").innerHTML = "Level "+(cpt+1)+"/"+totalNb+": Press <b id=\"shortcut\"></b> to unlock next level.";
+        document.querySelector(selector + " p").innerHTML = "Level "+(lv+1)+": Press <b id=\"shortcut\"></b> to unlock next level.";
     }
 
     shortcutElement = document.getElementById("shortcut");
