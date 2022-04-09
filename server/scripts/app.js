@@ -233,7 +233,6 @@ target.onmousedown = function(event) {
     if (!isRecording) {
         targetDist = Math.sqrt(Math.pow(target.offsetLeft - next.offsetLeft, 2) + Math.pow(target.offsetTop - next.offsetHeight, 2));
         currentExperiment.targetDist = targetDist;
-        startTime = Date.now();
     }
     isRecording = true;
     target.classList.add("selected");
@@ -241,7 +240,7 @@ target.onmousedown = function(event) {
     if ((experimentType == ONEDIR || experimentType == TWODIR || experimentType==TWODIRONEDRAW) && next.disabled) {
         attempts++;
         //console.log("attempts"+attempts);
-        currentExperiment["mouseClick"+(cptMultiKey+1)] = Date.now() - startTime;
+        currentExperiment["mouseClick"+(cptMultiKey+1)] = (Date.now() - startTime)/1000;
         document.addEventListener("mousemove", draw);
         mouseMove(event);
     }
@@ -285,19 +284,19 @@ document.onkeydown = function(e) {
         }
 
         if (isRecording && !cmdDone && cmdKey == currentExperiment.cmds[cptMultiKey] && cmdKey == true) {
-            currentExperiment["executionTimeCMD"+(cptMultiKey+1)] = Date.now() - startTime;
+            currentExperiment["executionTimeCMD"+(cptMultiKey+1)] = (Date.now() - startTime)/1000;
             cmdDone = true;
         }
         if (isRecording && !altDone && altKey == currentExperiment.alts[cptMultiKey] && altKey == true) {
-            currentExperiment["executionTimeAlt"+(cptMultiKey+1)] = Date.now() - startTime;
+            currentExperiment["executionTimeAlt"+(cptMultiKey+1)] = (Date.now() - startTime)/1000;
             altDone = true;
         }
         if (isRecording && !shiftDone && shiftKey == currentExperiment.shifts[cptMultiKey] && shiftKey == true) {
-            currentExperiment["executionTimeShift"+(cptMultiKey+1)] = Date.now() - startTime;
+            currentExperiment["executionTimeShift"+(cptMultiKey+1)] = (Date.now() - startTime)/1000;
             shiftDone = true;
         }
         if (isRecording && !keyDone && key == currentExperiment.keys[cptMultiKey].charCodeAt()) {
-            currentExperiment["executionTimeKey"+(cptMultiKey+1)] = Date.now() - startTime;
+            currentExperiment["executionTimeKey"+(cptMultiKey+1)] = (Date.now() - startTime)/1000;
             keyDone = true;
         }
 
@@ -313,8 +312,8 @@ document.onkeydown = function(e) {
             shiftDone = false;
             keyDone = false;
 
-            currentExperiment["totalExecutionTime"+(cptMultiKey+1)] = Date.now() - startTime;
-            currentExperiment["NbOfAttempts"+(cptMultiKey+1)] = Date.now() - startTime;
+            currentExperiment["totalExecutionTime"+(cptMultiKey+1)] = (Date.now() - startTime)/1000;
+            currentExperiment["NbOfAttempts"+(cptMultiKey+1)] = attempts;
             attempts = 0;
 
             if (experimentType == ONEKEY || (experimentType == TWOKEY && cptMultiKey == 1)) {
@@ -499,8 +498,8 @@ function mouseUp() {
 
         var next = document.getElementById("next");
 
-        currentExperiment["totalExecutionTime"+(cptMultiDir+1)] = Date.now() - startTime;
-        currentExperiment["NbOfAttempts"+(cptMultiDir+1)] = Date.now() - startTime;
+        currentExperiment["totalExecutionTime"+(cptMultiDir+1)] = (Date.now() - startTime)/1000;
+        currentExperiment["NbOfAttempts"+(cptMultiDir+1)] = attempts;
         attempts = 0;
 
         drawDist = Math.sqrt(Math.pow(firstP[0] - lastP[0], 2) + Math.pow(firstP[1] - lastP[1], 2));
