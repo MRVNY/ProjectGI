@@ -1,4 +1,9 @@
-header = ["DesignName", "ParticipantID", "TrialID", "Block1", "Letter1", "Letter2", "Modifier1", "Modifier2", "Size", "keyboardLayout", "mouseType", "targetDist", "targetSize", "executionTimeCMD1", "executionTimeAlt1", "executionTimeShift1", "executionTimeKey", "totalExecutionTime", "drawDist", "userAngle1", "userAngle2"];
+header = ["DesignName", "ParticipantID", "TrialID", "Block1", "Letter1", "Letter2", 
+        "Modifier1", "Modifier2", "First", "Second", "Size", "keyboardLayout", "mouseType", "targetDist", 
+        "executionTimeCMD1", "executionTimeAlt1", "executionTimeShift1", "executionTimeKey1", 
+        "userAngle1", "drawDist1", "mouseClick1", "totalExecutionTime1", "NbOfAttempts1",
+        "executionTimeCMD2", "executionTimeAlt2", "executionTimeShift2", "executionTimeKey2", 
+        "userAngle2", "drawDist2", "mouseClick2", "totalExecutionTime2", "NbOfAttempts2"];
 
 function parseCSV(csv) {
     var test = "";

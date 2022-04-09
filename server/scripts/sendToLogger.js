@@ -1,6 +1,6 @@
 // AJAX function to send several experiment's trial results to the logger
 
-var sentBlockSize = 10; // How many trials should a block of trials to send contain
+var sentBlockSize = 5; // How many trials should a block of trials to send contain
 
 function formatParams(params) {
     return "?" + Object

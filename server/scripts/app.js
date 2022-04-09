@@ -1,22 +1,20 @@
 /* To-Do */
-/* - Faire en sorte que le bouton "Next" soit toujours visible */
-/* - Afficher au dessus du bouton "Next" le nom du raccourci */
-/* - Rendre solide la cible */
-/* - Trouver un moyen de montrer que la cible est cliquée */
-/* - Acceder au fichier config.csv */
 /* - Randomiser l'experience */
 /* - Faire en sorte que la position de la cible soit celle des experiences */
-/* - Enregistrer les temps de chaque experience */
-/* - Enregistrer les résultats dans un fichier CSV */
 /* - Faire la page d'accueil */
 
-var ONEKEY = 0
-var TWOKEY = 1
-var ONEDIR = 2
-var TWODIR = 3
+const ONEKEY = 0
+const TWOKEY = 1
+const ONEDIR = 2
+const TWODIR = 3
+const TWODIRONEDRAW = 4;
 
-var allKeyboardLayouts = ["AZERTY", "QWERTY"];
-var allMouseTypes = ["touchpad", "classic_mouse"];
+const zoneLeft = ["A", "Z", "E", "S", "D", "X", "C", "R"];
+const zoneMiddle = ["R", "F", "V", "G", "B", "Y", "H"];
+const zoneRight = ["U", "I", "J", "K", "P", "M"];
+
+const allKeyboardLayouts = ["AZERTY", "QWERTY"];
+const allMouseTypes = ["touchpad", "classic_mouse"];
 
 var params = new URLSearchParams(document.location.search);
 
@@ -36,7 +34,7 @@ var isRecording = false;
 
 var osModKey = navigator.userAgent.match(/Mac/i) ? "CMD" : "Ctrl";
 
-var angles = {
+const angles = {
     "N": 90,
     "S": 270,
     "E": 360,
@@ -47,7 +45,7 @@ var angles = {
     "SW": 225
 }
 
-var emoji = {
+const emoji = {
     "N": "⬆️",
     "S": "⬇️",
     "E": "➡️",
@@ -67,7 +65,8 @@ var targetSize
 target.style.borderRadius = "50%";
 target.style.border = "2px solid black";
 
-var shortcutIndex, angle1, angle2;
+var shortcutIndex;
+var toDraw = [];
 var canvas;
 var ctx;
 let coord = { x: 0, y: 0 };
@@ -76,7 +75,7 @@ lines = []
 document.body.appendChild(target);
 
 var experiments;
-var experimentResults;
+var experiments;
 var currentExperiment;
 var experimentType;
 
@@ -84,16 +83,15 @@ var startTime;
 var cpt = 0;
 var lv = 0;
 var cptMultiKey = 0;
+var cptMultiDir = 0;
+var attempts = 0;
 var totalNb;
 
+var pressing = false;
 var cmdDone = false;
 var altDone = false;
 var shiftDone = false;
 var keyDone = false;
-
-var zoneLeft = ["A", "Z", "E", "S", "D", "X", "C", "R"];
-var zoneMiddle = ["R", "F", "V", "G", "B", "Y", "H"];
-var zoneRight = ["U", "I", "J", "K", "P", "M"];
 
 var sensitivity = 0.9;
 var M = 500;
@@ -104,15 +102,15 @@ var next = document.getElementById("next");
 launch();
 
 async function launch() {
-    experimentType = Math.floor(Math.random() * 4); //randomBetween0And3
+    experimentType = Math.floor(Math.random() * 5); //randomBetween0And3
 
-    if (experimentType == ONEDIR || experimentType == TWODIR) {
+    if (experimentType == ONEDIR || experimentType == TWODIR || experimentType == TWODIRONEDRAW) {
         document.addEventListener("mouseup", mouseUp);
         window.addEventListener("resize", resize);
     }
 
     experiments = await loadExperiment(participantID, experimentType);
-    experimentResults = generateExperimentsResults(experiments);
+    console.log(experiments)
     totalNb = experiments.length;
 
     toggleExperimentType();
@@ -130,11 +128,15 @@ async function launch() {
 }
 
 function nextTest() {
+    if(cpt==totalNb){
+        //Go to end screen
+        return;
+    }
     currentExperiment = experiments[cpt];
     toggleExperimentType(experimentType);
-    var experimentID = currentExperiment.Block1;
-    experimentResults[experimentID].keyboardLayout = keyboard_layout;
-    experimentResults[experimentID].mouseType = mouse_type;
+    currentExperiment.keyboardLayout = keyboard_layout;
+    currentExperiment.mouseType = mouse_type;
+    if(experimentType==TWODIRONEDRAW) currentExperiment.DesignName = "2dir1draw";
 
     switch (experimentType) {
         case ONEKEY:
@@ -182,23 +184,30 @@ function nextTest() {
             break;
 
         case ONEDIR:
-            angle1 = angles[currentExperiment.First];
+            toDraw = [];
+            toDraw.push(angles[currentExperiment.First]);
             shortcutElement.innerHTML = emoji[currentExperiment.First];
             break;
 
-        case TWODIR:
-            angle1 = angles[currentExperiment.First];
-            angle2 = angles[currentExperiment.Second];
-            if(Math.abs(angle1-angle2)==180 || angle1==angle2){
-                console.log("same direction")
+        case TWODIRONEDRAW:
+            toDraw = [];
+            toDraw.push(angles[currentExperiment.First]);
+            toDraw.push(angles[currentExperiment.Second]);
+            if(Math.abs(toDraw[0]-toDraw[1])==180 || toDraw[0]==toDraw[1]){
+                console.log(toDraw)
                 cpt++;
                 nextTest();
             }
-            shortcutElement.innerHTML = emoji[currentExperiment.First] + " " + emoji[currentExperiment.Second];
+            shortcutElement.innerHTML = emoji[currentExperiment.First] + " " + emoji[currentExperiment.Second] + " consecutively";
+            break;
+
+        case TWODIR:
+            toDraw = [];
+            toDraw.push(angles[currentExperiment.First]);
+            toDraw.push(angles[currentExperiment.Second]);
+            shortcutElement.innerHTML = emoji[currentExperiment.First] + " and then " + emoji[currentExperiment.Second];
             break;
     }
-
-
 
     target.style.backgroundColor = "";
     target.style.top = 100 + Math.floor(Math.random() * (window.innerHeight - target.clientHeight - 350)) + "px";
@@ -211,6 +220,8 @@ function nextTest() {
     target.classList.remove("selected");
 
     next.disabled = true;
+    target.hidden = false;
+    next.style.backgroundColor = "#ccc";
     startTime = Date.now();
 }
 
@@ -222,13 +233,16 @@ function resize() {
 target.onmousedown = function(event) {
     if (!isRecording) {
         targetDist = Math.sqrt(Math.pow(target.offsetLeft - next.offsetLeft, 2) + Math.pow(target.offsetTop - next.offsetHeight, 2));
-        experimentResults[currentExperiment.Block1].targetDist = targetDist;
+        currentExperiment.targetDist = targetDist;
         startTime = Date.now();
     }
     isRecording = true;
     target.classList.add("selected");
 
-    if ((experimentType == ONEDIR || experimentType == TWODIR) && next.disabled) {
+    if ((experimentType == ONEDIR || experimentType == TWODIR || experimentType==TWODIRONEDRAW) && next.disabled) {
+        attempts++;
+        console.log("attempts"+attempts);
+        currentExperiment["mouseClick"+(cptMultiKey+1)] = Date.now() - startTime;
         document.addEventListener("mousemove", draw);
         mouseMove(event);
     }
@@ -246,67 +260,78 @@ function getKeyFromKeyboardZone(zone) {
     }
 }
 
+document.onkeyup = function() {
+    pressing = false;
+}
+
 document.onkeydown = function(e) {
-    var next = document.getElementById("next");
-    if(!next.disabled) isRecording = false;
+    if (experimentType==ONEKEY || experimentType==TWOKEY) {
+        if (!pressing){attempts++; 
+            console.log("attempts"+attempts);}
+        pressing = true;
 
-    var cmdKey = navigator.userAgent.match(/Mac/i) ? e.metaKey : e.ctrlKey;
-    var shiftKey = e.shiftKey;
-    var altKey = e.altKey;
-    var experimentID = currentExperiment.Block1;
+        var next = document.getElementById("next");
+        if(!next.disabled) isRecording = false;
 
-    var key = e.keyCode + 32;
+        var cmdKey = navigator.userAgent.match(/Mac/i) ? e.metaKey : e.ctrlKey;
+        var shiftKey = e.shiftKey;
+        var altKey = e.altKey;
 
-    if (cmdKey) {
-        e.preventDefault();
-    }
+        var key = e.keyCode + 32;
 
-    if (isRecording && !cmdDone && cmdKey == currentExperiment.cmds[cptMultiKey] && cmdKey == true) {
-        experimentResults[experimentID].executionTimeCMD[cptMultiKey] = Date.now() - startTime;
-        cmdDone = true;
-    }
-    if (isRecording && !altDone && altKey == currentExperiment.alts[cptMultiKey] && altKey == true) {
-        experimentResults[experimentID].executionTimeAlt[cptMultiKey] = Date.now() - startTime;
-        altDone = true;
-    }
-    if (isRecording && !shiftDone && shiftKey == currentExperiment.shifts[cptMultiKey] && shiftKey == true) {
-        experimentResults[experimentID].executionTimeShift[cptMultiKey] = Date.now() - startTime;
-        shiftDone = true;
-    }
-    if (isRecording && !keyDone && key == currentExperiment.keys[cptMultiKey].charCodeAt()) {
-        if (cptMultiKey == 0) {
-            experimentResults[experimentID].executionTimeKey[cptMultiKey] = Date.now() - startTime;
-        }
-        keyDone = true;
-    }
-
-    var shortcutSuccess = isRecording &&
-        cmdKey == currentExperiment.cmds[cptMultiKey] &&
-        shiftKey == currentExperiment.shifts[cptMultiKey] &&
-        altKey == currentExperiment.alts[cptMultiKey] &&
-        key == currentExperiment.keys[cptMultiKey].charCodeAt();
-
-    if (shortcutSuccess) {
-        console.log("Success", cptMultiKey);
-        cmdDone = false;
-        altDone = false;
-        shiftDone = false;
-        keyDone = false;
-
-        if (experimentType == ONEKEY || (experimentType == TWOKEY && cptMultiKey == 1)) {
-            experimentResults[experimentID].totalExecutionTime = Date.now() - startTime;
-            var next = document.getElementById("next");
-            next.disabled = false;
-            checkLogging(cpt, experimentResults, participantID);
-            cpt++;
-            cptMultiKey = 0;
-        } else {
-            cptMultiKey++;
+        if (cmdKey) {
+            e.preventDefault();
         }
 
-        //fillInEmptyFields();
-        startTime = Date.now();
-        lv++;
+        if (isRecording && !cmdDone && cmdKey == currentExperiment.cmds[cptMultiKey] && cmdKey == true) {
+            currentExperiment["executionTimeCMD"+(cptMultiKey+1)] = Date.now() - startTime;
+            cmdDone = true;
+        }
+        if (isRecording && !altDone && altKey == currentExperiment.alts[cptMultiKey] && altKey == true) {
+            currentExperiment["executionTimeAlt"+(cptMultiKey+1)] = Date.now() - startTime;
+            altDone = true;
+        }
+        if (isRecording && !shiftDone && shiftKey == currentExperiment.shifts[cptMultiKey] && shiftKey == true) {
+            currentExperiment["executionTimeShift"+(cptMultiKey+1)] = Date.now() - startTime;
+            shiftDone = true;
+        }
+        if (isRecording && !keyDone && key == currentExperiment.keys[cptMultiKey].charCodeAt()) {
+            currentExperiment["executionTimeKey"+(cptMultiKey+1)] = Date.now() - startTime;
+            keyDone = true;
+        }
+
+        var shortcutSuccess = isRecording &&
+            cmdKey == currentExperiment.cmds[cptMultiKey] &&
+            shiftKey == currentExperiment.shifts[cptMultiKey] &&
+            altKey == currentExperiment.alts[cptMultiKey] &&
+            key == currentExperiment.keys[cptMultiKey].charCodeAt();
+
+        if (shortcutSuccess) {
+            cmdDone = false;
+            altDone = false;
+            shiftDone = false;
+            keyDone = false;
+
+            currentExperiment["totalExecutionTime"+(cptMultiKey+1)] = Date.now() - startTime;
+            currentExperiment["NbOfAttempts"+(cptMultiKey+1)] = Date.now() - startTime;
+            attempts = 0;
+
+            if (experimentType == ONEKEY || (experimentType == TWOKEY && cptMultiKey == 1)) {
+                var next = document.getElementById("next");
+                next.disabled = false;
+                next.style.backgroundColor = '#4CAF50';
+                target.hidden = true;
+                checkLogging(cpt, experiments, participantID);
+                cpt++;
+                lv++;
+                cptMultiKey = 0;
+            } else {
+                cptMultiKey++;
+                next.style.backgroundColor = '#4caf4f4a';
+            }
+
+            startTime = Date.now();
+        }
     }
 }
 
@@ -365,14 +390,7 @@ function mouseUp() {
     shortcutSuccess = false;
     var firstDrawn, secondDrawn;
 
-    if (experimentType == ONEDIR) {
-        firstDrawn = getAngle(lines[0], lines[lines.length - 1]);
-
-
-        console.log(firstDrawn)
-
-        shortcutSuccess = isRecording && Math.abs(angle1 - firstDrawn) < 20;
-    } else if (experimentType == TWODIR && lines.length > 0) {
+    if (lines.length > 0) {
 
         var articulationPoints = [lines[0]];
 
@@ -469,32 +487,43 @@ function mouseUp() {
         }
 
 
-        shortcutSuccess = isRecording && Math.abs(angle1 - firstDrawn) < 30 && Math.abs(angle2 - secondDrawn) < 30;
+        if (experimentType == ONEDIR || experimentType == TWODIR) shortcutSuccess = isRecording && Math.abs(toDraw[cptMultiDir] - firstDrawn) < 30 && Math.abs(toDraw[cptMultiDir] - secondDrawn) < 30;
+        else shortcutSuccess = isRecording && Math.abs(toDraw[0] - firstDrawn) < 30 && Math.abs(toDraw[1] - secondDrawn) < 30;
     }
 
     if (shortcutSuccess) {
     
         var firstP = lines[0],
             lastP = lines[lines.length - 1];
-        var experimentID = currentExperiment.Block1;
 
         var next = document.getElementById("next");
-        next.disabled = false;
 
-        experimentResults[experimentID].totalExecutionTime = Date.now() - startTime;
+        currentExperiment["totalExecutionTime"+(cptMultiDir+1)] = Date.now() - startTime;
+        currentExperiment["NbOfAttempts"+(cptMultiDir+1)] = Date.now() - startTime;
+        attempts = 0;
 
         drawDist = Math.sqrt(Math.pow(firstP[0] - lastP[0], 2) + Math.pow(firstP[1] - lastP[1], 2));
-        experimentResults[experimentID].drawDist = drawDist;
+        currentExperiment["drawDist"+(cptMultiKey+1)] = drawDist;
+        currentExperiment["userAngle"+(cptMultiKey+1)] = firstDrawn;
+        if (experimentType == TWODIRONEDRAW) currentExperiment["userAngle2"] = secondDrawn;
 
-        experimentResults[experimentID].userAngle1 = firstDrawn;
+        if(experimentType != TWODIR || (experimentType == TWODIR && cptMultiDir==1)) {
+            next.disabled = false;
+            target.hidden = true;
+            next.style.backgroundColor = '#4CAF50';
+            checkLogging(cpt, experiments, participantID);
+            cpt++;
+            lv++;
+            attempts = 0;
+            cptMultiDir = 0;
+            toDraw = [];
+        }
+        else{
+            cptMultiDir++;
+            next.style.backgroundColor = '#4caf4f4a';
+        }
 
-        if (experimentType == ONEDIR) experimentResults[experimentID].userAngle2 = "-1";
-        else experimentResults[experimentID].userAngle2 = secondDrawn;
-
-        checkLogging(cpt, experimentResults, participantID);
         startTime = Date.now();
-        cpt++;
-        lv++;
     }
 
     lines = [];
