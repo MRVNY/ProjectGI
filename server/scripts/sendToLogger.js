@@ -2,6 +2,14 @@
 
 var sentBlockSize = 5; // How many trials should a block of trials to send contain
 
+types = {
+    0 : "ONEKEY",
+    1 : "TWOKEY",
+    2 : "ONEDIR",
+    3 : "TWODIR",
+    4 : "TWODIRONEDRAW" 
+}
+part_id
 function formatParams(params) {
     return "?" + Object
         .keys(params)
@@ -11,7 +19,7 @@ function formatParams(params) {
         .join("&")
 }
 
-function checkLogging(cpt, data, participantID) {
+function checkLogging(cpt, data, participantID, experimentType) {
     if (cpt != 0 && (cpt + 1) % sentBlockSize == 0) {
         var indexStart = cpt + 1 - sentBlockSize;
         console.log(data);
@@ -19,15 +27,16 @@ function checkLogging(cpt, data, participantID) {
         var slicedData = data.slice(indexStart, cpt + 1);
         console.log(slicedData, indexStart, cpt + 1);
         var csv = convertToCSV(slicedData);
-        sendToLogger(csv, participantID);
+        sendToLogger(csv, participantID, experimentType);
     }
 }
 
-function sendToLogger(csv, participantID) {
+function sendToLogger(csv, participantID, experimentType) {
     var http = new XMLHttpRequest();
     var encodedcsv = encodeURIComponent(csv);
+    filename = types[experimentType] + participantID;
 
-    http.open("POST", "http://localhost:4000/logger?part_id=" + participantID + "&csv=" + encodedcsv, true);
+    http.open("POST", "http://localhost:4000/logger?filename=" + filename + "&csv=" + encodedcsv, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.send();
 

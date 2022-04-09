@@ -18,14 +18,16 @@ const allMouseTypes = ["touchpad", "classic_mouse"];
 
 var params = new URLSearchParams(document.location.search);
 
-var user_id = params.get("user_id");
-var keyboard_layout = params.get("keyboard_layout");
-var mouse_type = params.get("mouse_type");
+const user_id = params.get("user_id");
+const keyboard_layout = params.get("keyboard_layout");
+const mouse_type = params.get("mouse_type");
+const experimentType = Number(params.get("experiment_type"));
 
 var participantID = 0;
 
 if (!(parseInt(user_id) > 0 && allKeyboardLayouts.includes(keyboard_layout) && allMouseTypes.includes(mouse_type))) {
-    die("Broken experiment parameters in the URL, go back to the home page !");
+    alert("Broken experiment parameters in the URL, go back to the home page !");
+    window.location.assign("http://localhost:4000/");
 }
 
 participantID = user_id;
@@ -77,7 +79,6 @@ document.body.appendChild(target);
 var experiments;
 var experiments;
 var currentExperiment;
-var experimentType;
 
 var startTime;
 var cpt = 0;
@@ -102,8 +103,6 @@ var next = document.getElementById("next");
 launch();
 
 async function launch() {
-    experimentType = Math.floor(Math.random() * 5); //randomBetween0And3
-
     if (experimentType == ONEDIR || experimentType == TWODIR || experimentType == TWODIRONEDRAW) {
         document.addEventListener("mouseup", mouseUp);
         window.addEventListener("resize", resize);
@@ -241,7 +240,7 @@ target.onmousedown = function(event) {
 
     if ((experimentType == ONEDIR || experimentType == TWODIR || experimentType==TWODIRONEDRAW) && next.disabled) {
         attempts++;
-        console.log("attempts"+attempts);
+        //console.log("attempts"+attempts);
         currentExperiment["mouseClick"+(cptMultiKey+1)] = Date.now() - startTime;
         document.addEventListener("mousemove", draw);
         mouseMove(event);
@@ -266,8 +265,10 @@ document.onkeyup = function() {
 
 document.onkeydown = function(e) {
     if (experimentType==ONEKEY || experimentType==TWOKEY) {
-        if (!pressing){attempts++; 
-            console.log("attempts"+attempts);}
+        if (!pressing){
+            attempts++; 
+            //console.log("attempts"+attempts);
+        }
         pressing = true;
 
         var next = document.getElementById("next");
@@ -321,7 +322,7 @@ document.onkeydown = function(e) {
                 next.disabled = false;
                 next.style.backgroundColor = '#4CAF50';
                 target.hidden = true;
-                checkLogging(cpt, experiments, participantID);
+                checkLogging(cpt, experiments, participantID, experimentType);
                 cpt++;
                 lv++;
                 cptMultiKey = 0;
@@ -511,7 +512,7 @@ function mouseUp() {
             next.disabled = false;
             target.hidden = true;
             next.style.backgroundColor = '#4CAF50';
-            checkLogging(cpt, experiments, participantID);
+            checkLogging(cpt, experiments, participantID, experimentType);
             cpt++;
             lv++;
             attempts = 0;
