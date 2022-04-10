@@ -43,11 +43,11 @@
                     const availability = await tmp.text();
 
                     experiment_type.value = Math.floor(Math.random() * 5);
-                    user_id.value = Math.floor(Math.random() * 20);
+                    user_id.value = Math.floor(Math.random() * 19)+1;
 
                     while(await fetch('./logs/' + type[experiment_type.value] + user_id.value + '.csv').ok){
                         experiment_type.value = Math.floor(Math.random() * 5);
-                        user_id.value = Math.floor(Math.random() * 20);
+                        user_id.value = Math.floor(Math.random() * 19)+1;
                     }
 
                     id.innerHTML = "Participant " + user_id.value;
