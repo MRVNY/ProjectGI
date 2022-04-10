@@ -17,7 +17,23 @@ The advancement of this experiment is quite simple. On each level, a task will b
 
 If you absolutely need a little pause, we recommend you to do it after the "Next" button turns green in order to not have your rest time recorded in our database.
 
-At the end of the experiment, you will be provided some charts showing your overall, performance. We will also explain the purpose of our experiment if you are interested.
+## ONEKEY
+Move the mouse cursor to the circle and click on the circle, then, press on the keys required in the instruction, when the instruction is correctly executed, the "Next" button will turn green
+
+## TWOKEY
+Move the mouse cursor to the circle and click on the circle, press on the keys required in the first instruction, if correctly executed, the "Next" button will turn light green, then press on the keys required in the second instruction, if correctly executed, the "Next" button will turn green
+
+## ONEDIR
+Move the mouse cursor to the circle, click on the circle and drag it towards the required direction, when the instruction is correctly executed, the "Next" button will turn green
+
+## TWODIR
+Move the mouse cursor to the circle, click on the circle and drag it towards the first required direction, if correctly executed, the "Next" button will turn light green, do the same thing with the second instruction, if correctly executed, the "Next" button will turn green
+
+## TWODIRONEDRAW
+Move the mouse cursor to the circle, click on the circle and drag it towards the first required direction, then, without releasing the mouse, drag the cursor to the second required direction, when both instructions are correctly executed, the "Next" button will turn green
+
+
+~~At the end of the experiment, you will be provided some charts showing your overall, performance. We will also explain the purpose of our experiment if you are interested.~~
 
 # End
 And that's all, thanks for completing our experiment! 
