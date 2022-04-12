@@ -1,3 +1,4 @@
+DesignName,ParticipantID,TrialID,Block1,Letter1,Letter2,Modifier1,Modifier2,First,Second,Size,keyboardLayout,mouseType,targetDist,executionTimeCMD1,executionTimeAlt1,executionTimeShift1,executionTimeKey1,userAngle1,drawDist1,mouseClick1,totalExecutionTime1,NbOfAttempts1,executionTimeCMD2,executionTimeAlt2,executionTimeShift2,executionTimeKey2,userAngle2,drawDist2,mouseClick2,totalExecutionTime2,NbOfAttempts2
 2dir1draw,1,6,6,-1,-1,-1,-1,SE,S,2,QWERTY,touchpad,288.08679247754486,-1,-1,-1,-1,335.323136829663,274.23530042647684,1.197,2.081,1,-1,-1,-1,-1,281.5751888173962,-1,-1,-1,-1
 2dir1draw,1,7,7,-1,-1,-1,-1,NW,NE,2,QWERTY,touchpad,529.0368607195533,-1,-1,-1,-1,127.53189925157467,249.06424873915566,2.905,3.688,2,-1,-1,-1,-1,30.963756532073518,-1,-1,-1,-1
 2dir1draw,1,8,8,-1,-1,-1,-1,NW,SW,2,QWERTY,touchpad,431.9363379017792,-1,-1,-1,-1,139.22223020614268,204.78769494283586,0.982,1.968,1,-1,-1,-1,-1,234.09027692082233,-1,-1,-1,-1
