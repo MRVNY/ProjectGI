@@ -7,61 +7,20 @@
     <link rel="stylesheet" href="home.css" />
 </head>
 
-<body onload="generateID()">
+<script src="./scripts/onload.js" ></script>
+<body onload="home()">
     <h1>Welcome to the ProjectGI experiment !</h1>
 
-    <form method="GET" action="experiment" id="to_send">
+    <form method="GET" action="tuto" id="to_send">
         <ul>
-            <li> Hello, thank you for participating in our experiment on keyboard and gestural interactions. <br><br> We estimate that the complete test will need about 5 minutes to finish. Please make sure you are in a conformable and concentrated state in
+            <li> Hello, thank you for participating in our experiment on keyboard and gestural interactions. <br><br> We estimate that the complete test will need about 5-10 minutes to finish. Please make sure you are in a conformable and concentrated state in
                 order to provide the most accurate results of yourself.</li>
             <br>
-            <li>You are assigned to: <strong id="id"></strong>, your test will be: <strong id="type"></strong>, if you prefer another test, please refresh the page.
-                <strong>Below is a graphic description of the experiment :</strong>
+            <li>You are assigned to: <strong id="id"></strong>, your test will be: <strong id="type"></strong>: <strong id="descri"></strong>, if you prefer another test, please refresh the page.
             </li>
             <input name="user_id" , id="user_id" hidden=true>
             <input name="experiment_type" , id="experiment_type" hidden=true>
-            <img src="" alt="" id="tutorial_gif" />
 
-            <script>
-                async function generateID() {
-                    description = {
-                        0: "1 keyboard shortcut with 1-4 keys",
-                        1: "2 keyboard shortcuts with 1-4 keys",
-                        2: "1 gesture shortcut of 1 direction",
-                        3: "2 gesture shortcuts of 1 direction",
-                        4: "1 gesture shortcut of 2 directions"
-                    }
-                    types = {
-                        0: "ONEKEY",
-                        1: "TWOKEY",
-                        2: "ONEDIR",
-                        3: "TWODIR",
-                        4: "TWODIRONEDRAW"
-                    }
-                    user_id = document.getElementById("user_id");
-                    experiment_type = document.getElementById("experiment_type");
-                    id = document.getElementById("id");
-                    type = document.getElementById("type");
-
-                    const tmp = await fetch('./logs/availability.txt');
-                    const availability = await tmp.text();
-
-                    experiment_type.value = Math.floor(Math.random() * 5);
-                    user_id.value = Math.floor(Math.random() * 19) + 1;
-
-                    while (await fetch('./logs/' + type[experiment_type.value] + user_id.value + '.csv').ok) {
-                        experiment_type.value = Math.floor(Math.random() * 5);
-                        user_id.value = Math.floor(Math.random() * 19) + 1;
-                    }
-
-                    id.innerHTML = "Participant " + user_id.value;
-                    type.innerHTML = description[experiment_type.value];
-
-                    tutorial_gif = document.getElementById("tutorial_gif");
-                    tutorial_gif.alt = "GIF tutorial for " + description[experiment_type.value];
-                    tutorial_gif.src = "res/" + types[experiment_type.value] + ".gif";
-                }
-            </script>
             <li>
                 <p>Please select your keyboard type :</p>
                 <table>

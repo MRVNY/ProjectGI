@@ -38,6 +38,10 @@ Move the mouse cursor to the circle, click on the circle and drag it towards the
 # End
 And that's all, thanks for completing our experiment! 
 
+Please note down your Participant ID: and as well as experiment type: , for you have the right to withdraw your data collected during the experiment. 
+
+In order to do that, Please contact
+
 # Personal data
 Before you go, please tell us something about yourself:
 * Age (range)

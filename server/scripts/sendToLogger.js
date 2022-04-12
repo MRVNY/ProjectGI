@@ -22,7 +22,7 @@ function formatParams(params) {
 function checkLogging(cpt, data, participantID, experimentType) {
     if (cpt != 0 && (cpt + 1) % sentBlockSize == 0) {
         var indexStart = cpt + 1 - sentBlockSize;
-        console.log(data);
+        //console.log(data);
 
         var slicedData = data.slice(indexStart, cpt + 1);
         console.log(slicedData, indexStart, cpt + 1);
@@ -39,5 +39,15 @@ function sendToLogger(csv, participantID, experimentType) {
     http.open("POST", "http://localhost:4000/logger?filename=" + filename + "&csv=" + encodedcsv, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.send();
+}
 
+function logAll(data, participantID, experimentType) {
+    var csv = convertToCSV(data);
+    var http = new XMLHttpRequest();
+    var encodedcsv = encodeURIComponent(csv);
+    filename = types[experimentType] + participantID;
+
+    http.open("POST", "http://localhost:4000/logall?filename=" + filename + "&csv=" + encodedcsv, true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.send();
 }

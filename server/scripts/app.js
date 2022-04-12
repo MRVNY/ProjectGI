@@ -16,7 +16,7 @@ const zoneRight = ["U", "I", "J", "K", "P", "M"];
 const allKeyboardLayouts = ["AZERTY", "QWERTY"];
 const allMouseTypes = ["touchpad", "classic_mouse"];
 
-var params = new URLSearchParams(document.location.search);
+const params = new URLSearchParams(document.location.search);
 
 const user_id = params.get("user_id");
 const keyboard_layout = params.get("keyboard_layout");
@@ -81,7 +81,7 @@ var experiments;
 var currentExperiment;
 
 var startTime;
-var cpt = 0;
+var cpt = 70;
 var lv = 0;
 var cptMultiKey = 0;
 var cptMultiDir = 0;
@@ -128,9 +128,11 @@ async function launch() {
 
 function nextTest() {
     if(cpt==totalNb){
-        //Go to end screen
+        logAll(experiments, participantID, experimentType);
+        window.location.assign("http://localhost:4000/thankyou?user_id="+user_id+"&experiment_type="+experimentType);
         return;
     }
+    
     currentExperiment = experiments[cpt];
     toggleExperimentType(experimentType);
     currentExperiment.keyboardLayout = keyboard_layout;
@@ -193,7 +195,6 @@ function nextTest() {
             toDraw.push(angles[currentExperiment.First]);
             toDraw.push(angles[currentExperiment.Second]);
             if(Math.abs(toDraw[0]-toDraw[1])==180 || toDraw[0]==toDraw[1]){
-                console.log(toDraw)
                 cpt++;
                 nextTest();
             }
@@ -232,7 +233,7 @@ function resize() {
 target.onmousedown = function(event) {
     if (!isRecording) {
         targetDist = Math.sqrt(Math.pow(target.offsetLeft - next.offsetLeft, 2) + Math.pow(target.offsetTop - next.offsetHeight, 2));
-        currentExperiment.targetDist = targetDist;
+        currentExperiment.targetDist = parseInt(targetDist);
     }
     isRecording = true;
     target.classList.add("selected");
@@ -493,8 +494,8 @@ function mouseUp() {
 
     if (shortcutSuccess) {
     
-        var firstP = lines[0],
-            lastP = lines[lines.length - 1];
+        var firstP = lines[0];
+        var lastP = lines[lines.length - 1];
 
         var next = document.getElementById("next");
 
@@ -503,8 +504,8 @@ function mouseUp() {
         attempts = 0;
 
         drawDist = Math.sqrt(Math.pow(firstP[0] - lastP[0], 2) + Math.pow(firstP[1] - lastP[1], 2));
-        currentExperiment["drawDist"+(cptMultiKey+1)] = drawDist;
-        currentExperiment["userAngle"+(cptMultiKey+1)] = firstDrawn;
+        currentExperiment["drawDist"+(cptMultiDir+1)] = parseInt(drawDist);
+        currentExperiment["userAngle"+(cptMultiDir+1)] = parseInt(firstDrawn);
         if (experimentType == TWODIRONEDRAW) currentExperiment["userAngle2"] = secondDrawn;
 
         if(experimentType != TWODIR || (experimentType == TWODIR && cptMultiDir==1)) {

@@ -13,12 +13,18 @@ app.get('/experiment', (req, res) => {
     res.sendFile(__dirname + "/experiment.html");
 });
 
+app.get('/tuto', (req, res) => {
+    res.sendFile(__dirname + "/tuto.html");
+});
+
+app.get('/thankyou', (req, res) => {
+    res.sendFile(__dirname + "/thankyou.html");
+});
+
 app.post('/logger', (req, res) => {
     csv = decodeURIComponent(req.query.csv);
     filename = req.query.filename;
     file_path = __dirname + "/logs/" + filename + ".csv";
-
-    //csv = fs.existsSync(file_path) ? csv.substring(csv.indexOf("\n") + 1) : csv;
 
     fs.appendFile(file_path, csv, err => {
         if (err) {
@@ -26,6 +32,24 @@ app.post('/logger', (req, res) => {
             return
         }
         //file written successfully
+    });
+});
+
+app.post('/logall', (req, res) => {
+    csv = decodeURIComponent(req.query.csv);
+    filename = req.query.filename;
+    file_path = __dirname + "/logs/" + filename + ".csv";
+
+    fs.unlink(file_path, (err) => {
+        if (err) {
+            throw err;
+        }
+        fs.appendFile(file_path, csv, err => {
+            if (err) {
+                console.error(err)
+                return
+            }
+        });
     });
 });
 

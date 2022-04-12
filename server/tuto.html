@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>ProjectGI</title>
+    <link rel="stylesheet" href="home.css" />
+</head>
+<script src="./scripts/onload.js" ></script>
+
+<body onload="tuto()">
+    <h1>Tutorial</h1>
+
+    <ul>
+        <li>The advancement of this experiment is quite simple. On each level, a task will be shown on the lower part of the screen, once the instruction is shown,  the timer will start, you are required to finish the task as fast as possible. Upon finishing the task, the timer will record the time you spend executing the task, and the "Next" button will turn green, allowing you to pass to the next level. 
+        <br><br>
+        It will need about 5-10 minutes to finish all the levels. If you absolutely need a little break, we recommend you to do it after the "Next" button turns green in order to not have your resting time recorded in our database.</li>
+        <br>
+
+        <li>For experiment <strong id="type"></strong> you are required to:</li>
+        <li id="text"></li>
+        <br>
+        
+        <li>Below is a graphical description of the experiment:</li>
+        <img src="" alt="" id="tutorial_gif" />
+        <li>If you prefer another test, please go back</li>
+
+    </ul>
+    <button onclick="goBack()" >Go Back</button> <button onclick="next()">Continue</button>
+</body>
+
+</html>

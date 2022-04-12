@@ -2,17 +2,19 @@ async function loadExperiment(participantID, experimentType) {
     if (participantID > 20 || participantID < 1 || participantID == NaN) {
         throw new Error("This participant ID does not exist !");
     }
-    const nbTrials1key = 30;
     var out;
     switch (experimentType) {
         case ONEKEY:
+            const nbTrials1key = 80;
             const response1Key = await fetch('./config/1key.csv');
             const text1Key = await response1Key.text();
             out = parseCSV(text1Key).slice((participantID - 1) * nbTrials1key, participantID * nbTrials1key);
             break;
         case TWOKEY:
-            const nbTrials2key = 450;
-            const response2Key = await fetch('./config/old/2key450.csv');
+            //const nbTrials2key = 450;
+            //const response2Key = await fetch('./config/old/2key450.csv');
+            const nbTrials2key = 90;
+            const response2Key = await fetch('./config/2key.csv');
             const text2Key = await response2Key.text();
             out = parseCSV(text2Key).slice((participantID - 1) * nbTrials2key, participantID * nbTrials2key)//.sort(() => Math.random() - 0.5).splice(0, nbTrials1key);
             break;
