@@ -86,6 +86,7 @@ var M = 500;
 var angleThreshold = 360 / M / 2 / sensitivity;
 var shortcutSuccess = false;
 var next = document.getElementById("next");
+var instruction = document.getElementById("instruction");
 
 launch();
 
@@ -150,7 +151,9 @@ function nextTest() {
         case TWOKEY:
             var shortcut = "Press ";
             //First
-            var modifiers = [currentExperiment.Modifier1.split("_"), currentExperiment.Modifier2.split("_")];
+            //var modifiers = [currentExperiment.Modifier1.split("_"), currentExperiment.Modifier2.split("_")];
+            var modifiers = [currentExperiment.Modifier1.split("_"), currentExperiment.Modifier1.split("_")];
+
 
             currentExperiment.cmds = [modifiers[0].includes("CMD"), modifiers[1].includes("CMD")];
             currentExperiment.alts = [modifiers[0].includes("Alt"), modifiers[1].includes("Alt")];
@@ -208,6 +211,7 @@ function nextTest() {
 
     next.disabled = true;
     target.hidden = false;
+    instruction.hidden = false;
     next.style.backgroundColor = "#ccc";
     startTime = Date.now();
 }
@@ -309,6 +313,7 @@ document.onkeydown = function(e) {
                 next.disabled = false;
                 next.style.backgroundColor = '#4CAF50';
                 target.hidden = true;
+                instruction.hidden = true;
                 checkLogging(cpt, experiments, participantID, experimentType);
                 cpt++;
                 lv++;
@@ -498,6 +503,7 @@ function mouseUp() {
         if(experimentType != TWODIR || (experimentType == TWODIR && cptMultiDir==1)) {
             next.disabled = false;
             target.hidden = true;
+            instruction.hidden = true;
             next.style.backgroundColor = '#4CAF50';
             checkLogging(cpt, experiments, participantID, experimentType);
             cpt++;

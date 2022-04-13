@@ -1,5 +1,11 @@
-const dirname = "https://project-gi.ml/"
-//const dirname = "http://localhost:4000/"
+var direname;
+
+if(window.location.hostname == "localhost") {
+    dirname = "http://localhost:4000/"
+}
+else {
+    dirname = "https://project-gi.ml/"
+}
 
 header = ["DesignName", "ParticipantID", "TrialID", "Block1", "Letter1", "Letter2", 
         "Modifier1", "Modifier2", "First", "Second", "Size", "keyboardLayout", "mouseType", "targetDist", 
