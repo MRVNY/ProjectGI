@@ -32,15 +32,12 @@ async function home() {
     type = document.getElementById("type");
     descri = document.getElementById("descri");
 
-    const tmp = await fetch('./logs/availability.txt');
-    const availability = await tmp.text();
-
     experiment_type.value = Math.floor(Math.random() * 5);
     user_id.value = Math.floor(Math.random() * 19) + 1;
 
     cpt = 0;
 
-    while (await fetch('./logs/' + type[experiment_type.value] + user_id.value + '.csv').ok && cpt<1000) {
+    while (await fetch('./logs/' + types[experiment_type.value] + user_id.value + '.csv').ok && cpt<1000) {
         experiment_type.value = Math.floor(Math.random() * 5);
         user_id.value = Math.floor(Math.random() * 19) + 1;
         cpt++;
@@ -48,7 +45,7 @@ async function home() {
 
     if (cpt >= 1000) {
         alert("Sorry, All the tests have been taken, but thank you anyway!");
-        window.location.assign("http://localhost:4000/thankyou");
+        window.location.assign("https://project-gi.ml/thankyou");
     }
 
     id.innerHTML = "Participant " + user_id.value;
@@ -67,7 +64,7 @@ async function tuto() {
 
     if (!(parseInt(user_id) > 0 && allKeyboardLayouts.includes(keyboard_layout) && allMouseTypes.includes(mouse_type))) {
         alert("Broken experiment parameters in the URL, go back to the home page !");
-        window.location.assign("http://localhost:4000/");
+        window.location.assign("https://project-gi.ml/");
     }
 
     type = document.getElementById("type");
@@ -82,7 +79,7 @@ async function tuto() {
 }
 
 function goBack(){
-    window.location.assign("http://localhost:4000/");
+    window.location.assign("https://project-gi.ml/");
 }
 
 function next(){
@@ -91,7 +88,7 @@ function next(){
     const keyboard_layout = params.get("keyboard_layout");
     const mouse_type = params.get("mouse_type");
     const experimentType = Number(params.get("experiment_type"));
-    window.location.assign("http://localhost:4000/experiment?user_id="+user_id+"&experiment_type="+experimentType+"&keyboard_layout="+keyboard_layout+"&mouse_type="+mouse_type);
+    window.location.assign("https://project-gi.ml/experiment?user_id="+user_id+"&experiment_type="+experimentType+"&keyboard_layout="+keyboard_layout+"&mouse_type="+mouse_type);
 }
 
 function thankyou(){
@@ -101,7 +98,7 @@ function thankyou(){
 
     if (!(parseInt(user_id) > 0)) {
         alert("Broken experiment parameters in the URL, go back to the home page !");
-        window.location.assign("http://localhost:4000/");
+        window.location.assign("https://project-gi.ml/");
     }
 
     id = document.getElementById("id");

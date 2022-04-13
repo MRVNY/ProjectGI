@@ -27,7 +27,7 @@ var participantID = 0;
 
 if (!(parseInt(user_id) > 0 && allKeyboardLayouts.includes(keyboard_layout) && allMouseTypes.includes(mouse_type))) {
     alert("Broken experiment parameters in the URL, go back to the home page !");
-    window.location.assign("http://localhost:4000/");
+    window.location.assign("https://project-gi.ml/");
 }
 
 participantID = user_id;
@@ -81,7 +81,7 @@ var experiments;
 var currentExperiment;
 
 var startTime;
-var cpt = 70;
+var cpt = 0;
 var lv = 0;
 var cptMultiKey = 0;
 var cptMultiDir = 0;
@@ -129,7 +129,7 @@ async function launch() {
 function nextTest() {
     if(cpt==totalNb){
         logAll(experiments, participantID, experimentType);
-        window.location.assign("http://localhost:4000/thankyou?user_id="+user_id+"&experiment_type="+experimentType);
+        window.location.assign("https://project-gi.ml/thankyou?user_id="+user_id+"&experiment_type="+experimentType);
         return;
     }
     

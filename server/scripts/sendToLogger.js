@@ -36,7 +36,7 @@ function sendToLogger(csv, participantID, experimentType) {
     var encodedcsv = encodeURIComponent(csv);
     filename = types[experimentType] + participantID;
 
-    http.open("POST", "http://localhost:4000/logger?filename=" + filename + "&csv=" + encodedcsv, true);
+    http.open("POST", "https://project-gi.ml/logger?filename=" + filename + "&csv=" + encodedcsv, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.send();
 }
@@ -47,7 +47,7 @@ function logAll(data, participantID, experimentType) {
     var encodedcsv = encodeURIComponent(csv);
     filename = types[experimentType] + participantID;
 
-    http.open("POST", "http://localhost:4000/logall?filename=" + filename + "&csv=" + encodedcsv, true);
+    http.open("POST", "https://project-gi.ml/logall?filename=" + filename + "&csv=" + encodedcsv, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.send();
 }
