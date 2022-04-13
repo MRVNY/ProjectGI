@@ -1,30 +1,3 @@
-const allKeyboardLayouts = ["AZERTY", "QWERTY"];
-const allMouseTypes = ["touchpad", "classic_mouse"];
-
-description = {
-    0: "1 keyboard shortcut with 1-4 keys",
-    1: "2 keyboard shortcuts with 1-4 keys",
-    2: "1 gesture shortcut of 1 direction",
-    3: "2 gesture shortcuts of 1 direction",
-    4: "1 gesture shortcut of 2 directions"
-}
-
-types = {
-    0: "ONEKEY",
-    1: "TWOKEY",
-    2: "ONEDIR",
-    3: "TWODIR",
-    4: "TWODIRONEDRAW"
-}
-
-texts = {
-    0: "Move the mouse cursor to the circle and click on the circle, then, press on the keys required in the instruction, when the instruction is correctly executed, the \"Next\" button will turn green",
-    1: "Move the mouse cursor to the circle and click on the circle, press on the keys required in the first instruction, if correctly executed, the \"Next\" button will turn light green, then press on the keys required in the second instruction, if correctly executed, the \"Next\" button will turn green",
-    2: "Move the mouse cursor to the circle, click on the circle and drag it towards the required direction, when the instruction is correctly executed, the \"Next\" button will turn green",
-    3: "Move the mouse cursor to the circle, click on the circle and drag it towards the first required direction, if correctly executed, the \"Next\" button will turn light green, do the same thing with the second instruction, if correctly executed, the \"Next\" button will turn green",
-    4: "Move the mouse cursor to the circle, click on the circle and drag it towards the first required direction, then, without releasing the mouse, drag the cursor to the second required direction, when both instructions are correctly executed, the \"Next\" button will turn green"
-}
-
 async function home() {
     user_id = document.getElementById("user_id");
     experiment_type = document.getElementById("experiment_type");
@@ -45,7 +18,7 @@ async function home() {
 
     if (cpt >= 1000) {
         alert("Sorry, All the tests have been taken, but thank you anyway!");
-        window.location.assign("https://project-gi.ml/thankyou");
+        window.location.assign(dirname+"thankyou");
     }
 
     id.innerHTML = "Participant " + user_id.value;
@@ -64,7 +37,7 @@ async function tuto() {
 
     if (!(parseInt(user_id) > 0 && allKeyboardLayouts.includes(keyboard_layout) && allMouseTypes.includes(mouse_type))) {
         alert("Broken experiment parameters in the URL, go back to the home page !");
-        window.location.assign("https://project-gi.ml/");
+        window.location.assign(dirname);
     }
 
     type = document.getElementById("type");
@@ -79,7 +52,7 @@ async function tuto() {
 }
 
 function goBack(){
-    window.location.assign("https://project-gi.ml/");
+    window.location.assign(dirname);
 }
 
 function next(){
@@ -88,7 +61,7 @@ function next(){
     const keyboard_layout = params.get("keyboard_layout");
     const mouse_type = params.get("mouse_type");
     const experimentType = Number(params.get("experiment_type"));
-    window.location.assign("https://project-gi.ml/experiment?user_id="+user_id+"&experiment_type="+experimentType+"&keyboard_layout="+keyboard_layout+"&mouse_type="+mouse_type);
+    window.location.assign(dirname+"experiment?user_id="+user_id+"&experiment_type="+experimentType+"&keyboard_layout="+keyboard_layout+"&mouse_type="+mouse_type);
 }
 
 function thankyou(){
@@ -98,7 +71,7 @@ function thankyou(){
 
     if (!(parseInt(user_id) > 0)) {
         alert("Broken experiment parameters in the URL, go back to the home page !");
-        window.location.assign("https://project-gi.ml/");
+        window.location.assign(dirname);
     }
 
     id = document.getElementById("id");

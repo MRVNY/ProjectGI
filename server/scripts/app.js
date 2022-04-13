@@ -3,19 +3,6 @@
 /* - Faire en sorte que la position de la cible soit celle des experiences */
 /* - Faire la page d'accueil */
 
-const ONEKEY = 0
-const TWOKEY = 1
-const ONEDIR = 2
-const TWODIR = 3
-const TWODIRONEDRAW = 4;
-
-const zoneLeft = ["A", "Z", "E", "S", "D", "X", "C", "R"];
-const zoneMiddle = ["R", "F", "V", "G", "B", "Y", "H"];
-const zoneRight = ["U", "I", "J", "K", "P", "M"];
-
-const allKeyboardLayouts = ["AZERTY", "QWERTY"];
-const allMouseTypes = ["touchpad", "classic_mouse"];
-
 const params = new URLSearchParams(document.location.search);
 
 const user_id = params.get("user_id");
@@ -27,7 +14,7 @@ var participantID = 0;
 
 if (!(parseInt(user_id) > 0 && allKeyboardLayouts.includes(keyboard_layout) && allMouseTypes.includes(mouse_type))) {
     alert("Broken experiment parameters in the URL, go back to the home page !");
-    window.location.assign("https://project-gi.ml/");
+    window.location.assign(dirname);
 }
 
 participantID = user_id;
@@ -129,7 +116,7 @@ async function launch() {
 function nextTest() {
     if(cpt==totalNb){
         logAll(experiments, participantID, experimentType);
-        window.location.assign("https://project-gi.ml/thankyou?user_id="+user_id+"&experiment_type="+experimentType);
+        window.location.assign(dirname+"thankyou?user_id="+user_id+"&experiment_type="+experimentType);
         return;
     }
     

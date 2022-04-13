@@ -2,13 +2,6 @@
 
 var sentBlockSize = 5; // How many trials should a block of trials to send contain
 
-types = {
-    0 : "ONEKEY",
-    1 : "TWOKEY",
-    2 : "ONEDIR",
-    3 : "TWODIR",
-    4 : "TWODIRONEDRAW" 
-}
 part_id
 function formatParams(params) {
     return "?" + Object
@@ -36,7 +29,7 @@ function sendToLogger(csv, participantID, experimentType) {
     var encodedcsv = encodeURIComponent(csv);
     filename = types[experimentType] + participantID;
 
-    http.open("POST", "https://project-gi.ml/logger?filename=" + filename + "&csv=" + encodedcsv, true);
+    http.open("POST", dirname+"logger?filename=" + filename + "&csv=" + encodedcsv, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.send();
 }
@@ -47,7 +40,7 @@ function logAll(data, participantID, experimentType) {
     var encodedcsv = encodeURIComponent(csv);
     filename = types[experimentType] + participantID;
 
-    http.open("POST", "https://project-gi.ml/logall?filename=" + filename + "&csv=" + encodedcsv, true);
+    http.open("POST", dirname+"logall?filename=" + filename + "&csv=" + encodedcsv, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.send();
 }
