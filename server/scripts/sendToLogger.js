@@ -2,7 +2,6 @@
 
 var sentBlockSize = 5; // How many trials should a block of trials to send contain
 
-part_id
 function formatParams(params) {
     return "?" + Object
         .keys(params)

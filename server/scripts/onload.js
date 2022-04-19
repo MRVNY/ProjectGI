@@ -5,14 +5,14 @@ async function home() {
     type = document.getElementById("type");
     descri = document.getElementById("descri");
 
-    experiment_type.value = Math.floor(Math.random() * 5);
-    user_id.value = Math.floor(Math.random() * 19) + 1;
+    experiment_type.value = Math.floor(Math.random() * experimentNb);
+    user_id.value = Math.floor(Math.random() * (participantNb-1)) + 1;
 
     cpt = 0;
 
     while (await fetch('./logs/' + types[experiment_type.value] + user_id.value + '.csv').ok && cpt<1000) {
-        experiment_type.value = Math.floor(Math.random() * 5);
-        user_id.value = Math.floor(Math.random() * 19) + 1;
+        experiment_type.value = Math.floor(Math.random() * experimentNb);
+        user_id.value = Math.floor(Math.random() * (participantNb-1)) + 1;
         cpt++;
     }
 
