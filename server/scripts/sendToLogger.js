@@ -19,6 +19,7 @@ function checkLogging(cpt, data, participantID, experimentType) {
         var slicedData = data.slice(indexStart, cpt + 1);
         console.log(slicedData, indexStart, cpt + 1);
         var csv = convertToCSV(slicedData);
+        if(indexStart==0) csv = header.join(", ") + '\n' + csv;
         sendToLogger(csv, participantID, experimentType);
     }
 }
@@ -35,6 +36,7 @@ function sendToLogger(csv, participantID, experimentType) {
 
 function logAll(data, participantID, experimentType) {
     var csv = convertToCSV(data);
+    csv = header.join(", ") + '\n' + csv;
     var http = new XMLHttpRequest();
     var encodedcsv = encodeURIComponent(csv);
     filename = types[experimentType] + participantID;

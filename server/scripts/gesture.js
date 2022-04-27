@@ -150,7 +150,7 @@ function mouseUp() {
         }
 
 
-        if (experimentType == ONEDIR || experimentType == TWODIR) shortcutSuccess = isRecording && Math.abs(toDraw[cptMultiDir] - firstDrawn) < 30 && Math.abs(toDraw[cptMultiDir] - secondDrawn) < 30;
+        if (experimentType == GESTURE_MULTI_REPEAT || toDraw.length==1) shortcutSuccess = isRecording && Math.abs(toDraw[cptMultiDir] - firstDrawn) < 30 && Math.abs(toDraw[cptMultiDir] - secondDrawn) < 30;
         else shortcutSuccess = isRecording && Math.abs(toDraw[0] - firstDrawn) < 30 && Math.abs(toDraw[1] - secondDrawn) < 30;
     }
 
@@ -161,16 +161,24 @@ function mouseUp() {
 
         var next = document.getElementById("next");
 
-        currentExperiment["totalExecutionTime"+(cptMultiDir+1)] = (Date.now() - startTime)/1000;
-        currentExperiment["NbOfAttempts"+(cptMultiDir+1)] = attempts;
+        currentExperiment["totalExecTime"+(cptMultiDir+1)] = (Date.now() - startTime)/1000;
+        currentExperiment["nbOfAttempts"+(cptMultiDir+1)] = attempts;
         attempts = 0;
 
         drawDist = Math.sqrt(Math.pow(firstP[0] - lastP[0], 2) + Math.pow(firstP[1] - lastP[1], 2));
         currentExperiment["drawDist"+(cptMultiDir+1)] = parseInt(drawDist);
         currentExperiment["userAngle"+(cptMultiDir+1)] = parseInt(firstDrawn);
-        if (experimentType == TWODIRONEDRAW) currentExperiment["userAngle2"] = secondDrawn;
+        currentExperiment["angle"+(cptMultiDir+1)] = toDraw[cptMultiDir];
+        if (experimentType == GESTURE_MULTI_ANGLE && toDraw.length==2){
+            currentExperiment["userAngle2"] = parseInt(secondDrawn);
+            currentExperiment["angle2"] = toDraw[1];
+        }
 
-        if(experimentType != TWODIR || (experimentType == TWODIR && cptMultiDir==1)) {
+        if(experimentType == GESTURE_MULTI_REPEAT && toDraw.length==2 && cptMultiDir==0){
+            cptMultiDir++;
+            next.style.backgroundColor = '#4caf4f4a';
+        }
+        else{
             next.disabled = false;
             target.hidden = true;
             instruction.hidden = true;
@@ -181,10 +189,6 @@ function mouseUp() {
             attempts = 0;
             cptMultiDir = 0;
             toDraw = [];
-        }
-        else{
-            cptMultiDir++;
-            next.style.backgroundColor = '#4caf4f4a';
         }
 
         startTime = Date.now();

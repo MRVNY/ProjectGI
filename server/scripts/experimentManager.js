@@ -4,48 +4,62 @@ async function loadExperiment(participantID, experimentType) {
     }
     var out;
     switch (experimentType) {
-        //ver1
-        case ONEKEY:
-            const nbTrials1key = 80;
-            const response1Key = await fetch('./config/ver1/1key.csv');
-            const text1Key = await response1Key.text();
-            out = parseCSV(text1Key).slice((participantID - 1) * nbTrials1key, participantID * nbTrials1key);
-            break;
-        case TWOKEY:
-            //const nbTrials2key = 450;
-            //const response2Key = await fetch('./config/old/2key450.csv');
-            const nbTrials2key = 90;
-            const response2Key = await fetch('./config/ver1/2key.csv');
-            const text2Key = await response2Key.text();
-            out = parseCSV(text2Key).slice((participantID - 1) * nbTrials2key, participantID * nbTrials2key)
-            break;
-        case ONEDIR:
-            const nbTrials1dir = 80;
-            const response1Dir = await fetch('./config/ver1/1dir.csv');
-            const text1Dir = await response1Dir.text();
-            out = parseCSV(text1Dir).slice((participantID - 1) * nbTrials1dir, participantID * nbTrials1dir)
-            break;
-        case TWODIR: case TWODIRONEDRAW:  
-            const nbTrials2dir = 128;
-            const response2Dir = await fetch('./config/ver1/2dir.csv');
-            const text2Dir = await response2Dir.text();
-            out = parseCSV(text2Dir).slice((participantID - 1) * nbTrials2dir, participantID * nbTrials2dir)
-            break;
+        // //ver1
+        // case ONEKEY:
+        //     var nbTrials1key = 80;
+        //     var response1Key = await fetch('./config/ver1/1key.csv');
+        //     var text1Key = await response1Key.text();
+        //     out = parseCSV(text1Key).slice((participantID - 1) * nbTrials1key, participantID * nbTrials1key);
+        //     break;
+        // case TWOKEY:
+        //     //var nbTrials2key = 450;
+        //     //var response2Key = await fetch('./config/old/2key450.csv');
+        //     var nbTrials2key = 90;
+        //     var response2Key = await fetch('./config/ver1/2key.csv');
+        //     var text2Key = await response2Key.text();
+        //     out = parseCSV(text2Key).slice((participantID - 1) * nbTrials2key, participantID * nbTrials2key)
+        //     break;
+        // case ONEDIR:
+        //     var nbTrials1dir = 80;
+        //     var response1Dir = await fetch('./config/ver1/1dir.csv');
+        //     var text1Dir = await response1Dir.text();
+        //     out = parseCSV(text1Dir).slice((participantID - 1) * nbTrials1dir, participantID * nbTrials1dir)
+        //     break;
+        // case TWODIR: case TWODIRONEDRAW:  
+        //     var nbTrials2dir = 128;
+        //     var response2Dir = await fetch('./config/ver1/2dir.csv');
+        //     var text2Dir = await response2Dir.text();
+        //     out = parseCSV(text2Dir).slice((participantID - 1) * nbTrials2dir, participantID * nbTrials2dir)
+        //     break;
 
 
         //ver2    
-        case MULTIMODI:
-            const nbTrialsMultiModi = 80;
-            const responseMultiModi = await fetch('./config/ver2/MultiModi.csv');
-            const textMultiModi = await responseMultiModi.text();
-            out = parseCSV(textMultiModi).slice((participantID - 1) * nbTrialsMultiModi, participantID * nbTrialsMultiModi)
+        case KEY_MULTI_MODI:
+            var nbTrials = 96;
+            var response = await fetch('./config/ver2/KeyMultiModi.csv');
+            var text = await response.text();
+            out = parseCSV(text).slice((participantID - 1) * nbTrials, participantID * nbTrials)
             break;
 
-        case MULTIREPEAT:
-            const nbTrialsMultiRepeat = 60;
-            const responseMultiRepeat = await fetch('./config/ver2/MultiRepeat.csv');
-            const textMultiRepeat = await responseMultiRepeat.text();
-            out = parseCSV(textMultiRepeat).slice((participantID - 1) * nbTrialsMultiRepeat, participantID * nbTrialsMultiRepeat)
+        case KEY_MULTI_REPEAT:
+            var nbTrials = 72;
+            var response = await fetch('./config/ver2/KeyMultiRepeat.csv');
+            var text = await response.text();
+            out = parseCSV(text).slice((participantID - 1) * nbTrials, participantID * nbTrials)
+            break;
+
+        case GESTURE_MULTI_ANGLE:
+            var nbTrials = 128;
+            var response = await fetch('./config/ver2/GestureMultiAngle.csv');
+            var text = await response.text();
+            out = parseCSV(text).slice((participantID - 1) * nbTrials, participantID * nbTrials)
+            break;
+
+        case GESTURE_MULTI_REPEAT:
+            var nbTrials = 128;
+            var response = await fetch('./config/ver2/GestureMultiRepeat.csv');
+            var text = await response.text();
+            out = parseCSV(text).slice((participantID - 1) * nbTrials, participantID * nbTrials)
             break;
 
         default:
@@ -59,9 +73,9 @@ function toggleExperimentType(experimentType) {
     let selector = "#info";
 
     if (experimentType == ONEDIR || experimentType == TWODIR || experimentType == TWODIRONEDRAW) {
-        document.querySelector(selector + " p").innerHTML = "Level "+(lv+1)+": Draw <b id=\"shortcut\"></b> to unlock next level.";
+        document.querySelector(selector + " p").innerHTML = "Level "+(lv+1)+": Draw<br> <b id=\"shortcut\"></b> <br>to unlock next level.";
     } else {
-        document.querySelector(selector + " p").innerHTML = "Level "+(lv+1)+": Press <b id=\"shortcut\"></b> to unlock next level.";
+        document.querySelector(selector + " p").innerHTML = "Level "+(lv+1)+": Press<br> <b id=\"shortcut\"></b> <br>to unlock next level.";
     }
 
     shortcutElement = document.getElementById("shortcut");

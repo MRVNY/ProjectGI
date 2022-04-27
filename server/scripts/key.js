@@ -36,19 +36,19 @@ document.onkeydown = function(e) {
         }
 
         if (isRecording && !cmdDone && cmdKey == currentExperiment.cmds[cptMultiKey] && cmdKey == true) {
-            currentExperiment["executionTimeCMD"+(cptMultiKey+1)] = (Date.now() - startTime)/1000;
+            currentExperiment["execTimeCMD"+(cptMultiKey+1)] = (Date.now() - startTime)/1000;
             cmdDone = true;
         }
         if (isRecording && !altDone && altKey == currentExperiment.alts[cptMultiKey] && altKey == true) {
-            currentExperiment["executionTimeAlt"+(cptMultiKey+1)] = (Date.now() - startTime)/1000;
+            currentExperiment["execTimeAlt"+(cptMultiKey+1)] = (Date.now() - startTime)/1000;
             altDone = true;
         }
         if (isRecording && !shiftDone && shiftKey == currentExperiment.shifts[cptMultiKey] && shiftKey == true) {
-            currentExperiment["executionTimeShift"+(cptMultiKey+1)] = (Date.now() - startTime)/1000;
+            currentExperiment["execTimeShift"+(cptMultiKey+1)] = (Date.now() - startTime)/1000;
             shiftDone = true;
         }
         if (isRecording && !keyDone && key == currentExperiment.keys[cptMultiKey].charCodeAt()) {
-            currentExperiment["executionTimeKey"+(cptMultiKey+1)] = (Date.now() - startTime)/1000;
+            currentExperiment["execTimeKey"+(cptMultiKey+1)] = (Date.now() - startTime)/1000;
             keyDone = true;
         }
 
@@ -64,8 +64,8 @@ document.onkeydown = function(e) {
             shiftDone = false;
             keyDone = false;
 
-            currentExperiment["totalExecutionTime"+(cptMultiKey+1)] = (Date.now() - startTime)/1000;
-            currentExperiment["NbOfAttempts"+(cptMultiKey+1)] = attempts;
+            currentExperiment["totalExecTime"+(cptMultiKey+1)] = (Date.now() - startTime)/1000;
+            currentExperiment["nbOfAttempts"+(cptMultiKey+1)] = attempts;
             attempts = 0;
 
             if (!exRepeat.includes(experimentType) || (exRepeat.includes(experimentType) && cptMultiKey == nbRepeat-1)) {
@@ -80,6 +80,11 @@ document.onkeydown = function(e) {
                 cptMultiKey = 0;
             } else {
                 cptMultiKey++;
+                shortcutElement.innerHTML = "";
+                for(i=0; i<nbRepeat; i++) {
+                    if(i<cptMultiKey) lines[i] = "<grey>"+lines[i]+"</grey>";
+                    shortcutElement.innerHTML += lines[i];
+                }
                 next.style.backgroundColor = '#4caf4f4a';
             }
 
