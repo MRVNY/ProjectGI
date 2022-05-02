@@ -1,5 +1,5 @@
 async function loadExperiment(participantID, experimentType) {
-    if (participantID > 20 || participantID < 1 || participantID == NaN) {
+    if (participantID > participantNb || participantID < 1 || participantID == NaN) {
         throw new Error("This participant ID does not exist !");
     }
     var out;
