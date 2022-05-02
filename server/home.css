@@ -32,14 +32,14 @@ li {
 }
 
 li:last-of-type {
-    margin-top: 3em;
+    /* margin-top: 3em; */
 }
 
 label:hover {
     cursor: pointer;
 }
 
-#tutorial_gif {
+#gif {
     max-width: 100%;
 }
 

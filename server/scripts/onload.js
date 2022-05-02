@@ -43,12 +43,20 @@ async function tuto() {
     type = document.getElementById("type");
     text = document.getElementById("text");
 
-    type.innerHTML = types[experimentType];
-    text.innerHTML = texts[experimentType];
+    t1 = document.getElementById("t1");
+    t2 = document.getElementById("t2");
+    t3 = document.getElementById("t3");
 
-    tutorial_gif = document.getElementById("tutorial_gif");
-    tutorial_gif.alt = "GIF tutorial for " + types[experimentType];
-    tutorial_gif.src = "res/" + types[experimentType] + ".gif";
+    // type.innerHTML = types[experimentType];
+    // text.innerHTML = texts[experimentType];
+
+    t1.innerHTML = tutos[experimentType][0];
+    t2.innerHTML = tutos[experimentType][1];
+    t3.innerHTML = tutos[experimentType][2];
+
+    gif = document.getElementById("gif");
+    gif.src = "res/" + types[experimentType] + ".gif";
+    gif.alt = "GIF tutorial for " + types[experimentType];
 }
 
 function goBack(){

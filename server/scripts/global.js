@@ -59,19 +59,26 @@ types = {
 description = {
     0: "1 keyboard shortcut with 0-3 modifiers",
     1: "1-3 keyboard shortcuts with 1 modifier",
-    2: "1 gesture shortcut of 1 angle",
-    3: "1-2 gesture shortcuts of 1-2 consecutive angles",
+    2: "1 gesture shortcut of 1-2 angle",
+    3: "1-2 gesture shortcuts of 1 angle",
 }
 
-texts = {
-    0: "Move the mouse cursor to the circle and click on the circle, then, press on the keys required in the instruction, when the instruction is correctly executed, the \"Next\" button will turn green",
-    1: "Move the mouse cursor to the circle and click on the circle, press on the keys required in the first instruction, if correctly executed, the \"Next\" button will turn light green, then press on the keys required in the rest of the instructions (if there are), if correctly executed, the \"Next\" button will turn green",
-    2: "Move the mouse cursor to the circle, click on the circle and drag it towards the first required direction, if there is another direction in the instruction, without releasing the mouse, drag the cursor to the second required direction, when both instructions are correctly executed, the \"Next\" button will turn green",
-    3: "Move the mouse cursor to the circle, click on the circle and drag it towards the first required direction, if correctly executed, the \"Next\" button will turn light green, do the same thing with the rest of the instructions (if there are), if correctly executed, the \"Next\" button will turn green",
+// texts = {
+//     0: "Move the mouse cursor to the circle and click on the circle, then, press on the keys required in the instruction, when the instruction is correctly executed, the \"Next\" button will turn green",
+//     1: "Move the mouse cursor to the circle and click on the circle, press on the keys required in the first instruction, if correctly executed, the \"Next\" button will turn light green, then press on the keys required in the rest of the instructions (if there are), if correctly executed, the \"Next\" button will turn green",
+//     2: "Move the mouse cursor to the circle, click on the circle and drag it towards the first required direction, if there is another direction in the instruction, without releasing the mouse, drag the cursor to the second required direction, when both instructions are correctly executed, the \"Next\" button will turn green",
+//     3: "Move the mouse cursor to the circle, click on the circle and drag it towards the first required direction, if correctly executed, the \"Next\" button will turn light green, do the same thing with the rest of the instructions (if there are), if correctly executed, the \"Next\" button will turn green",
+// }
+
+tutos = {
+    0: ["1 keyboard shortcut ", "keyboard shortcut is ", "keyboard shortcut has "],
+    1: ["1-3 keyboard shortcuts ", "keyboard shortcuts are ", "keyboard shortcuts have "],
+    2: ["1 gestural shortcut ", "gestural shortcut is ", "gestural shortcut has "],
+    3: ["1-3 gestural shortcuts ", "gestural shortcuts are ", "gestural shortcuts have "],
 }
 
 const experimentNb = Object.keys(types).length;
-const participantNb = 20;
+const participantNb = 64;
 
 const zoneLeft = ["A", "Z", "E", "S", "D", "X", "C", "R"];
 const zoneMiddle = ["R", "F", "V", "G", "B", "Y", "H"];
