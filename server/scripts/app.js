@@ -327,13 +327,13 @@ target.onmousedown = function(event) {
         targetDist = Math.sqrt(Math.pow(target.offsetLeft - next.offsetLeft, 2) + Math.pow(target.offsetTop - next.offsetHeight, 2));
         currentExperiment.targetDist = parseInt(targetDist);
     }
+    currentExperiment["mouseClick"+(cptMultiDir+1)] = (Date.now() - startTime)/1000;
     isRecording = true;
     target.classList.add("selected");
 
     if (exGesture.includes(experimentType) && next.disabled) {
         attempts++;
         //console.log("attempts"+attempts);
-        currentExperiment["mouseClick"+(cptMultiKey+1)] = (Date.now() - startTime)/1000;
         document.addEventListener("mousemove", draw);
         mouseMove(event);
     }
