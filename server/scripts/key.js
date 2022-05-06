@@ -10,12 +10,74 @@ function getKeyFromKeyboardZone(zone) {
     }
 }
 
+const impossibleShortcutConditions = [
+    {
+        cmdKey: true,
+        altKey: false,
+        shiftKey: false,
+        key: "m",
+        navigator: "Mozilla",
+        os: "Mac",
+    },
+];
+
+var impossibleShortcut = false;
+
+(async() => {
+    while(currentExperiment == undefined || nbRepeat == undefined) {
+        await new Promise(resolve => setTimeout(resolve, 150));
+    }
+
+    console.log(nbRepeat);
+
+    for(let i = 0; i < nbRepeat; i++) {
+        for(let condition of impossibleShortcutConditions){
+            let cmdCond = condition.cmdKey == currentExperiment.cmds[i];
+            let altCond = condition.altKey == currentExperiment.alts[i];
+            let shiftCond = condition.shiftKey == currentExperiment.shifts[i];
+            let keyCond = condition.key == currentExperiment.keys[i];
+
+
+
+            let navigatorCond = navigator.userAgent.includes(condition.navigator);
+            let OSCond = navigator.userAgent.includes(condition.os);
+
+            if(cmdCond && altCond && shiftCond && keyCond && navigatorCond && OSCond) {
+                impossibleShortcut = true;
+            }
+        }
+    }
+
+    if(impossibleShortcut) {
+        $( function() {
+            document.getElementById("info").style.visibility = "hidden";
+            document.getElementById("target").style.visibility = "hidden";
+            
+            $( "#incompatibility" ).dialog();
+        } );
+    }
+})();
+
+$("#incompatibility").on('dialogclose', function(event) {
+    cpt++;
+    lv++;
+    cptMultiKey = 0;
+
+    startTime = Date.now();
+
+    document.getElementById("info").style.visibility = "visible";
+    document.getElementById("target").style.visibility = "visible";
+    impossibleShortcut = false;
+
+    nextTest();
+});
+
 document.onkeyup = function() {
     pressing = false;
 }
 
 document.onkeydown = function(e) {
-    if (exKey.includes(experimentType)) {
+    if (exKey.includes(experimentType) && !impossibleShortcut) {
         if (!pressing){
             attempts++; 
             //console.log("attempts"+attempts);

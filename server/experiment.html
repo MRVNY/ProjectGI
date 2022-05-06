@@ -7,21 +7,28 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>ProjectGI</title>
     <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 </head>
 
 <body>
+    <div id="incompatibility" title="Incompatible shortcut">
+        <p>
+            It seems that this part of the experiment is incompatible with your navigator.
+            No worries, click on the cross to close the window and skip to the next step !
+        </p>
+    </div>
     <div id="info">
-        <p id="instruction">
+        <p>
         </p>
         <button id="next" onclick="nextTest();" disabled>Next</button>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="scripts/global.js"></script>
     <script src="scripts/csvManager.js"></script>
     <script src="scripts/experimentManager.js"></script>
     <script src="scripts/sendToLogger.js"></script>
-    <script src="scripts/gesture.js"></script>
     <script src="scripts/app.js"></script>
-    <script src="scripts/key.js"></script>
 </body>
 
 </html>
