@@ -114,19 +114,7 @@ async function launch() {
     nextTest();
 }
 
-function nextTest() {
-    if(cpt==totalNb){
-        logAll(experiments, participantID, experimentType);
-        window.location.assign(dirname+"thankyou?user_id="+user_id+"&experiment_type="+experimentType);
-        return;
-    }
-    
-    currentExperiment = experiments[cpt];
-    toggleExperimentType(experimentType);
-    currentExperiment.keyboardLayout = keyboard_layout;
-    currentExperiment.mouseType = mouse_type;
-    if(experimentType==TWODIRONEDRAW) currentExperiment.DesignName = "2dir1draw";
-
+function updateInstructions() {
     switch (experimentType) {
         // //ver1
         // case ONEKEY:
@@ -297,6 +285,22 @@ function nextTest() {
             }
             break;
     }
+}
+
+function nextTest() {
+    if(cpt==totalNb){
+        logAll(experiments, participantID, experimentType);
+        window.location.assign(dirname+"thankyou?user_id="+user_id+"&experiment_type="+experimentType);
+        return;
+    }
+    
+    currentExperiment = experiments[cpt];
+    toggleExperimentType(experimentType);
+    currentExperiment.keyboardLayout = keyboard_layout;
+    currentExperiment.mouseType = mouse_type;
+    if(experimentType==TWODIRONEDRAW) currentExperiment.DesignName = "2dir1draw";
+
+    updateInstructions();
 
     console.log(currentExperiment);
 

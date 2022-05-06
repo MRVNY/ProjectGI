@@ -12,12 +12,84 @@ function getKeyFromKeyboardZone(zone) {
 
 const impossibleShortcutConditions = [
     {
-        cmdKey: true,
-        altKey: false,
+        cmdKey: false,
+        altKey: true,
         shiftKey: false,
-        key: "m",
+        key: "f",
         navigator: "Mozilla",
-        os: "Mac",
+        os: "Windows",
+    },
+    {
+        cmdKey: false,
+        altKey: true,
+        shiftKey: false,
+        key: "a",
+        navigator: "Mozilla",
+        os: "Windows",
+    },
+    {
+        cmdKey: false,
+        altKey: true,
+        shiftKey: false,
+        key: "e",
+        navigator: "Mozilla",
+        os: "Windows",
+    },
+    {
+        cmdKey: false,
+        altKey: true,
+        shiftKey: false,
+        key: "t",
+        navigator: "Mozilla",
+        os: "Windows",
+    },
+    {
+        cmdKey: false,
+        altKey: true,
+        shiftKey: false,
+        key: "d",
+        navigator: "Mozilla",
+        os: "Windows",
+    },
+    {
+        cmdKey: false,
+        altKey: true,
+        shiftKey: false,
+        key: "o",
+        navigator: "Mozilla",
+        os: "Windows",
+    },
+    {
+        cmdKey: false,
+        altKey: true,
+        shiftKey: false,
+        key: "h",
+        navigator: "Mozilla",
+        os: "Windows",
+    },
+    {
+        cmdKey: false,
+        altKey: true,
+        shiftKey: false,
+        key: "n",
+        navigator: "Mozilla",
+        os: "Windows",
+    },
+    {
+        cmdKey: false,
+        altKey: true,
+        shiftKey: false,
+        key: "f",
+        navigator: "Mozilla",
+        os: "Windows",
+    },
+    {
+        cmdKey: false,
+        altKey: true,
+        shiftKey: false,
+        key: "f",
+        navigator: "Chrome",
+        os: "Windows",
     },
 ];
 
@@ -28,8 +100,6 @@ var impossibleShortcut = false;
         await new Promise(resolve => setTimeout(resolve, 150));
     }
 
-    console.log(nbRepeat);
-
     for(let i = 0; i < nbRepeat; i++) {
         for(let condition of impossibleShortcutConditions){
             let cmdCond = condition.cmdKey == currentExperiment.cmds[i];
@@ -37,24 +107,25 @@ var impossibleShortcut = false;
             let shiftCond = condition.shiftKey == currentExperiment.shifts[i];
             let keyCond = condition.key == currentExperiment.keys[i];
 
-
-
             let navigatorCond = navigator.userAgent.includes(condition.navigator);
             let OSCond = navigator.userAgent.includes(condition.os);
 
             if(cmdCond && altCond && shiftCond && keyCond && navigatorCond && OSCond) {
-                impossibleShortcut = true;
+                // // Method 1 : cancelling this part of the experiment entirely
+                // impossibleShortcut = true;
+
+                // document.getElementById("info").style.visibility = "hidden";
+                // document.getElementById("target").style.visibility = "hidden";
+                
+                // $( "#incompatibility" ).dialog();
+
+                // break;
+
+                // Method 2 : replacing the key by a random letter and rechecking afterwards
+                updateInstructions();
+                i = -1; // Loop resets to beginning until we have compatible shortcuts
             }
         }
-    }
-
-    if(impossibleShortcut) {
-        $( function() {
-            document.getElementById("info").style.visibility = "hidden";
-            document.getElementById("target").style.visibility = "hidden";
-            
-            $( "#incompatibility" ).dialog();
-        } );
     }
 })();
 

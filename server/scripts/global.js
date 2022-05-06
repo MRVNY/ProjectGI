@@ -82,7 +82,7 @@ const participantNb = 64;
 
 const zoneLeft = ["A", "Z", "E", "S", "D", "X", "C", "R"];
 const zoneMiddle = ["R", "F", "V", "G", "B", "Y", "H"];
-const zoneRight = ["U", "I", "J", "K", "P", "M"];
+const zoneRight = ["U", "I", "J", "K", "P"];
 
 const allKeys = [...zoneLeft, ...zoneMiddle, ...zoneRight];
 
