@@ -80,9 +80,9 @@ tutos = {
 const experimentNb = Object.keys(types).length;
 const participantNb = 64;
 
-const zoneLeft = ["A", "Z", "E", "S", "D", "X", "C", "R"];
-const zoneMiddle = ["R", "F", "V", "G", "B", "Y", "H"];
-const zoneRight = ["U", "I", "J", "K", "P"];
+const zoneLeft = ["A", "X"];
+const zoneMiddle = ["B", "Y"];
+const zoneRight = ["I", "K"];
 
 const allKeys = [...zoneLeft, ...zoneMiddle, ...zoneRight];
 
