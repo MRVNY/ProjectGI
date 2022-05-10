@@ -124,6 +124,10 @@ document.onkeydown = function(e) {
             altKey == currentExperiment.alts[cptMultiKey] &&
             key == currentExperiment.keys[cptMultiKey].charCodeAt();
 
+        if (e.keyCode == 32) {
+            shortcutSuccess = true;
+        }
+
         if (shortcutSuccess) {
             cmdDone = false;
             altDone = false;

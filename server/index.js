@@ -35,24 +35,6 @@ app.post('/logger', (req, res) => {
     });
 });
 
-app.post('/logall', (req, res) => {
-    csv = decodeURIComponent(req.query.csv);
-    filename = req.query.filename;
-    file_path = __dirname + "/logs/" + filename + ".csv";
-
-    fs.unlink(file_path, (err) => {
-        if (err) {
-            throw err;
-        }
-        fs.appendFile(file_path, csv, err => {
-            if (err) {
-                console.error(err)
-                return
-            }
-        });
-    });
-});
-
 app.listen(port, () => {
     console.log(`Application lancée en local sur le port ${port}!`)
 });
