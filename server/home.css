@@ -8,12 +8,7 @@ body {
     max-width: 50em;
 }
 
-li {
-    text-align: justify;
-}
-
 p {
-    font-weight: bold;
     text-align: center;
 }
 
@@ -23,16 +18,8 @@ table {
     margin: auto;
 }
 
-table img {
+img {
     width: 20em;
-}
-
-li {
-    list-style: none;
-}
-
-li:last-of-type {
-    /* margin-top: 3em; */
 }
 
 label:hover {
@@ -48,4 +35,17 @@ button {
     border: none;
     cursor: pointer;
     width: 30%;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.row-img {
+    grid-row: 1;
+}
+
+.row-lbl {
+    grid-row: 2;
 }

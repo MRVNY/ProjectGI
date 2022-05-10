@@ -45,12 +45,11 @@ const emoji = {
 
 var shortcutElement;
 
-var target = document.createElement("div");
-target.id = "target";
-target.style.position = "fixed";
+// var target = document.createElement("div");
+var target = document.querySelector("#target");
+var backgroundCircle = document.querySelector('.bg');
+var loadingCircle = document.querySelector(".meter");
 var targetSize
-target.style.borderRadius = "50%";
-target.style.border = "2px solid black";
 
 var shortcutIndex;
 var toDraw = [];
@@ -116,81 +115,6 @@ async function launch() {
 
 function updateInstructions() {
     switch (experimentType) {
-        // //ver1
-        // case ONEKEY:
-        //     var shortcut = "";
-
-        //     //First
-        //     var modifiers = currentExperiment.Modifier1.split("_");
-
-        //     currentExperiment.cmds = [modifiers.includes("CMD")];
-        //     currentExperiment.alts = [modifiers.includes("Alt")];
-        //     currentExperiment.shifts = [modifiers.includes("Shift")];
-        //     currentExperiment.keys = [getKeyFromKeyboardZone(currentExperiment.Letter1).toLowerCase()];
-
-        //     for (i = 0; i < modifiers.length; i++) {
-        //         if (modifiers[i] == "CMD") shortcut += osCMDKey + " + ";
-        //         else if (modifiers[i] == "Alt") shortcut += osALTKey + " + ";
-        //         else if (modifiers[i] == "None") shortcut += " ";
-        //         else shortcut += modifiers[i] + " + ";
-        //     }
-        //     shortcut += currentExperiment.keys[0].toUpperCase();
-
-        //     shortcutElement.innerHTML = shortcut;
-        //     break;
-
-        // case TWOKEY:
-        //     nbRepeat = 2;
-        //     var shortcut = "";
-        //     //First
-        //     //var modifiers = [currentExperiment.Modifier1.split("_"), currentExperiment.Modifier2.split("_")];
-        //     var modifiers = [currentExperiment.Modifier1.split("_"), currentExperiment.Modifier1.split("_")];
-
-
-        //     currentExperiment.cmds = [modifiers[0].includes("CMD"), modifiers[1].includes("CMD")];
-        //     currentExperiment.alts = [modifiers[0].includes("Alt"), modifiers[1].includes("Alt")];
-        //     currentExperiment.shifts = [modifiers[0].includes("Shift"), modifiers[1].includes("Shift")];
-        //     currentExperiment.keys = [
-        //         getKeyFromKeyboardZone(currentExperiment.Letter1).toLowerCase(),
-        //         getKeyFromKeyboardZone(currentExperiment.Letter2).toLowerCase()
-        //     ];
-            
-        //     for (i = 0; i < nbRepeat; i++) {
-        //         if (currentExperiment.cmds[i]) shortcut += osCMDKey + " + ";
-        //         if (currentExperiment.alts[i]) shortcut += osALTKey + " + ";
-        //         if (currentExperiment.shifts[i]) shortcut += "Shift + ";
-        //         shortcut += currentExperiment.keys[i].toUpperCase();
-        //         if (i < nbRepeat - 1) shortcut += ", then ";
-        //     }
-
-        //     shortcutElement.innerHTML = shortcut;
-        //     break;
-
-        // case ONEDIR:
-        //     toDraw = [];
-        //     toDraw.push(angles[currentExperiment.First]);
-        //     shortcutElement.innerHTML = emoji[currentExperiment.First];
-        //     break;
-
-        // case TWODIRONEDRAW:
-        //     toDraw = [];
-        //     toDraw.push(angles[currentExperiment.First]);
-        //     toDraw.push(angles[currentExperiment.Second]);
-        //     if(Math.abs(toDraw[0]-toDraw[1])==180 || toDraw[0]==toDraw[1]){
-        //         cpt++;
-        //         nextTest();
-        //     }
-        //     shortcutElement.innerHTML = emoji[currentExperiment.First] + " " + emoji[currentExperiment.Second] + " consecutively";
-        //     break;
-
-        // case TWODIR:
-        //     toDraw = [];
-        //     toDraw.push(angles[currentExperiment.First]);
-        //     toDraw.push(angles[currentExperiment.Second]);
-        //     shortcutElement.innerHTML = emoji[currentExperiment.First] + " and then " + emoji[currentExperiment.Second];
-        //     break;
-
-        //ve2
         case KEY_MULTI_MODI:
             var shortcut = "";
 
@@ -308,18 +232,27 @@ function nextTest() {
 
     console.log(currentExperiment);
 
-    target.style.backgroundColor = "";
+    // target.style.backgroundColor = "";
     targetSize = (currentExperiment.Size-1) * 50 + 30;
     target.style.bottom = 200 + Math.floor(Math.random() * (window.innerHeight - target.clientHeight - 300 - targetSize)) + "px";
     target.style.left = 100 + Math.floor(Math.random() * (window.innerWidth - target.clientWidth - 200 - targetSize)) + "px";
     target.style.width = targetSize + "px";
     target.style.height = targetSize + "px";
+    backgroundCircle.setAttribute("cx", targetSize/2);
+    backgroundCircle.setAttribute("cy", targetSize/2);
+    backgroundCircle.setAttribute("r", targetSize/2 - 2.5);
+    loadingCircle.setAttribute("cx", targetSize/2);
+    loadingCircle.setAttribute("cy", targetSize/2);
+    loadingCircle.setAttribute("r", targetSize/2 - 2.5);
+    loadingCircle.style.strokeDasharray = (targetSize-5)*Math.PI;
+    loadingCircle.style.strokeDashoffset = (targetSize-5)*Math.PI;
+    loadingCircle.classList.remove("animation");
 
     isRecording = false;
-    target.classList.remove("selected");
+    backgroundCircle.classList.remove("selected");
 
     next.disabled = true;
-    target.hidden = false;
+    // target.hidden = false;
     instruction.hidden = false;
     next.style.backgroundColor = "#ccc";
     startTime = Date.now();
@@ -337,7 +270,7 @@ target.onmousedown = function(event) {
     }
     currentExperiment["mouseClick"+(cptMultiDir+1)] = (Date.now() - startTime)/1000;
     isRecording = true;
-    target.classList.add("selected");
+    backgroundCircle.classList.add("selected");
 
     if (exGesture.includes(experimentType) && next.disabled) {
         attempts++;

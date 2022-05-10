@@ -10,6 +10,19 @@ function getKeyFromKeyboardZone(zone) {
     }
 }
 
+function playAnimation(f, t) {
+    const effect = new KeyframeEffect(
+        loadingCircle,
+        [
+            {strokeDashoffset: f},
+            {strokeDashoffset: t}
+        ],
+        {duration: 500, easing: "ease-out"}
+    );
+    const animation = new Animation(effect, document.timeline);
+    animation.play();
+}
+
 const impossibleShortcutConditions = [
     {
         cmdKey: false,
@@ -81,6 +94,7 @@ document.onkeyup = function() {
 }
 
 document.onkeydown = function(e) {
+    var perimeter = (targetSize-5)*Math.PI;
     if (exKey.includes(experimentType) && !impossibleShortcut) {
         if (!pressing){
             attempts++; 
@@ -147,6 +161,8 @@ document.onkeydown = function(e) {
                 checkLogging(cpt, experiments, participantID, experimentType);
                 cpt++;
                 lv++;
+                loadingCircle.style.strokeDashoffset = 0;
+                playAnimation(perimeter * (1 - cptMultiKey/nbRepeat), 0);
                 cptMultiKey = 0;
             } else {
                 cptMultiKey++;
@@ -156,6 +172,8 @@ document.onkeydown = function(e) {
                     shortcutElement.innerHTML += lines[i];
                 }
                 next.style.backgroundColor = '#4caf4f4a';
+                loadingCircle.style.strokeDashoffset = perimeter * (1 - cptMultiKey/nbRepeat);
+                playAnimation(perimeter * (1 - (cptMultiKey-1)/nbRepeat), perimeter * (1 - cptMultiKey/nbRepeat));
             }
 
             startTime = Date.now();

@@ -46,6 +46,19 @@ function getDistance(p1, p2) {
     return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 }
 
+function playAnimation(f, t) {
+    const effect = new KeyframeEffect(
+        loadingCircle,
+        [
+            {strokeDashoffset: f},
+            {strokeDashoffset: t}
+        ],
+        {duration: 500, easing: "ease-out"}
+    );
+    const animation = new Animation(effect, document.timeline);
+    animation.play();
+}
+
 function mouseUp() {
     document.removeEventListener("mousemove", draw);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -155,7 +168,8 @@ function mouseUp() {
     }
 
     if (shortcutSuccess) {
-    
+        var perimeter = (targetSize-5)*Math.PI;
+
         var firstP = lines[0];
         var lastP = lines[lines.length - 1];
 
@@ -177,6 +191,8 @@ function mouseUp() {
         if(experimentType == GESTURE_MULTI_REPEAT && toDraw.length==2 && cptMultiDir==0){
             cptMultiDir++;
             next.style.backgroundColor = '#4caf4f4a';
+            loadingCircle.style.strokeDashoffset = perimeter * (1 - cptMultiDir/toDraw.length);
+            playAnimation(perimeter * (1 - (cptMultiDir-1)/toDraw.length), perimeter * (1 - cptMultiDir/toDraw.length))
         }
         else{
             next.disabled = false;
@@ -187,8 +203,10 @@ function mouseUp() {
             cpt++;
             lv++;
             attempts = 0;
-            cptMultiDir = 0;
+            loadingCircle.style.strokeDashoffset = 0;
+            playAnimation(perimeter * (1 - cptMultiDir/toDraw.length), 0);
             toDraw = [];
+            cptMultiDir = 0;
         }
 
         startTime = Date.now();
