@@ -293,7 +293,6 @@ function updateInstructions() {
 
 function nextTest() {
     if(cpt==totalNb){
-        logAll(experiments, participantID, experimentType);
         window.location.assign(dirname+"thankyou?user_id="+user_id+"&experiment_type="+experimentType);
         return;
     }

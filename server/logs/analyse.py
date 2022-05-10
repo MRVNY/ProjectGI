@@ -32,46 +32,75 @@ header = [
 
 path = os.path.dirname(os.path.abspath(__file__))
 df = pd.read_csv(path + "/all.csv",skiprows=1, names=header, na_values="-1")
-df = df.sort_values('Size')
-df = df.sort_values('NbModi')
 # df.fillna('', inplace=True)
 
 finalExecTime = ["totalExecTime1", "totalExecTime2", "totalExecTime3"]
 df['finalExecTime'] = df[finalExecTime].sum(axis=1)
 
-df.Size = df.Size.replace({1:"Tiny", 2:"Small", 3:"Medium", 4:"Large"})
-df.NbModi = df.NbModi.replace({0:"0 Modifier" ,1:"1 Modifier", 2:"2 Modifiers", 3:"3 Modifiers"})
+#ylim = np.floor(df.finalExecTime.max())+1
+ylim = 5
+
+df['SizeNames'] = df.Size.replace({1:"Tiny", 2:"Small", 3:"Medium", 4:"Large"})
+df['NbModiNames'] = df.NbModi.replace({0:"0 Modifier" ,1:"1 Modifier", 2:"2 Modifiers", 3:"3 Modifiers"})
+df['Name'] = df.DesignName.replace({'KeyMultiModi':'Key', 'KeyMultiRepeat':'Key', 'GestureMultiAngle':'Gesture', 'GestureMultiRepeat':'Gesture'})
 df.modifiers1 = df.modifiers1.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
 df.modifiers2 = df.modifiers2.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
 df.modifiers3 = df.modifiers3.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
 
 def remove_outliers(df, col):
-    return df[np.abs(df[col] - df[col].mean()) <= (3*df[col].std())]
+    return df#[np.abs(df[col] - df[col].mean()) <= (3*df[col].std())]
 
 ########## ALL ##########
+df = df.sort_values('Size')
+
+# All_Key_Gesture
+data1 = df
+palette = sns.color_palette("mako_r", 3)
+
+sns.lineplot(
+    x="Name", 
+    y="finalExecTime", 
+    data=data1,
+    #linewidth=0,
+    style="Repeat",
+    hue = "Repeat",
+    markers=True, 
+    dashes=False,
+    palette=palette,
+    )
+
+plt.title("The average total execution time for each repeat for key and gesture")
+plt.ylabel('time (seconds)')
+plt.xlabel('Type')
+plt.ylim(0, ylim)
+#plt.legend()
+plt.savefig(path + '/graphs/All_Key_Gesture.png')
+# plt.show()
+plt.clf()
 
 # All_Size_mouseClick
 data1 = remove_outliers(df, 'mouseClick1')
 data2 = remove_outliers(df, 'mouseClick2')
+palette = sns.color_palette("mako_r", 2)
 
 sns.lineplot(
-    x="Size", 
+    x="SizeNames", 
     y="mouseClick1", 
     data=data1,
     label="mouseClick1", 
-    color="r",
+    color=palette[0],
     )
 sns.lineplot(
-    x="Size", 
+    x="SizeNames", 
     y="mouseClick2", 
     data=data2,
     label="mouseClick2", 
-    color="g",
-    )
-plt.title("Mouse click time by the size")
-plt.ylabel('time (s)')
+    color=palette[1],
+)
+plt.title("The average time it takes to click on the target for each size of the target")
+plt.ylabel('time (seconds)')
 plt.xlabel('Size')
-plt.ylim(0, 8)
+plt.ylim(0, ylim)
 plt.legend()
 plt.savefig(path + '/graphs/All_Size_mouseClick.png')
 # plt.show()
@@ -80,38 +109,41 @@ plt.clf()
 ########## KEY ##########
 
 #### KeyMultiModi ####
+df = df.sort_values('NbModi')
+
 data = df[(df.DesignName == 'KeyMultiModi')]
 data1 = remove_outliers(data, 'finalExecTime')
 data2 = remove_outliers(data, 'nbOfAttempts1')
 
 #KeyMultiModi_NbModi_finalExecTime
 sns.lineplot(
-    x="NbModi", 
+    x="NbModiNames", 
     y="finalExecTime", 
     data=data1
     )
-plt.title("Execution time by the number of modifier in KeyMultiModi")
-plt.ylabel('time (s)')
+plt.title("The average execution time for each number of modifiers in KeyMultiModi")
+plt.ylabel('time (seconds)')
 plt.xlabel('Number of modifiers')
-plt.ylim(0, 8)
+plt.ylim(0, ylim)
 plt.savefig(path + '/graphs/KeyMultiModi_NbModi_finalExecTime.png')
 plt.clf()
 
 #KeyMultiModi_NbModi_nbOfAttempts1
 sns.lineplot(
-    x="NbModi", 
+    x="NbModiNames", 
     y="nbOfAttempts1", 
     data=data2
     )
-plt.title("Number of attempts by the number of modifiers in KeyMultiModi")
+plt.title("The average number of attempts for each number of modifiers in KeyMultiModi")
 plt.ylabel('Number of attempts')
 plt.xlabel('Nubmer of modifiers')
-plt.ylim(0, 8)
+plt.ylim(0, ylim)
 plt.savefig(path + '/graphs/KeyMultiModi_NbModi_nbOfAttempts1.png')
 plt.clf()
 
 #### KeyMultiRepeat ####
 data = df[(df.DesignName == 'KeyMultiRepeat')]
+palette = sns.color_palette("mako_r", 3)
 
 data1 = remove_outliers(data, 'totalExecTime1')
 data2 = remove_outliers(data, 'totalExecTime2')
@@ -121,28 +153,28 @@ data3 = remove_outliers(data, 'totalExecTime3')
 sns.lineplot(
     x="modifiers1", 
     y="totalExecTime1", 
-    data=data1, 
+    data=data1,
     label="first modifier", 
-    color="r"
+    color=palette[0]
     )
 sns.lineplot(
     x="modifiers2", 
     y="totalExecTime2", 
     data=data2, 
     label="second modifier", 
-    color="g"
+    color=palette[1]
     )
 sns.lineplot(
     x="modifiers3", 
     y="totalExecTime3", 
     data=data3, 
     label="third modifier", 
-    color="b"
+    color=palette[2]
     )
-plt.title("Execution time by the modifiers in KeyMultiRepeat")
-plt.ylabel('time (s)')
+plt.title("The average execution time for each modifier in KeyMultiRepeat")
+plt.ylabel('time (seconds)')
 plt.xlabel('Modifier')
-plt.ylim(0, 8)
+plt.ylim(0, ylim)
 plt.legend()
 plt.savefig(path + '/graphs/KeyMultiRepeat_modifiers123_totalExecTime123.png')
 # plt.show()
@@ -151,37 +183,30 @@ plt.clf()
 
 
 ########## GESTURE ##########
-
+df = df.sort_values('Size')
 
 #### GestureMultiAngle ####
 
-data1 = df[(df.DesignName == 'GestureMultiAngle') & (df.NbAngle == 1)]
-data2 = df[(df.DesignName == 'GestureMultiAngle') & (df.NbAngle == 2)]
-
-data1 = remove_outliers(data1, 'finalExecTime')
-data2 = remove_outliers(data2, 'finalExecTime')
-
 #GestureMultiAngle_Size_finalExecTime for Gestures
+data = df[df.DesignName == 'GestureMultiAngle']
+palette = sns.color_palette("mako_r", 2)
 
 sns.lineplot(
-    x="Size", 
+    x="SizeNames", 
     y="finalExecTime", 
-    data=data1, 
-    color="red", 
-    label="1 angle",
+    data=data, 
+    style="NbAngle",
+    hue = "NbAngle",
+    markers=True, 
+    dashes=False,
+    palette=palette,
     )
-sns.lineplot(
-    x="Size", 
-    y="finalExecTime", 
-    data=data2, 
-    color="blue", 
-    label="2 angles",
-    )
-plt.title("Execution time by the size in GestureMultiAngle")
-plt.legend()
-plt.ylabel('time (s)')
+
+plt.title("The average execution time for each size of the target in GestureMultiAngle")
+# plt.legend()
+plt.ylabel('time (seconds)')
 plt.xlabel('Size')
-plt.ylim(0, 8)
+plt.ylim(0, ylim)
 plt.savefig(path + '/graphs/GestureMultiAngle_Size_finalExecTime.png')
 # plt.show()
 plt.clf()
@@ -189,32 +214,27 @@ plt.clf()
 
 #### GestureMultiRepeat ####
 
-data1 = df[(df.DesignName == 'GestureMultiRepeat') & (df.Repeat == 1)]
-data2 = df[(df.DesignName == 'GestureMultiRepeat') & (df.Repeat == 2)]
-
-data1 = remove_outliers(data1, 'finalExecTime')
-data2 = remove_outliers(data2, 'finalExecTime')
+data = df[(df.DesignName == 'GestureMultiRepeat')]
 
 #GestureMultiRepeat_Size_finalExecTime for Gestures
+
+palette = sns.color_palette("mako_r", 2)
 sns.lineplot(
-    x="Size", 
+    x="SizeNames", 
     y="finalExecTime", 
-    data=df[(df.DesignName == 'GestureMultiRepeat') & (df.Repeat == 1)], 
-    color="red", 
-    label="1 repeat"
+    data=data, 
+    style="Repeat",
+    hue = "Repeat",
+    markers=True, 
+    dashes=False,
+    palette=palette,
 )
-sns.lineplot(
-    x="Size", 
-    y="finalExecTime", 
-    data=df[(df.DesignName == 'GestureMultiRepeat') & (df.Repeat == 2)], 
-    color="blue", 
-    label="2 repeats"
-)
-plt.title("Execution time by the size in GestureMultiRepeat")
-plt.legend()
-plt.ylabel('time (s)')
+
+plt.title("The average execution time for each size of the target in GestureMultiRepeat")
+#plt.legend()
+plt.ylabel('time (seconds)')
 plt.xlabel('Size')
-plt.ylim(0, 8)
+plt.ylim(0, ylim)
 plt.savefig(path + '/graphs/GestureMultiRepeat_Size_finalExecTime.png')
 # plt.show()
 plt.clf()
