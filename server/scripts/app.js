@@ -218,6 +218,8 @@ function updateInstructions() {
 
 
             shortcutElement.innerHTML = shortcut;
+
+            checkKeysValidity();
             break;
 
         case KEY_MULTI_REPEAT:
@@ -257,6 +259,8 @@ function updateInstructions() {
             }
 
             shortcutElement.innerHTML = shortcut;
+
+            checkKeysValidity();
             break;
 
         case GESTURE_MULTI_ANGLE:

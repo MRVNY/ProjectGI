@@ -23,10 +23,7 @@ const impossibleShortcutConditions = [
 
 var impossibleShortcut = false;
 
-(async() => {
-    while(currentExperiment == undefined || nbRepeat == undefined) {
-        await new Promise(resolve => setTimeout(resolve, 150));
-    }
+function checkKeysValidity() {
 
     for(let i = 0; i < nbRepeat; i++) {
         for(let condition of impossibleShortcutConditions){
@@ -39,6 +36,14 @@ var impossibleShortcut = false;
             let OSCond = navigator.userAgent.includes(condition.os);
 
             if(cmdCond && altCond && shiftCond && keyCond && navigatorCond && OSCond) {
+                let invalidShortcut = "";
+                if (currentExperiment.cmds[i]) invalidShortcut += osCMDKey + " + ";
+                if (currentExperiment.alts[i]) invalidShortcut += osALTKey + " + ";
+                if (currentExperiment.shifts[i]) invalidShortcut += "Shift + ";
+                invalidShortcut += currentExperiment.keys[i].toUpperCase();
+
+                console.log("Impossible shortcut for this navigator / OS combination detected " + invalidShortcut);
+
                 // // Method 1 : cancelling this part of the experiment entirely
                 // impossibleShortcut = true;
 
@@ -55,7 +60,7 @@ var impossibleShortcut = false;
             }
         }
     }
-})();
+}
 
 $("#incompatibility").on('dialogclose', function(event) {
     cpt++;
