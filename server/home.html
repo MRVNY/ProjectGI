@@ -13,52 +13,37 @@
     <h1>Welcome to the ProjectGI experiment !</h1>
 
     <form method="GET" action="tuto" id="to_send">
-        <ul>
-            <li> Hello, thank you for participating in our experiment on keyboard and gestural interactions. <br><br> We estimate that the complete test will need about 5-10 minutes to finish. Please make sure you are in a conformable and concentrated state in
-                order to provide the most accurate results of yourself.</li>
-            <br>
-            <!-- <li>You are assigned to: <strong id="id"></strong>, your test will be: <strong id="type"></strong>: <strong id="descri"></strong>
-            </li> -->
-            <input name="user_id" , id="user_id" hidden=true>
-            <input name="experiment_type" , id="experiment_type" hidden=true>
+        <p>
+            Hello, thank you for participating in our experiment on keyboard and gestural interactions. <br><br> We estimate that the complete test will need about 5-10 minutes to finish. Please make sure you are in a conformable and concentrated state in
+            order to provide the most accurate results of yourself.
+        </p>
+        <br>
+        <!-- <li>You are assigned to: <strong id="id"></strong>, your test will be: <strong id="type"></strong>: <strong id="descri"></strong>
+        </li> -->
+        <input name="user_id" , id="user_id" hidden=true>
+        <input name="experiment_type" , id="experiment_type" hidden=true>
 
-            <li>
-                <p>Please select your keyboard type :</p>
-                <table>
-                    <thead>
-                        <th>AZERTY</th>
-                        <th>QWERTY</th>
-                    </thead>
-                    <tbody>
-                        <td><label for="input_azerty"><img alt="AZERTY keyboard image" src="res/azerty-keyboard.jpg" /></label</td>
-                        <td><label for="input_qwerty"><img alt="QWERTY keyboard image" src="res/qwerty-keyboard.jpg" /></label>
-                        </td>
-                    </tbody>
-                    <tfoot>
-                        <td><input type="radio" name="keyboard_layout" value="AZERTY" id="input_azerty" required /></td>
-                        <td><input type="radio" name="keyboard_layout" value="QWERTY" id="input_qwerty" required /></td>
-                    </tfoot>
-                </table>
-            </li>
-            <li>
-                <p>Please select your mouse type :</p>
-                <table>
-                    <thead>
-                        <th>Laptop touchpad </th>
-                        <th>Desktop mouse</th>
-                    </thead>
-                    <tbody>
-                        <td><label for="input_touchpad"><img alt="Touchpad image" src="res/touchpad.jpg" /></label></td>
-                        <td><label for="input_classic_mouse"><img alt="Classic mouse image" src="res/classic-mouse.jpg" /></label></td>
-                    </tbody>
-                    <tfoot>
-                        <td><input type="radio" name="mouse_type" value="touchpad" id="input_touchpad" required /></td>
-                        <td><input type="radio" name="mouse_type" value="classic_mouse" id="input_classic_mouse" required /></td>
-                    </tfoot>
-                </table>
-            </li>
-            <li>By clicking on "I accept", you consent to sharing your performance data on our experiment as well as your personal data with us. All data will not be used for anything other than research purposes :</li>
-        </ul>
+        <b>Please select yout keyborad type</b>
+        <br><br>
+        <div class="row">
+            <div class="row-img"><label for="input_azerty"><img alt="AZERTY keyboard image" src="res/azerty-keyboard.jpg" /></label><br></div>
+            <div class="row-img"><label for="input_qwerty"><img alt="QWERTY keyboard image" src="res/qwerty-keyboard.jpg" /></label><br></div>
+            <div class="row-lbl"><input type="radio" name="keyboard_layout" value="AZERTY" id="input_azerty" required />  <b>AZERTY</b></div>
+            <div class="row-lbl"><input type="radio" name="keyboard_layout" value="QWERTY" id="input_qwerty" required />  <b>QWERTY</b></div>
+        </div>
+        <br><br><br>
+        <b>Please select your mouse type</b>
+        <br><br>
+        <div class="row">
+            <div class="row-img"><label for="input_touchpad"><img alt="Touchpad image" src="res/touchpad.jpg" /></label></div>
+            <div class="row-img"><label for="input_classic_mouse"><img alt="Classic mouse image" src="res/classic-mouse.jpg" /></label></div>
+            <div class="row-lbl"><input type="radio" name="mouse_type" value="touchpad" id="input_touchpad" required />  <b>Touchpad</b></div>
+            <div class="row-lbl"><input type="radio" name="mouse_type" value="classic_mouse" id="input_classic_mouse" required />  <b>Mouse</b></div>
+        </div>
+        <p>
+            By clicking on "I accept", you consent to sharing your performance data on our experiment as well as your personal data with us. All data will not be used for anything other than research purposes :
+        </p>
+        <br>
         <button type="submit">I accept</button>
     </form>
 </body>

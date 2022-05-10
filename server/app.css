@@ -1,3 +1,8 @@
+:root {
+    --rot-start: 0;
+    --rot-end: 0;
+}
+
 body {
     overflow: hidden;
     -webkit-touch-callout: none;
@@ -39,16 +44,31 @@ button:disabled {
 
 #target {
     position: absolute;
+    margin: 1em;
     border-radius: 50%;
-    border: 2px solid black;
 }
 
 #target:hover {
     background-color: lightgray;
+} 
+
+.bg {
+    fill: none;
+    stroke-width: 5px;
+    stroke: #63767e;
 }
 
-#target.selected {
-    background-color: gray;
+.bg.selected {
+    stroke: #a9bfc9;
+}
+
+.meter {
+    fill: none;
+    stroke-width: 5px;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    stroke: rgb(0, 106, 255);
 }
 
 canvas {

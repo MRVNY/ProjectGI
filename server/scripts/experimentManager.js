@@ -73,9 +73,9 @@ function toggleExperimentType(experimentType) {
     let selector = "#info";
 
     if (experimentType == ONEDIR || experimentType == TWODIR || experimentType == TWODIRONEDRAW) {
-        document.querySelector(selector + " p").innerHTML = "Level "+(lv+1)+": Draw<br> <b id=\"shortcut\"></b> <br>to unlock next level.";
+        document.querySelector(selector + " p").innerHTML = "Level "+(lv+1)+"/"+totalNb+": Draw<br> <b id=\"shortcut\"></b> <br>to unlock next level.";
     } else {
-        document.querySelector(selector + " p").innerHTML = "Level "+(lv+1)+": Press<br> <b id=\"shortcut\"></b> <br>to unlock next level.";
+        document.querySelector(selector + " p").innerHTML = "Level "+(lv+1)+"/"+totalNb+": Press<br> <b id=\"shortcut\"></b> <br>to unlock next level.";
     }
 
     shortcutElement = document.getElementById("shortcut");
