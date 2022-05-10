@@ -1,6 +1,6 @@
 // AJAX function to send several experiment's trial results to the logger
 
-var sentBlockSize = 5; // How many trials should a block of trials to send contain
+var sentBlockSize = 20; // How many trials should a block of trials to send contain
 
 function formatParams(params) {
     return "?" + Object
@@ -12,8 +12,8 @@ function formatParams(params) {
 }
 
 function checkLogging(cpt, data, participantID, experimentType) {
-    if (cpt != 0 && (cpt + 1) % sentBlockSize == 0) {
-        var indexStart = cpt + 1 - sentBlockSize;
+    if ((cpt != 0 && (cpt + 1) % sentBlockSize == 0) || cpt == data.length - 1) {
+        var indexStart = sentBlockSize * Math.floor(cpt / sentBlockSize);
         //console.log(data);
 
         var slicedData = data.slice(indexStart, cpt + 1);
@@ -30,18 +30,6 @@ function sendToLogger(csv, participantID, experimentType) {
     filename = types[experimentType] + participantID;
 
     http.open("POST", dirname+"logger?filename=" + filename + "&csv=" + encodedcsv, true);
-    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    http.send();
-}
-
-function logAll(data, participantID, experimentType) {
-    var csv = convertToCSV(data);
-    csv = header.join(", ") + '\n' + csv;
-    var http = new XMLHttpRequest();
-    var encodedcsv = encodeURIComponent(csv);
-    filename = types[experimentType] + participantID;
-
-    http.open("POST", dirname+"logall?filename=" + filename + "&csv=" + encodedcsv, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.send();
 }
