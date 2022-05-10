@@ -39,7 +39,7 @@ function logAll(data, participantID, experimentType) {
     csv = header.join(", ") + '\n' + csv;
     var http = new XMLHttpRequest();
     var encodedcsv = encodeURIComponent(csv);
-    filename = types[experimentType] + participantID;
+    filename = types[experimentType] + participantID + "_FULL";
 
     http.open("POST", dirname+"logall?filename=" + filename + "&csv=" + encodedcsv, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
