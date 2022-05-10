@@ -89,6 +89,7 @@ sns.lineplot(
     data=data1,
     label="mouseClick1", 
     color=palette[0],
+    marker='o'
     )
 sns.lineplot(
     x="SizeNames", 
@@ -96,6 +97,7 @@ sns.lineplot(
     data=data2,
     label="mouseClick2", 
     color=palette[1],
+    marker='X'
 )
 plt.title("The average time it takes to click on the target for each size of the target")
 plt.ylabel('time (seconds)')
@@ -119,10 +121,12 @@ data2 = remove_outliers(data, 'nbOfAttempts1')
 sns.lineplot(
     x="NbModiNames", 
     y="finalExecTime", 
-    data=data1
+    data=data1,
+    color=palette[0],
+    marker='o'
     )
 plt.title("The average execution time for each number of modifiers in KeyMultiModi")
-plt.ylabel('time (seconds)')
+plt.ylabel(' time (seconds)')
 plt.xlabel('Number of modifiers')
 plt.ylim(0, ylim)
 plt.savefig(path + '/graphs/KeyMultiModi_NbModi_finalExecTime.png')
@@ -132,7 +136,9 @@ plt.clf()
 sns.lineplot(
     x="NbModiNames", 
     y="nbOfAttempts1", 
-    data=data2
+    data=data2,
+    color=palette[0],
+    marker='o'
     )
 plt.title("The average number of attempts for each number of modifiers in KeyMultiModi")
 plt.ylabel('Number of attempts')
@@ -155,21 +161,24 @@ sns.lineplot(
     y="totalExecTime1", 
     data=data1,
     label="first modifier", 
-    color=palette[0]
+    color=palette[0],
+    marker='o'
     )
 sns.lineplot(
     x="modifiers2", 
     y="totalExecTime2", 
     data=data2, 
     label="second modifier", 
-    color=palette[1]
+    color=palette[1],
+    marker='X'
     )
 sns.lineplot(
     x="modifiers3", 
     y="totalExecTime3", 
     data=data3, 
     label="third modifier", 
-    color=palette[2]
+    color=palette[2],
+    marker='s'
     )
 plt.title("The average execution time for each modifier in KeyMultiRepeat")
 plt.ylabel('time (seconds)')
