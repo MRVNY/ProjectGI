@@ -58,21 +58,22 @@ def graph(df):
     ylim = 5
     path = os.path.dirname(os.path.abspath(__file__))
 
+    sns.set(rc={"figure.figsize":(8, 6)})
     
     ########## ALL ##########
     df = df.sort_values('Size')
 
     # All_Key_Gesture
     data1 = df
-    palette = sns.color_palette("mako_r", 3)
+    palette = sns.color_palette("mako_r", 2)
 
     sns.lineplot(
-        x="Name", 
+        x="Repeat", 
         y="finalExecTime", 
         data=data1,
         #linewidth=0,
-        style="Repeat",
-        hue = "Repeat",
+        style="Name",
+        hue = "Name",
         markers=True, 
         dashes=False,
         palette=palette,
@@ -124,20 +125,19 @@ def graph(df):
     data3 = df[df.SizeName == 'Medium']
     data4 = df[df.SizeName == 'Large']
     
-    palette = sns.color_palette("mako_r", 3)
+    palette = sns.color_palette("mako_r", 2)
 
-    sns.set(rc={"figure.figsize":(8, 6)})
     fig, axes = plt.subplots(2, 2)
     fig.suptitle('The average total execution time for each repeat for key and gesture categorized by size')
     #fig.tight_layout()
 
     ax1 = sns.lineplot(
-        x="Name", 
+        x="Repeat", 
         y="finalExecTime", 
         data=data1,
         #linewidth=0,
-        style="Repeat",
-        hue = "Repeat",
+        style="Name",
+        hue = "Name",
         markers=True, 
         dashes=False,
         palette=palette,
@@ -150,12 +150,12 @@ def graph(df):
 
     
     ax2 = sns.lineplot(
-        x="Name", 
+        x="Repeat", 
         y="finalExecTime", 
         data=data2,
         #linewidth=0,
-        style="Repeat",
-        hue = "Repeat",
+        style="Name",
+        hue = "Name",
         markers=True, 
         dashes=False,
         palette=palette,
@@ -167,12 +167,12 @@ def graph(df):
     ax2.set_ylim(0, ylim)
 
     ax3 = sns.lineplot(
-        x="Name", 
+        x="Repeat", 
         y="finalExecTime", 
         data=data3,
         #linewidth=0,
-        style="Repeat",
-        hue = "Repeat",
+        style="Name",
+        hue = "Name",
         markers=True, 
         dashes=False,
         palette=palette,
@@ -184,12 +184,12 @@ def graph(df):
     ax3.set_ylim(0, ylim)
 
     ax4 = sns.lineplot(
-        x="Name", 
+        x="Repeat", 
         y="finalExecTime", 
         data=data4,
         #linewidth=0,
-        style="Repeat",
-        hue = "Repeat",
+        style="Name",
+        hue = "Name",
         markers=True, 
         dashes=False,
         palette=palette,
@@ -380,7 +380,7 @@ def anova(df):
     GestureMultiAngle = df[(df.DesignName == 'GestureMultiAngle')]
     GestureMultiRepeat = df[(df.DesignName == 'GestureMultiRepeat')]
     
-    res = pg.rm_anova(data=KeyMultiRepeat, dv="finalExecTime", within=["Repeat", "Size"], subject="ParticipantID")
+    res = pg.rm_anova(data=df, dv="finalExecTime", within=["Repeat", "Size"], subject="ParticipantID")
     
     print(res)
     

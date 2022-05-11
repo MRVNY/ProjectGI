@@ -1,6 +1,12 @@
 // AJAX function to send several experiment's trial results to the logger
 
-var sentBlockSize = 20; // How many trials should a block of trials to send contain
+// How many trials should a block of trials to send contain
+var blockSize = {
+    0 : 16,
+    1 : 12,
+    2 : 24,
+    3 : 24
+}
 
 function formatParams(params) {
     return "?" + Object
@@ -12,8 +18,8 @@ function formatParams(params) {
 }
 
 function checkLogging(cpt, data, participantID, experimentType) {
-    if ((cpt != 0 && (cpt + 1) % sentBlockSize == 0) || cpt == data.length - 1) {
-        var indexStart = sentBlockSize * Math.floor(cpt / sentBlockSize);
+    if ((cpt != 0 && (cpt + 1) % blockSize[experimentType] == 0) || cpt == data.length - 1) {
+        var indexStart = blockSize[experimentType] * Math.floor(cpt / blockSize[experimentType]);
         //console.log(data);
 
         var slicedData = data.slice(indexStart, cpt + 1);

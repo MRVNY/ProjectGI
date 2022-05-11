@@ -43,6 +43,20 @@ const emoji = {
     "SW": "↙️"
 }
 
+var modis = {
+    0 : [],
+    1 : ['CMD'],
+    2 : ['CMD', 'Shift'],
+    3: ['CMD', 'Alt', 'Shift']
+}
+
+var letters = {
+    0 : [],
+    1 : [],
+    2 : [],
+    3 : []
+}
+
 var shortcutElement;
 
 // var target = document.createElement("div");
@@ -109,6 +123,19 @@ async function launch() {
     ctx.fillStyle = "blue";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+    switch (experimentType) {
+        case KEY_MULTI_MODI:
+            tmp = allKeys.sort(() => Math.random() - 0.5)
+            letters[0].push(tmp[0].toLowerCase());
+            letters[0].push(tmp[1].toLowerCase());
+            letters[0].push(tmp[2].toLowerCase());
+
+            letters[1].push(tmp[3].toLowerCase());
+            letters[2].push(tmp[4].toLowerCase());
+            letters[3].push(tmp[5].toLowerCase());
+            break;
+    }
+
     resize();
     nextTest();
 }
@@ -120,14 +147,15 @@ function updateInstructions() {
 
             var nbModi = currentExperiment.NbModi;
             //Pick random modifiers
-            modifiers = allModi.sort(() => Math.random() - 0.5).slice(0, nbModi);
+            modifiers = modis[nbModi];
 
             currentExperiment.cmds = [modifiers.includes("CMD")];
             currentExperiment.alts = [modifiers.includes("Alt")];
             currentExperiment.shifts = [modifiers.includes("Shift")];
 
             //Pick random letter
-            currentExperiment.keys = [allKeys[Math.floor(Math.random() * allKeys.length)].toLowerCase()];
+            tmp = letters[nbModi]
+            currentExperiment.keys = [tmp[Math.floor(Math.random() * tmp.length)].toLowerCase()];
 
             for (i = 0; i < nbModi; i++) {
                 if (currentExperiment.cmds[i]) shortcut += osCMDKey + " + ";
@@ -140,7 +168,6 @@ function updateInstructions() {
 
             shortcut += currentExperiment.keys[0].toUpperCase();
 
-
             shortcutElement.innerHTML = shortcut;
 
             checkKeysValidity();
@@ -150,7 +177,7 @@ function updateInstructions() {
             var shortcut = "";
             
             nbRepeat = currentExperiment.Repeat;
-            var modifiers = [];
+            var modifiers = ['CMD','CMD','CMD'];
 
             currentExperiment.cmds = [];
             currentExperiment.alts = [];
@@ -160,7 +187,6 @@ function updateInstructions() {
             lines = [];
             for(let i=0; i<nbRepeat; i++){
                 lines.push("");
-                modifiers.push(allModi[Math.floor(Math.random() * allModi.length)]); //generate new modifier on the fly
 
                 currentExperiment.cmds.push(modifiers[i].includes("CMD"));
                 currentExperiment.alts.push(modifiers[i].includes("Alt"));
@@ -168,7 +194,6 @@ function updateInstructions() {
 
                 currentExperiment.keys.push(allKeys[Math.floor(Math.random() * allKeys.length)].toLowerCase());
         
-
                 if (currentExperiment.cmds[i]) lines[i] += osCMDKey + " + ";
                 if (currentExperiment.alts[i]) lines[i] += osALTKey + " + ";
                 if (currentExperiment.shifts[i]) lines[i] += "Shift + ";
