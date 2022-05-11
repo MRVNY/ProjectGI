@@ -46,7 +46,6 @@ def load():
     df.modifiers1 = df.modifiers1.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
     df.modifiers2 = df.modifiers2.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
     df.modifiers3 = df.modifiers3.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
-    #df.Dir = df.Dir.replace({'NE_SE':'↗️↘️', 'N_E':'⬆️➡️', 'SW_NW':'↖️↙️', 'S_W':'⬇️⬅️'})
     
     return df
 
@@ -57,8 +56,8 @@ def graph(df):
     #ylim = np.floor(df.finalExecTime.max())+1
     ylim = 5
     path = os.path.dirname(os.path.abspath(__file__))
+    sns.set(rc={"figure.figsize":(12, 9)})
 
-    sns.set(rc={"figure.figsize":(8, 6)})
     
     ########## ALL ##########
     df = df.sort_values('Size')
@@ -71,7 +70,6 @@ def graph(df):
         x="Repeat", 
         y="finalExecTime", 
         data=data1,
-        #linewidth=0,
         style="Name",
         hue = "Name",
         markers=True, 
@@ -81,11 +79,10 @@ def graph(df):
 
     plt.title("The average total execution time for each repeat for key and gesture")
     plt.ylabel('time (seconds)')
-    plt.xlabel('Type')
+    plt.xlabel('Repeat')
+    plt.xticks(np.arange(1, 4))
     plt.ylim(0, ylim)
-    #plt.legend()
     plt.savefig(path + '/graphs/All_Key_Gesture.png')
-    # plt.show()
     plt.clf()
 
     # All_Size_mouseClick
@@ -115,7 +112,6 @@ def graph(df):
     plt.ylim(0, ylim)
     plt.legend()
     plt.savefig(path + '/graphs/All_Size_mouseClick.png')
-    # plt.show()
     plt.clf()
     
     # All_Size_Key_Gesture
@@ -126,16 +122,13 @@ def graph(df):
     data4 = df[df.SizeName == 'Large']
     
     palette = sns.color_palette("mako_r", 2)
-
     fig, axes = plt.subplots(2, 2)
     fig.suptitle('The average total execution time for each repeat for key and gesture categorized by size')
-    #fig.tight_layout()
 
     ax1 = sns.lineplot(
         x="Repeat", 
         y="finalExecTime", 
         data=data1,
-        #linewidth=0,
         style="Name",
         hue = "Name",
         markers=True, 
@@ -143,17 +136,17 @@ def graph(df):
         palette=palette,
         ax=axes[0,0]
         )
-    ax1.set_title("Tiny")
+    ax1.set_title("Tiny", y=-0.01)
     ax1.set_ylabel('time (seconds)')
-    ax1.set_xlabel('')
+    ax1.set_xlabel('Repeat')
     ax1.set_ylim(0, ylim)
+    ax1.set_xticks(range(1,4))
 
     
     ax2 = sns.lineplot(
         x="Repeat", 
         y="finalExecTime", 
         data=data2,
-        #linewidth=0,
         style="Name",
         hue = "Name",
         markers=True, 
@@ -161,16 +154,16 @@ def graph(df):
         palette=palette,
         ax=axes[0,1]
         )
-    ax2.set_title("Small")
+    ax2.set_title("Small", y=-0.01)
     ax2.set_ylabel('time (seconds)')
-    ax2.set_xlabel('')
+    ax2.set_xlabel('Repeat')
     ax2.set_ylim(0, ylim)
+    ax2.set_xticks(range(1,4))
 
     ax3 = sns.lineplot(
         x="Repeat", 
         y="finalExecTime", 
         data=data3,
-        #linewidth=0,
         style="Name",
         hue = "Name",
         markers=True, 
@@ -178,16 +171,16 @@ def graph(df):
         palette=palette,
         ax=axes[1,0]
         )
-    ax3.set_title("Medium")
+    ax3.set_title("Medium", y=-0.01)
     ax3.set_ylabel('time (seconds)')
-    ax3.set_xlabel('')
+    ax3.set_xlabel('Repeat')
     ax3.set_ylim(0, ylim)
+    ax3.set_xticks(range(1,4))
 
     ax4 = sns.lineplot(
         x="Repeat", 
         y="finalExecTime", 
         data=data4,
-        #linewidth=0,
         style="Name",
         hue = "Name",
         markers=True, 
@@ -195,15 +188,37 @@ def graph(df):
         palette=palette,
         ax=axes[1,1]
         )
-    ax4.set_title("Large")
+    ax4.set_title("Large", y=-0.01)
     ax4.set_ylabel('time (seconds)')
-    ax4.set_xlabel('')
+    ax4.set_xlabel('Repeat')
     ax4.set_ylim(0, ylim)
+    ax4.set_xticks(range(1,4))
     
-    #plt.legend()
     fig.savefig(path + '/graphs/All_Size_Key_Gesture.png')
-    # plt.show()
     fig.clf()
+    
+    
+    # All_Block_DesignName
+    data1 = df
+    palette = sns.color_palette("mako_r", 4)
+
+    sns.lineplot(
+        x="Block1", 
+        y="finalExecTime", 
+        data=data1,
+        style="DesignName",
+        hue = "DesignName",
+        markers=True, 
+        dashes=False,
+        palette=palette,
+        )
+
+    plt.title("The average total execution time with evolution of block for each experiment")
+    plt.ylabel('time (seconds)')
+    plt.xlabel('Block')
+    plt.ylim(0, ylim)
+    plt.savefig(path + '/graphs/All_Block_DesignName.png')
+    plt.clf()
     
 
     ########## KEY ##########
@@ -284,7 +299,6 @@ def graph(df):
     plt.ylim(0, ylim)
     plt.legend()
     plt.savefig(path + '/graphs/KeyMultiRepeat_modifiers123_totalExecTime123.png')
-    # plt.show()
     plt.clf()
 
 
@@ -315,7 +329,6 @@ def graph(df):
     plt.xlabel('Size')
     plt.ylim(0, ylim)
     plt.savefig(path + '/graphs/Gesture_Dir.png')
-    # plt.show()
     plt.clf()
 
     #### GestureMultiAngle ####
@@ -341,7 +354,6 @@ def graph(df):
     plt.xlabel('Size')
     plt.ylim(0, ylim)
     plt.savefig(path + '/graphs/GestureMultiAngle_Size_finalExecTime.png')
-    # plt.show()
     plt.clf()
 
 
@@ -364,12 +376,10 @@ def graph(df):
     )
 
     plt.title("The average execution time for each size of the target in GestureMultiRepeat")
-    #plt.legend()
     plt.ylabel('time (seconds)')
     plt.xlabel('Size')
     plt.ylim(0, ylim)
     plt.savefig(path + '/graphs/GestureMultiRepeat_Size_finalExecTime.png')
-    # plt.show()
     plt.clf()
 
 # ANOVA test
