@@ -40,10 +40,10 @@ function sendToLogger(csv, participantID, experimentType) {
     http.send();
 }
 
-function sendToUserLogger(csv, participantID) {
+function sendToUserLogger(csv) {
     var http = new XMLHttpRequest();
     var encodedcsv = encodeURIComponent(csv);
-    filename = participantID + "_data";
+    filename = "user_data";
 
     http.open("POST", dirname+"userlogger?filename=" + filename + "&csv=" + encodedcsv, true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");

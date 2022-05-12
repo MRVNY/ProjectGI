@@ -42,7 +42,7 @@ app.post('/logger', (req, res) => {
 app.post('/userlogger', (req, res) => {
     csv = decodeURIComponent(req.query.csv);
     filename = req.query.filename;
-    file_path = __dirname + "/userdata/" + filename + ".csv";
+    file_path = __dirname + "/logs/userdata.csv";
 
     fs.appendFile(file_path, csv, err => {
         if (err) {

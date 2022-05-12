@@ -30,27 +30,28 @@ function convertExpToCSV(listJSON) {
     return out;
 }
 
-function convertExpToCSV(listJSON) {
-    out = ""
-    for(i=0;i<listJSON.length;i++){
-        for(j=0;j<header.length;j++){
-            if (listJSON[i].hasOwnProperty(header[j])){
-                out += listJSON[i][header[j]] + ",";
-            }
-            else out += "-1,"
-        }
-        out = out.replace(/.$/,"\n");
-    }
-    return out;
-}
-
-function convertUserToCSV(JSONUserData) {
+async function convertUserToCSV(JSONUserData) {
     const replacer = (key, value) => value === null ? '' : value;
     const header = Object.keys(JSONUserData[0]);
-    const csv = [
-        header.join(','),
-        ...JSONUserData.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
-    ].join('\r\n');
+    
+    if (!(await fetch(dirname + '/logs/userdata.csv')).ok){
+        var csv = [
+            header.join(','),
+            ...JSONUserData.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
+        ].join('\r\n');
+    }
+    else{
+        var csv = [
+            ...JSONUserData.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
+        ].join('\r\n');
+    }
+
+    csv += '\n';
 
     return csv;
+}
+
+async function fileExist(filepath) {
+    const response = await fetch(filepath);
+    return response.ok;
 }

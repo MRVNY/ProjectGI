@@ -15,13 +15,16 @@
     <form method="GET" action="thankyou" id="to_send">
         <p>In order to better analyze our data, we ask you for some additional information. Of course, this information remains anonymous.</p>
         <br>
-        User ID : <input name="user_id" id="user_id" type="number" required readonly><br>
+        
+        <input name="user_id" id="user_id" type="number" hidden=true required readonly><br>
+        <input name="experiment_type" id="experiment_type" type="number" hidden=true required readonly><br>
+
         Age: <input name="user_age" id="user_age" placeholder="21" type="number" required><br>
         Gender: <select name="user_gender" id="user_gender">
-            <option value="none">Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
+            <option value="none">Empty</option>
+            <option value="man">Man</option>
+            <option value="woman">Woman</option>
+            <option value="other">Non Binary</option>
         </select><br>
         Computer usage frequency: <select name="frequency" id="frequency">
             <option value="6+">More than 6 hours a day</option>

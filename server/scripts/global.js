@@ -29,8 +29,10 @@ header = [
         "mouseClick1", "totalExecTime1", "nbOfAttempts1",
         "mouseClick2", "totalExecTime2", "nbOfAttempts2",
         "mouseClick3", "totalExecTime3", "nbOfAttempts3",
-        "targetDist", "keyboardLayout", "mouseType"
+        "targetDist"
     ];
+
+userDataHeader = ["DesignName", "ParticipantID", "keyboardLayout", "mouseType", "user_id", "user_age", "user_gender", "frequency"]
 
 //Ver1
 const ONEKEY = 0

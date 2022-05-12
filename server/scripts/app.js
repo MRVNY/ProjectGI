@@ -6,13 +6,11 @@
 const params = new URLSearchParams(document.location.search);
 
 const user_id = params.get("user_id");
-const keyboard_layout = params.get("keyboard_layout");
-const mouse_type = params.get("mouse_type");
 const experimentType = Number(params.get("experiment_type"));
 
 var participantID = 0;
 
-if (!(parseInt(user_id) > 0 && allKeyboardLayouts.includes(keyboard_layout) && allMouseTypes.includes(mouse_type))) {
+if (!(parseInt(user_id) > 0 )) {
     alert("Broken experiment parameters in the URL, go back to the home page !");
     window.location.assign(dirname);
 }
@@ -249,8 +247,6 @@ function nextTest() {
     
     currentExperiment = experiments[cpt];
     toggleExperimentType(experimentType);
-    currentExperiment.keyboardLayout = keyboard_layout;
-    currentExperiment.mouseType = mouse_type;
     if(experimentType==TWODIRONEDRAW) currentExperiment.DesignName = "2dir1draw";
 
     updateInstructions();
