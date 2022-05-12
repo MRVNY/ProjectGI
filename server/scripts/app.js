@@ -242,7 +242,8 @@ function updateInstructions() {
 
 function nextTest() {
     if(cpt==totalNb){
-        window.location.assign(dirname+"thankyou?user_id="+user_id+"&experiment_type="+experimentType);
+        // window.location.assign(dirname+"thankyou?user_id="+user_id+"&experiment_type="+experimentType);
+        window.location.assign(dirname + "endform?user_id=" + user_id + "&experiment_type=" + experimentType);
         return;
     }
     
@@ -274,6 +275,7 @@ function nextTest() {
 
     isRecording = false;
     backgroundCircle.classList.remove("selected");
+    target.classList.remove("selected");
 
     next.disabled = true;
     // target.hidden = false;
@@ -295,6 +297,7 @@ target.onmousedown = function(event) {
     currentExperiment["mouseClick"+(cptMultiDir+1)] = (Date.now() - startTime)/1000;
     isRecording = true;
     backgroundCircle.classList.add("selected");
+    target.classList.add("selected");
 
     if (exGesture.includes(experimentType) && next.disabled) {
         attempts++;

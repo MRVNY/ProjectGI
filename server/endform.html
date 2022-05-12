@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>ProjectGI</title>
+    <link rel="stylesheet" href="home.css" />
+</head>
+
+<script src="scripts/global.js"></script>
+<script src="scripts/onload.js" ></script>
+
+<body>
+    <h3>A bit more information about you</h3>
+    <form method="GET" action="thankyou" id="to_send">
+        <p>In order to better analyze our data, we ask you for some additional information. Of course, this information remains anonymous.</p>
+        <br>
+        Age: <input name="user_age" id="user_age" placeholder="21" type="number" required><br>
+        Gender: <select name="user_gender" id="user_gender">
+            <option value="none">Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select><br>
+        Computer usage frequency: <select name="frequency" id="frequency">
+            <option value="6+">More than 6 hours a day</option>
+            <option value="3-6">From 3 to 6 hours a day</option>
+            <option value="1-3">From 1 to 3 hours a day</option>
+            <option value="-1">Less than 1 hour a day</option>
+        </select><br><br>
+        <button type="submit">Validate</button>
+    </form>
+</body>
+</html>

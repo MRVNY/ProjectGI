@@ -11,6 +11,7 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    background: #e0e0e0;
 }
 
 #info {
@@ -44,13 +45,14 @@ button:disabled {
 
 #target {
     position: absolute;
-    margin: 1em;
+    padding: 10px;
     border-radius: 50%;
 }
 
-#target:hover {
-    background-color: lightgray;
-} 
+#target.selected {
+    box-shadow: inset 5px 5px 10px #bebebe,
+                inset -5px -5px 10px #ffffff;
+}
 
 .bg {
     fill: none;

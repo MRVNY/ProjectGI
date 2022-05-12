@@ -17,6 +17,10 @@ app.get('/tuto', (req, res) => {
     res.sendFile(__dirname + "/tuto.html");
 });
 
+app.get('/endform', (req, res) => {
+    res.sendFile(__dirname + "/endform.html");
+});
+
 app.get('/thankyou', (req, res) => {
     res.sendFile(__dirname + "/thankyou.html");
 });
