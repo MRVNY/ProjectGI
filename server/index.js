@@ -39,6 +39,20 @@ app.post('/logger', (req, res) => {
     });
 });
 
+app.post('/userlogger', (req, res) => {
+    csv = decodeURIComponent(req.query.csv);
+    filename = req.query.filename;
+    file_path = __dirname + "/userdata/" + filename + ".csv";
+
+    fs.appendFile(file_path, csv, err => {
+        if (err) {
+            console.error(err)
+            return
+        }
+        //file written successfully
+    });
+});
+
 app.listen(port, () => {
     console.log(`Application lancée en local sur le port ${port}!`)
 });

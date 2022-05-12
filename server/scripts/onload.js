@@ -72,6 +72,13 @@ function next(){
     window.location.assign(dirname+"experiment?user_id="+user_id+"&experiment_type="+experimentType+"&keyboard_layout="+keyboard_layout+"&mouse_type="+mouse_type);
 }
 
+function endform() {
+    const params = new URLSearchParams(document.location.search);
+    const user_id = params.get("user_id");
+
+    document.getElementById("user_id").value = user_id;
+}
+
 function thankyou(){
     const params = new URLSearchParams(document.location.search);
     const user_id = params.get("user_id");

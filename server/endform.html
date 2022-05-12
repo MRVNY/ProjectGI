@@ -10,11 +10,12 @@
 <script src="scripts/global.js"></script>
 <script src="scripts/onload.js" ></script>
 
-<body>
+<body onload="endform()">
     <h3>A bit more information about you</h3>
     <form method="GET" action="thankyou" id="to_send">
         <p>In order to better analyze our data, we ask you for some additional information. Of course, this information remains anonymous.</p>
         <br>
+        User ID : <input name="user_id" id="user_id" type="number" required readonly><br>
         Age: <input name="user_age" id="user_age" placeholder="21" type="number" required><br>
         Gender: <select name="user_gender" id="user_gender">
             <option value="none">Gender</option>
