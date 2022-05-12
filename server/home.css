@@ -18,9 +18,9 @@ table {
     margin: auto;
 }
 
-img {
+/* img {
     width: 20em;
-}
+} */
 
 label:hover {
     cursor: pointer;
