@@ -1,8 +1,3 @@
-/* To-Do */
-/* - Randomiser l'experience */
-/* - Faire en sorte que la position de la cible soit celle des experiences */
-/* - Faire la page d'accueil */
-
 const params = new URLSearchParams(document.location.search);
 
 const user_id = params.get("user_id");
@@ -54,6 +49,8 @@ var letters = {
     2 : [],
     3 : []
 }
+
+var myDir = [];
 
 var shortcutElement;
 
@@ -132,6 +129,10 @@ async function launch() {
             letters[2].push(tmp[4].toLowerCase());
             letters[3].push(tmp[5].toLowerCase());
             break;
+
+        case GESTURE_MULTI_REPEAT:
+            tmp = allAngles.sort(() => Math.random() - 0.5)
+            myDir = tmp.slice(0,6)
     }
 
     resize();
@@ -224,15 +225,21 @@ function updateInstructions() {
             break;
 
         case GESTURE_MULTI_REPEAT:
-            dir = currentExperiment.Dir.split("_");
+            repeat = currentExperiment.Repeat;
+            dir = myDir.sort(() => Math.random() - 0.5).slice(0, repeat)
             toDraw = [angles[dir[0]]];
 
             if(currentExperiment.Repeat==1){
                 shortcutElement.innerHTML = emoji[dir[0]];
             }
-            else{
+            else if(currentExperiment.Repeat==2){
                 toDraw.push(angles[dir[1]]);
                 shortcutElement.innerHTML = "separately " + emoji[dir[0]] + " and " + emoji[dir[1]];
+            }
+            else if(currentExperiment.Repeat==3){
+                toDraw.push(angles[dir[1]]);
+                toDraw.push(angles[dir[2]]);
+                shortcutElement.innerHTML = "consecutively " + emoji[dir[0]] + ", " + emoji[dir[1]] + " and " + emoji[dir[2]];
             }
             break;
     }

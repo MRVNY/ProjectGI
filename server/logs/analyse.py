@@ -54,7 +54,7 @@ def remove_outliers(df, col):
 
 def graph(df):
     #ylim = np.floor(df.finalExecTime.max())+1
-    ylim = 8
+    ylim = 6
     path = os.path.dirname(os.path.abspath(__file__))
     sns.set(rc={"figure.figsize":(12, 9)})
 

@@ -14,7 +14,7 @@ async function loadExperiment(participantID, experimentType) {
 
         case KEY_MULTI_REPEAT:
             var nbTrials = 72;
-            var response = await fetch('./config/ver2/KeyMultiRepeat.csv');
+            var response = await fetch('./config/ver3/KeyMultiRepeat.csv');
             var text = await response.text();
             out = parseCSV(text).slice((participantID - 1) * nbTrials, participantID * nbTrials)
             break;
@@ -27,8 +27,8 @@ async function loadExperiment(participantID, experimentType) {
             break;
 
         case GESTURE_MULTI_REPEAT:
-            var nbTrials = 96;
-            var response = await fetch('./config/ver2/GestureMultiRepeat.csv');
+            var nbTrials = 72;
+            var response = await fetch('./config/ver3/GestureMultiRepeat.csv');
             var text = await response.text();
             out = parseCSV(text).slice((participantID - 1) * nbTrials, participantID * nbTrials)
             break;

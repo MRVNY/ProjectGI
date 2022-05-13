@@ -188,7 +188,7 @@ function mouseUp() {
             currentExperiment["angle2"] = toDraw[1];
         }
 
-        if(experimentType == GESTURE_MULTI_REPEAT && toDraw.length==2 && cptMultiDir==0){
+        if(experimentType == GESTURE_MULTI_REPEAT && toDraw.length>=2 && cptMultiDir!=toDraw.length-1){
             cptMultiDir++;
             next.style.backgroundColor = '#4caf4f4a';
             loadingCircle.style.strokeDashoffset = perimeter * (1 - cptMultiDir/toDraw.length);
