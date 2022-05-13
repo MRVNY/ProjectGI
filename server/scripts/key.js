@@ -10,14 +10,17 @@ function getKeyFromKeyboardZone(zone) {
     }
 }
 
-function playAnimation(f, t) {
+function failAnimation() {
+    var dashOffset = loadingCircle.style.strokeDashoffset;
     const effect = new KeyframeEffect(
         loadingCircle,
         [
-            {strokeDashoffset: f},
-            {strokeDashoffset: t}
+            {stroke: "red", strokeDashoffset: "0px", offset: 0},
+            {stroke: "red", strokeDashoffset: "0px", offset: 0.5},
+            {stroke: "#006aff", strokeDashoffset: dashOffset, offset: 0.51},
+            {stroke: "#006aff", strokeDashoffset: dashOffset, offset: 1}
         ],
-        {duration: 500, easing: "ease-out"}
+        {duration: 500, iterations: 2}
     );
     const animation = new Animation(effect, document.timeline);
     animation.play();
@@ -106,7 +109,6 @@ document.onkeydown = function(e) {
         lv++;
         attempts = 0;
         loadingCircle.style.strokeDashoffset = 0;
-        playAnimation(perimeter, 0);
         toDraw = [];
         cptMultiDir = 0;
         cptMultiKey = 0;
@@ -176,7 +178,6 @@ document.onkeydown = function(e) {
                 cpt++;
                 lv++;
                 loadingCircle.style.strokeDashoffset = 0;
-                playAnimation(perimeter * (1 - cptMultiKey/nbRepeat), 0);
                 cptMultiKey = 0;
             } else {
                 cptMultiKey++;
@@ -187,10 +188,10 @@ document.onkeydown = function(e) {
                 }
                 next.style.backgroundColor = '#4caf4f4a';
                 loadingCircle.style.strokeDashoffset = perimeter * (1 - cptMultiKey/nbRepeat);
-                playAnimation(perimeter * (1 - (cptMultiKey-1)/nbRepeat), perimeter * (1 - cptMultiKey/nbRepeat));
             }
-
             startTime = Date.now();
+        } else if (cmdKey + shiftKey + altKey + (key >= 97 && key <= 122) == parseInt(currentExperiment.NbModi) + 1) {
+            failAnimation();
         }
     }
 }
