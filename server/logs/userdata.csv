@@ -1,21 +1,7 @@
 DesignName,ParticipantID,keyboardLayout, browser, mouseType,user_age,user_gender,frequency
-"GESTURE_MULTI_ANGLE","14","AZERTY","classic_mouse", Edge,-1,-1,-1
+"GESTURE_MULTI_ANGLE","14","AZERTY","classic_mouse", "Edge",-1,-1,-1
 "GESTURE_MULTI_ANGLE","14",-1,-1,"NaN","21","man","6+"
-
-"KEY_MULTI_REPEAT","37","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
-"KEY_MULTI_REPEAT","12","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
-"KEY_MULTI_REPEAT","12","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
-"KEY_MULTI_REPEAT","12","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
-"KEY_MULTI_REPEAT","12","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
-"KEY_MULTI_REPEAT","12","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
-"KEY_MULTI_REPEAT","12","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
-"KEY_MULTI_REPEAT","12","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
-"KEY_MULTI_REPEAT","12","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
-"KEY_MULTI_MODI","48","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
-"KEY_MULTI_MODI","48","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
-"KEY_MULTI_REPEAT","49","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
-"KEY_MULTI_REPEAT","49","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
-"KEY_MULTI_REPEAT","49","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
-"KEY_MULTI_REPEAT","49","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
-"KEY_MULTI_REPEAT","49","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
-"KEY_MULTI_REPEAT","49","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
+"KEY_MULTI_MODI","46","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
+"KEY_MULTI_MODI","46","NaN","NaN","NaN","23","non_binary","6+"
+"GESTURE_MULTI_REPEAT","11","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
+"GESTURE_MULTI_REPEAT","11","NaN","NaN","NaN","23","non_binary","6+"
