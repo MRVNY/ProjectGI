@@ -94,6 +94,24 @@ document.onkeyup = function() {
 }
 
 document.onkeydown = function(e) {
+    if (e.keyCode == 8) {
+        var next = document.getElementById("next");
+        var perimeter = (targetSize - 5) * Math.PI;
+        next.disabled = false;
+        target.hidden = true;
+        instruction.hidden = true;
+        next.style.backgroundColor = '#4CAF50';
+        checkLogging(cpt, experiments, participantID, experimentType);
+        cpt++;
+        lv++;
+        attempts = 0;
+        loadingCircle.style.strokeDashoffset = 0;
+        playAnimation(perimeter, 0);
+        toDraw = [];
+        cptMultiDir = 0;
+        cptMultiKey = 0;
+    }
+
     var perimeter = (targetSize-5)*Math.PI;
     if (exKey.includes(experimentType) && !impossibleShortcut) {
         if (!pressing){
@@ -137,10 +155,6 @@ document.onkeydown = function(e) {
             shiftKey == currentExperiment.shifts[cptMultiKey] &&
             altKey == currentExperiment.alts[cptMultiKey] &&
             key == currentExperiment.keys[cptMultiKey].charCodeAt();
-
-        // if (e.keyCode == 32) {
-        //     shortcutSuccess = true;
-        // }
 
         if (shortcutSuccess) {
             cmdDone = false;

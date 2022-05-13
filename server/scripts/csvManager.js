@@ -23,7 +23,7 @@ function convertExpToCSV(listJSON) {
             if (listJSON[i].hasOwnProperty(header[j])){
                 out += listJSON[i][header[j]] + ",";
             }
-            else out += "-1,"
+            else out += "NaN,"
         }
         out = out.replace(/.$/,"\n");
     }

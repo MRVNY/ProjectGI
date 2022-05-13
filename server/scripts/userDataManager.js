@@ -2,8 +2,9 @@ async function sendUserData(experimentType,user_id, user_age, user_gender, frequ
     JSONObject = {
         "DesignName" : types[experimentType],
         "ParticipantID": user_id,
-        "keyboardLayout" : -1, 
-        "mouseType" : -1,
+        "keyboardLayout": "NaN", 
+        "mouseType": "NaN",
+        "browser": "NaN",
         "user_age": user_age,
         "user_gender": user_gender,
         "frequency": frequency

@@ -13,24 +13,24 @@
 <body onload="endform()">
     <h3>A bit more information about you</h3>
     <form method="GET" action="thankyou" id="to_send">
-        <p>In order to better analyze our data, we ask you for some additional information. Of course, this information remains anonymous.</p>
+        <li>In order to better analyze our data, we ask you for some additional information. Of course, this information remains anonymous.</li>
         <br>
         
-        <input name="user_id" id="user_id" type="number" hidden=true required readonly><br>
+        <input name="user_id" id="user_id" type="number" hidden=true required readonly>
         <input name="experiment_type" id="experiment_type" type="number" hidden=true required readonly><br>
 
-        Age: <input name="user_age" id="user_age" placeholder="21" type="number" required><br>
+        Age: <input name="user_age" id="user_age" placeholder="21" type="number" min="0" required><br><br>
         Gender: <select name="user_gender" id="user_gender">
             <option value="none">Empty</option>
             <option value="man">Man</option>
             <option value="woman">Woman</option>
             <option value="other">Non Binary</option>
-        </select><br>
+        </select><br><br>
         Computer usage frequency: <select name="frequency" id="frequency">
-            <option value="6+">More than 6 hours a day</option>
-            <option value="3-6">From 3 to 6 hours a day</option>
-            <option value="1-3">From 1 to 3 hours a day</option>
             <option value="-1">Less than 1 hour a day</option>
+            <option value="1-3">From 1 to 3 hours a day</option>
+            <option value="3-6">From 3 to 6 hours a day</option>
+            <option value="6+">More than 6 hours a day</option>
         </select><br><br>
         <button type="submit">Validate</button>
     </form>

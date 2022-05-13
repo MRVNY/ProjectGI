@@ -8,8 +8,15 @@ body {
     max-width: 50em;
 }
 
+li {
+    text-align: justify;
+    list-style: none;
+}
+
 p {
-    text-align: center;
+    font-weight: bold;
+    text-align: justify;
+    margin: auto;
 }
 
 h1,
