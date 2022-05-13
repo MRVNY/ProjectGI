@@ -16,11 +16,11 @@ function failAnimation() {
         loadingCircle,
         [
             {stroke: "red", strokeDashoffset: "0px", offset: 0},
-            {stroke: "red", strokeDashoffset: "0px", offset: 0.5},
-            {stroke: "#006aff", strokeDashoffset: dashOffset, offset: 0.51},
+            {stroke: "red", strokeDashoffset: "0px", offset: 0.33},
+            {stroke: "#006aff", strokeDashoffset: dashOffset, offset: 0.34},
             {stroke: "#006aff", strokeDashoffset: dashOffset, offset: 1}
         ],
-        {duration: 500, iterations: 2}
+        {duration: 300, iterations: 2}
     );
     const animation = new Animation(effect, document.timeline);
     animation.play();
