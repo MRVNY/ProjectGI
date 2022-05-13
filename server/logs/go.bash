@@ -3,7 +3,7 @@ rm all.csv
 cat 0_header.csv >> all.csv
 
 for f in *.csv; do
-    if [ "$f" != "0_header.csv" ]; then
+    if [ "$f" != "0_header.csv" ] && [ "$f" != "userdata.csv" ]; then
         rm tmp.csv
         tail -n +2 $f >> tmp.csv
         cat tmp.csv >> all.csv    
