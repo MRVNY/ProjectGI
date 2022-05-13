@@ -287,7 +287,12 @@ function resize() {
 
 target.onmousedown = function(event) {
     if (!isRecording) {
-        targetDist = Math.sqrt(Math.pow(target.offsetLeft - next.offsetLeft, 2) + Math.pow(target.offsetTop - next.offsetHeight, 2));
+        var mouseX = event.clientX;
+        var mouseY = event.clientY;
+        var nextX = next.offsetLeft + next.offsetWidth / 2;
+        var nextY = next.offsetTop + next.offsetHeight / 2;
+        targetDist = Math.sqrt(Math.pow(mouseX - nextX, 2) + Math.pow(mouseY - nextY, 2));
+        console.log(targetDist);
         currentExperiment.targetDist = parseInt(targetDist);
     }
     currentExperiment["mouseClick"+(cptMultiDir+1)] = (Date.now() - startTime)/1000;
