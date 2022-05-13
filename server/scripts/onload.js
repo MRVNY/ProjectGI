@@ -51,7 +51,8 @@ async function tuto() {
         "browser": browser,
         "user_age": "NaN",
         "user_gender": "NaN",
-        "frequency": "NaN"
+        "frequency": "NaN",
+        "comment" : "NaN"
     };
 
     csvUserData =  await convertUserToCSV([JSONObject]);
