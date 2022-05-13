@@ -49,6 +49,10 @@ button:disabled {
     border-radius: 50%;
 }
 
+#target:hover {
+    cursor: pointer;
+}
+
 #target.selected {
     box-shadow: inset 5px 5px 10px #bebebe,
                 inset -5px -5px 10px #ffffff;
