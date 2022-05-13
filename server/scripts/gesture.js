@@ -46,14 +46,17 @@ function getDistance(p1, p2) {
     return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
 }
 
-function playAnimation(f, t) {
+function failAnimation() {
+    var dashOffset = loadingCircle.style.strokeDashoffset;
     const effect = new KeyframeEffect(
         loadingCircle,
         [
-            {strokeDashoffset: f},
-            {strokeDashoffset: t}
+            {stroke: "red", strokeDashoffset: "0px", offset: 0},
+            {stroke: "red", strokeDashoffset: "0px", offset: 0.5},
+            {stroke: "#006aff", strokeDashoffset: dashOffset, offset: 0.51},
+            {stroke: "#006aff", strokeDashoffset: dashOffset, offset: 1}
         ],
-        {duration: 500, easing: "ease-out"}
+        {duration: 500, iterations: 2}
     );
     const animation = new Animation(effect, document.timeline);
     animation.play();
@@ -165,6 +168,8 @@ function mouseUp() {
 
         if (experimentType == GESTURE_MULTI_REPEAT || toDraw.length==1) shortcutSuccess = isRecording && Math.abs(toDraw[cptMultiDir] - firstDrawn) < 30 && Math.abs(toDraw[cptMultiDir] - secondDrawn) < 30;
         else shortcutSuccess = isRecording && Math.abs(toDraw[0] - firstDrawn) < 30 && Math.abs(toDraw[1] - secondDrawn) < 30;
+    } else {
+        return;
     }
 
     if (shortcutSuccess) {
@@ -192,7 +197,6 @@ function mouseUp() {
             cptMultiDir++;
             next.style.backgroundColor = '#4caf4f4a';
             loadingCircle.style.strokeDashoffset = perimeter * (1 - cptMultiDir/toDraw.length);
-            playAnimation(perimeter * (1 - (cptMultiDir-1)/toDraw.length), perimeter * (1 - cptMultiDir/toDraw.length))
         }
         else{
             next.disabled = false;
@@ -204,12 +208,13 @@ function mouseUp() {
             lv++;
             attempts = 0;
             loadingCircle.style.strokeDashoffset = 0;
-            playAnimation(perimeter * (1 - cptMultiDir/toDraw.length), 0);
             toDraw = [];
             cptMultiDir = 0;
         }
 
         startTime = Date.now();
+    } else {
+        failAnimation();
     }
 
     lines = [];
