@@ -1,0 +1,97 @@
+DesignName, ParticipantID, TrialID, Block1, Block2, Size, Dir, NbModi, NbAngle, Repeat, letter1, modifiers1, execTimeCMD1, execTimeAlt1, execTimeShift1, execTimeKey1, letter2, modifiers2, execTimeCMD2, execTimeAlt2, execTimeShift2, execTimeKey2, letter3, modifiers3, execTimeCMD3, execTimeAlt3, execTimeShift3, execTimeKey3, angle1, userAngle1, drawDist1, angle2, userAngle2, drawDist2, mouseClick1, totalExecTime1, nbOfAttempts1, mouseClick2, totalExecTime2, nbOfAttempts2, mouseClick3, totalExecTime3, nbOfAttempts3, targetDist
+KeyMultiModi,24,2209,1,1,2,NaN,3,NaN,1,X,Ctrl + Alt + Shift,35.583,35.583,35.583,35.583,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,35.575,35.583,1,NaN,NaN,NaN,NaN,NaN,NaN,1665
+KeyMultiModi,24,2210,1,2,4,NaN,3,NaN,1,X,Ctrl + Alt + Shift,11.478,11.478,11.478,11.478,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,11.475,11.478,1,NaN,NaN,NaN,NaN,NaN,NaN,667
+KeyMultiModi,24,2211,1,3,4,NaN,0,NaN,1,A,,NaN,NaN,NaN,4.169,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,1.953,4.169,2,NaN,NaN,NaN,NaN,NaN,NaN,535
+KeyMultiModi,24,2212,1,4,2,NaN,1,NaN,1,B,Ctrl,2.463,NaN,NaN,3.531,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,2.03,3.531,1,NaN,NaN,NaN,NaN,NaN,NaN,1515
+KeyMultiModi,24,2213,1,5,3,NaN,2,NaN,1,K,Ctrl + Shift,2.917,NaN,4.078,6.093,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,1.846,6.093,1,NaN,NaN,NaN,NaN,NaN,NaN,1436
+KeyMultiModi,24,2214,1,6,3,NaN,0,NaN,1,I,,NaN,NaN,NaN,2.191,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,1.798,2.191,1,NaN,NaN,NaN,NaN,NaN,NaN,1110
+KeyMultiModi,24,2215,1,7,1,NaN,3,NaN,1,X,Ctrl + Alt + Shift,2.82,3.694,4.163,5.229,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,1.514,5.229,1,NaN,NaN,NaN,NaN,NaN,NaN,1513
+KeyMultiModi,24,2216,1,8,4,NaN,1,NaN,1,B,Ctrl,1.513,NaN,NaN,2.276,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,1.077,2.276,1,NaN,NaN,NaN,NaN,NaN,NaN,2053
+KeyMultiModi,24,2217,1,9,1,NaN,1,NaN,1,B,Ctrl,2.198,NaN,NaN,2.399,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,1.133,2.399,1,NaN,NaN,NaN,NaN,NaN,NaN,1442
+KeyMultiModi,24,2218,1,10,2,NaN,0,NaN,1,A,,NaN,NaN,NaN,1.376,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.793,1.376,1,NaN,NaN,NaN,NaN,NaN,NaN,923
+KeyMultiModi,24,2219,1,11,3,NaN,1,NaN,1,B,Ctrl,1.276,NaN,NaN,1.762,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.887,1.762,1,NaN,NaN,NaN,NaN,NaN,NaN,1109
+KeyMultiModi,24,2220,1,12,4,NaN,2,NaN,1,K,Ctrl + Shift,1.158,NaN,2.142,2.914,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.946,2.914,1,NaN,NaN,NaN,NaN,NaN,NaN,713
+KeyMultiModi,24,2221,1,13,1,NaN,0,NaN,1,I,,NaN,NaN,NaN,2.023,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,1.1,2.023,1,NaN,NaN,NaN,NaN,NaN,NaN,1585
+KeyMultiModi,24,2222,1,14,3,NaN,3,NaN,1,X,Ctrl + Alt + Shift,1.517,1.706,1.853,2.882,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.899,2.882,2,NaN,NaN,NaN,NaN,NaN,NaN,1267
+KeyMultiModi,24,2223,1,15,1,NaN,2,NaN,1,K,Ctrl + Shift,2.664,NaN,3.206,4.356,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,1.796,4.356,1,NaN,NaN,NaN,NaN,NaN,NaN,377
+KeyMultiModi,24,2224,1,16,2,NaN,2,NaN,1,K,Ctrl + Shift,1.634,NaN,1.801,2.857,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.851,2.857,1,NaN,NaN,NaN,NaN,NaN,NaN,1545
+KeyMultiModi,24,2225,2,1,2,NaN,3,NaN,1,X,Ctrl + Alt + Shift,1.795,3.847,2.125,4.339,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.977,4.339,1,NaN,NaN,NaN,NaN,NaN,NaN,1348
+KeyMultiModi,24,2226,2,2,4,NaN,3,NaN,1,X,Ctrl + Alt + Shift,1.591,2.151,1.788,2.722,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.844,2.722,1,NaN,NaN,NaN,NaN,NaN,NaN,739
+KeyMultiModi,24,2227,2,3,4,NaN,0,NaN,1,A,,NaN,NaN,NaN,1.152,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.732,1.152,1,NaN,NaN,NaN,NaN,NaN,NaN,736
+KeyMultiModi,24,2228,2,4,2,NaN,1,NaN,1,B,Ctrl,1.587,NaN,NaN,2.09,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.875,2.09,1,NaN,NaN,NaN,NaN,NaN,NaN,1801
+KeyMultiModi,24,2229,2,5,3,NaN,2,NaN,1,K,Ctrl + Shift,1.154,NaN,2.514,3.066,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.583,3.066,2,NaN,NaN,NaN,NaN,NaN,NaN,1110
+KeyMultiModi,24,2230,2,6,3,NaN,0,NaN,1,A,,NaN,NaN,NaN,1.279,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.914,1.279,1,NaN,NaN,NaN,NaN,NaN,NaN,2001
+KeyMultiModi,24,2231,2,7,1,NaN,3,NaN,1,X,Ctrl + Alt + Shift,1.305,1.506,1.797,2.537,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,1.041,3.293,3,NaN,NaN,NaN,NaN,NaN,NaN,693
+KeyMultiModi,24,2232,2,8,4,NaN,1,NaN,1,B,Ctrl,1.214,NaN,NaN,1.569,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,1.053,1.569,1,NaN,NaN,NaN,NaN,NaN,NaN,289
+KeyMultiModi,24,2233,2,9,1,NaN,1,NaN,1,B,Ctrl,1.258,NaN,NaN,1.783,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.874,1.783,1,NaN,NaN,NaN,NaN,NaN,NaN,731
+KeyMultiModi,24,2234,2,10,2,NaN,0,NaN,1,A,,NaN,NaN,NaN,2.087,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,1.497,2.087,1,NaN,NaN,NaN,NaN,NaN,NaN,1888
+KeyMultiModi,24,2235,2,11,3,NaN,1,NaN,1,B,Ctrl,1.116,NaN,NaN,1.757,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.886,1.757,1,NaN,NaN,NaN,NaN,NaN,NaN,523
+KeyMultiModi,24,2236,2,12,4,NaN,2,NaN,1,K,Ctrl + Shift,1.406,NaN,2.083,3.756,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.93,3.756,1,NaN,NaN,NaN,NaN,NaN,NaN,568
+KeyMultiModi,24,2237,2,13,1,NaN,0,NaN,1,A,,NaN,NaN,NaN,1.462,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.903,1.462,1,NaN,NaN,NaN,NaN,NaN,NaN,845
+KeyMultiModi,24,2238,2,14,3,NaN,3,NaN,1,X,Ctrl + Alt + Shift,1.493,3.416,2.68,4.548,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.983,4.548,1,NaN,NaN,NaN,NaN,NaN,NaN,1765
+KeyMultiModi,24,2239,2,15,1,NaN,2,NaN,1,K,Ctrl + Shift,1.393,NaN,1.977,3.662,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.684,3.662,1,NaN,NaN,NaN,NaN,NaN,NaN,1197
+KeyMultiModi,24,2240,2,16,2,NaN,2,NaN,1,K,Ctrl + Shift,1.771,NaN,2.024,2.755,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.985,2.755,1,NaN,NaN,NaN,NaN,NaN,NaN,725
+KeyMultiModi,24,2241,3,1,2,NaN,3,NaN,1,X,Ctrl + Alt + Shift,1.919,2.655,2.075,2.812,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.834,2.812,1,NaN,NaN,NaN,NaN,NaN,NaN,1968
+KeyMultiModi,24,2242,3,2,4,NaN,3,NaN,1,X,Ctrl + Alt + Shift,1.268,1.637,1.422,1.897,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.817,1.897,1,NaN,NaN,NaN,NaN,NaN,NaN,483
+KeyMultiModi,24,2243,3,3,4,NaN,0,NaN,1,A,,NaN,NaN,NaN,1.192,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.726,1.192,1,NaN,NaN,NaN,NaN,NaN,NaN,593
+KeyMultiModi,24,2244,3,4,2,NaN,1,NaN,1,B,Ctrl,1.141,NaN,NaN,2.188,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.917,3.318,2,NaN,NaN,NaN,NaN,NaN,NaN,902
+KeyMultiModi,24,2245,3,5,3,NaN,2,NaN,1,K,Ctrl + Shift,1.499,NaN,1.737,2.51,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.853,2.51,1,NaN,NaN,NaN,NaN,NaN,NaN,831
+KeyMultiModi,24,2246,3,6,3,NaN,0,NaN,1,A,,NaN,NaN,NaN,1.279,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.763,1.279,1,NaN,NaN,NaN,NaN,NaN,NaN,402
+KeyMultiModi,24,2247,3,7,1,NaN,3,NaN,1,X,Ctrl + Alt + Shift,1.241,1.691,1.398,1.876,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.816,1.876,1,NaN,NaN,NaN,NaN,NaN,NaN,510
+KeyMultiModi,24,2248,3,8,4,NaN,1,NaN,1,B,Ctrl,1.445,NaN,NaN,1.746,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.759,1.746,1,NaN,NaN,NaN,NaN,NaN,NaN,242
+KeyMultiModi,24,2249,3,9,1,NaN,1,NaN,1,B,Ctrl,0.985,NaN,NaN,1.114,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.731,1.114,1,NaN,NaN,NaN,NaN,NaN,NaN,1593
+KeyMultiModi,24,2250,3,10,2,NaN,0,NaN,1,Y,,NaN,NaN,NaN,1.354,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.832,1.354,1,NaN,NaN,NaN,NaN,NaN,NaN,269
+KeyMultiModi,24,2251,3,11,3,NaN,1,NaN,1,B,Ctrl,0.858,NaN,NaN,1.137,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.66,1.137,1,NaN,NaN,NaN,NaN,NaN,NaN,1522
+KeyMultiModi,24,2252,3,12,4,NaN,2,NaN,1,K,Ctrl + Shift,0.812,NaN,0.938,2.753,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.602,2.753,1,NaN,NaN,NaN,NaN,NaN,NaN,1297
+KeyMultiModi,24,2253,3,13,1,NaN,0,NaN,1,A,,NaN,NaN,NaN,1.062,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.701,1.062,1,NaN,NaN,NaN,NaN,NaN,NaN,1952
+KeyMultiModi,24,2254,3,14,3,NaN,3,NaN,1,X,Ctrl + Alt + Shift,0.899,1.355,1.095,1.52,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.744,1.52,1,NaN,NaN,NaN,NaN,NaN,NaN,438
+KeyMultiModi,24,2255,3,15,1,NaN,2,NaN,1,K,Ctrl + Shift,1.057,NaN,1.213,2.179,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.745,2.179,1,NaN,NaN,NaN,NaN,NaN,NaN,1233
+KeyMultiModi,24,2256,3,16,2,NaN,2,NaN,1,K,Ctrl + Shift,0.929,NaN,1.013,1.573,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.699,1.573,1,NaN,NaN,NaN,NaN,NaN,NaN,544
+KeyMultiModi,24,2257,4,1,2,NaN,3,NaN,1,X,Ctrl + Alt + Shift,0.935,1.453,0.983,1.597,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.731,1.597,1,NaN,NaN,NaN,NaN,NaN,NaN,1657
+KeyMultiModi,24,2258,4,2,4,NaN,3,NaN,1,X,Ctrl + Alt + Shift,0.854,1.829,0.843,1.951,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.563,1.951,1,NaN,NaN,NaN,NaN,NaN,NaN,1857
+KeyMultiModi,24,2259,4,3,4,NaN,0,NaN,1,Y,,NaN,NaN,NaN,1.172,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.573,1.172,1,NaN,NaN,NaN,NaN,NaN,NaN,1334
+KeyMultiModi,24,2260,4,4,2,NaN,1,NaN,1,B,Ctrl,0.93,NaN,NaN,1.665,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.709,1.665,1,NaN,NaN,NaN,NaN,NaN,NaN,1774
+KeyMultiModi,24,2261,4,5,3,NaN,2,NaN,1,K,Ctrl + Shift,1.097,NaN,1.208,1.738,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.802,1.738,1,NaN,NaN,NaN,NaN,NaN,NaN,1906
+KeyMultiModi,24,2262,4,6,3,NaN,0,NaN,1,Y,,NaN,NaN,NaN,1.368,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.671,1.368,1,NaN,NaN,NaN,NaN,NaN,NaN,919
+KeyMultiModi,24,2263,4,7,1,NaN,3,NaN,1,X,Ctrl + Alt + Shift,1.42,1.869,1.506,2.026,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.935,2.026,1,NaN,NaN,NaN,NaN,NaN,NaN,526
+KeyMultiModi,24,2264,4,8,4,NaN,1,NaN,1,B,Ctrl,0.909,NaN,NaN,1.188,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.592,1.188,1,NaN,NaN,NaN,NaN,NaN,NaN,1580
+KeyMultiModi,24,2265,4,9,1,NaN,1,NaN,1,B,Ctrl,1.398,NaN,NaN,1.677,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.896,1.677,1,NaN,NaN,NaN,NaN,NaN,NaN,633
+KeyMultiModi,24,2266,4,10,2,NaN,0,NaN,1,I,,NaN,NaN,NaN,1.183,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.744,1.183,1,NaN,NaN,NaN,NaN,NaN,NaN,481
+KeyMultiModi,24,2267,4,11,3,NaN,1,NaN,1,B,Ctrl,1.104,NaN,NaN,1.327,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.634,1.327,1,NaN,NaN,NaN,NaN,NaN,NaN,1861
+KeyMultiModi,24,2268,4,12,4,NaN,2,NaN,1,K,Ctrl + Shift,1.136,NaN,1.139,1.87,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.667,1.87,1,NaN,NaN,NaN,NaN,NaN,NaN,271
+KeyMultiModi,24,2269,4,13,1,NaN,0,NaN,1,A,,NaN,NaN,NaN,1.114,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.904,1.114,1,NaN,NaN,NaN,NaN,NaN,NaN,604
+KeyMultiModi,24,2270,4,14,3,NaN,3,NaN,1,X,Ctrl + Alt + Shift,0.912,1.323,1.02,1.488,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.701,1.488,1,NaN,NaN,NaN,NaN,NaN,NaN,1122
+KeyMultiModi,24,2271,4,15,1,NaN,2,NaN,1,K,Ctrl + Shift,1.152,NaN,1.363,2.008,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.821,2.008,1,NaN,NaN,NaN,NaN,NaN,NaN,1826
+KeyMultiModi,24,2272,4,16,2,NaN,2,NaN,1,K,Ctrl + Shift,1.263,NaN,1.455,2.142,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.78,2.142,1,NaN,NaN,NaN,NaN,NaN,NaN,1978
+KeyMultiModi,24,2273,5,1,2,NaN,3,NaN,1,X,Ctrl + Alt + Shift,1.363,2.009,1.652,2.238,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.635,2.238,1,NaN,NaN,NaN,NaN,NaN,NaN,1216
+KeyMultiModi,24,2274,5,2,4,NaN,3,NaN,1,X,Ctrl + Alt + Shift,1.158,1.605,1.287,1.887,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.665,1.887,1,NaN,NaN,NaN,NaN,NaN,NaN,648
+KeyMultiModi,24,2275,5,3,4,NaN,0,NaN,1,Y,,NaN,NaN,NaN,1.168,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.87,1.168,1,NaN,NaN,NaN,NaN,NaN,NaN,483
+KeyMultiModi,24,2276,5,4,2,NaN,1,NaN,1,B,Ctrl,0.893,NaN,NaN,1.206,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.711,1.206,1,NaN,NaN,NaN,NaN,NaN,NaN,865
+KeyMultiModi,24,2277,5,5,3,NaN,2,NaN,1,K,Ctrl + Shift,0.983,NaN,1.147,1.876,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.777,1.876,1,NaN,NaN,NaN,NaN,NaN,NaN,1673
+KeyMultiModi,24,2278,5,6,3,NaN,0,NaN,1,A,,NaN,NaN,NaN,0.954,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.632,0.954,1,NaN,NaN,NaN,NaN,NaN,NaN,599
+KeyMultiModi,24,2279,5,7,1,NaN,3,NaN,1,X,Ctrl + Alt + Shift,1.026,2.077,1.244,2.361,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.774,2.361,1,NaN,NaN,NaN,NaN,NaN,NaN,1430
+KeyMultiModi,24,2280,5,8,4,NaN,1,NaN,1,B,Ctrl,0.795,NaN,NaN,1.204,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.55,1.204,1,NaN,NaN,NaN,NaN,NaN,NaN,894
+KeyMultiModi,24,2281,5,9,1,NaN,1,NaN,1,B,Ctrl,0.942,NaN,NaN,1.522,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.748,1.522,1,NaN,NaN,NaN,NaN,NaN,NaN,1636
+KeyMultiModi,24,2282,5,10,2,NaN,0,NaN,1,A,,NaN,NaN,NaN,0.866,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.617,0.866,1,NaN,NaN,NaN,NaN,NaN,NaN,1351
+KeyMultiModi,24,2283,5,11,3,NaN,1,NaN,1,B,Ctrl,2.357,NaN,NaN,1.428,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.751,2.584,2,NaN,NaN,NaN,NaN,NaN,NaN,562
+KeyMultiModi,24,2284,5,12,4,NaN,2,NaN,1,K,Ctrl + Shift,0.933,NaN,1.108,2.481,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.423,2.481,1,NaN,NaN,NaN,NaN,NaN,NaN,965
+KeyMultiModi,24,2285,5,13,1,NaN,0,NaN,1,I,,NaN,NaN,NaN,1.962,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,1.171,1.962,1,NaN,NaN,NaN,NaN,NaN,NaN,433
+KeyMultiModi,24,2286,5,14,3,NaN,3,NaN,1,X,Ctrl + Alt + Shift,0.902,1.308,1.072,1.484,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.669,1.484,1,NaN,NaN,NaN,NaN,NaN,NaN,1653
+KeyMultiModi,24,2287,5,15,1,NaN,2,NaN,1,K,Ctrl + Shift,1.248,NaN,1.793,2.435,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.933,2.435,1,NaN,NaN,NaN,NaN,NaN,NaN,1283
+KeyMultiModi,24,2288,5,16,2,NaN,2,NaN,1,K,Ctrl + Shift,0.877,NaN,0.981,2.162,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.665,2.162,2,NaN,NaN,NaN,NaN,NaN,NaN,1315
+KeyMultiModi,24,2289,6,1,2,NaN,3,NaN,1,X,Ctrl + Alt + Shift,0.94,2.021,1.296,2.188,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.688,2.188,1,NaN,NaN,NaN,NaN,NaN,NaN,824
+KeyMultiModi,24,2290,6,2,4,NaN,3,NaN,1,X,Ctrl + Alt + Shift,0.746,1.315,0.917,1.487,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.477,1.487,1,NaN,NaN,NaN,NaN,NaN,NaN,1038
+KeyMultiModi,24,2291,6,3,4,NaN,0,NaN,1,Y,,NaN,NaN,NaN,1.262,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.621,1.262,1,NaN,NaN,NaN,NaN,NaN,NaN,746
+KeyMultiModi,24,2292,6,4,2,NaN,1,NaN,1,B,Ctrl,0.89,NaN,NaN,1.14,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.616,1.14,1,NaN,NaN,NaN,NaN,NaN,NaN,891
+KeyMultiModi,24,2293,6,5,3,NaN,2,NaN,1,K,Ctrl + Shift,1.082,NaN,1.249,3.069,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.698,3.069,1,NaN,NaN,NaN,NaN,NaN,NaN,1585
+KeyMultiModi,24,2294,6,6,3,NaN,0,NaN,1,Y,,NaN,NaN,NaN,1.278,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.614,1.278,1,NaN,NaN,NaN,NaN,NaN,NaN,1604
+KeyMultiModi,24,2295,6,7,1,NaN,3,NaN,1,X,Ctrl + Alt + Shift,1.059,1.555,1.234,1.753,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.722,1.753,1,NaN,NaN,NaN,NaN,NaN,NaN,1679
+KeyMultiModi,24,2296,6,8,4,NaN,1,NaN,1,B,Ctrl,0.822,NaN,NaN,1.186,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.585,1.186,1,NaN,NaN,NaN,NaN,NaN,NaN,553
+KeyMultiModi,24,2297,6,9,1,NaN,1,NaN,1,B,Ctrl,0.977,NaN,NaN,1.266,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.685,1.266,1,NaN,NaN,NaN,NaN,NaN,NaN,766
+KeyMultiModi,24,2298,6,10,2,NaN,0,NaN,1,A,,NaN,NaN,NaN,1.03,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.727,1.03,1,NaN,NaN,NaN,NaN,NaN,NaN,1287
+KeyMultiModi,24,2299,6,11,3,NaN,1,NaN,1,B,Ctrl,0.856,NaN,NaN,1.229,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.679,1.229,1,NaN,NaN,NaN,NaN,NaN,NaN,286
+KeyMultiModi,24,2300,6,12,4,NaN,2,NaN,1,K,Ctrl + Shift,0.891,NaN,1.082,2.317,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.684,2.317,2,NaN,NaN,NaN,NaN,NaN,NaN,601
+KeyMultiModi,24,2301,6,13,1,NaN,0,NaN,1,Y,,NaN,NaN,NaN,1.21,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.685,1.21,1,NaN,NaN,NaN,NaN,NaN,NaN,305
+KeyMultiModi,24,2302,6,14,3,NaN,3,NaN,1,X,Ctrl + Alt + Shift,0.979,1.438,1.149,1.602,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.675,1.602,1,NaN,NaN,NaN,NaN,NaN,NaN,1518
+KeyMultiModi,24,2303,6,15,1,NaN,2,NaN,1,K,Ctrl + Shift,0.918,NaN,1.164,1.822,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.712,1.822,1,NaN,NaN,NaN,NaN,NaN,NaN,1236
+KeyMultiModi,24,2304,6,16,2,NaN,2,NaN,1,K,Ctrl + Shift,0.976,NaN,1.163,1.662,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.783,1.662,1,NaN,NaN,NaN,NaN,NaN,NaN,499

@@ -1,7 +1,17 @@
-DesignName,ParticipantID,keyboardLayout, browser, mouseType,user_age,user_gender,frequency
-"GESTURE_MULTI_ANGLE","14","AZERTY","classic_mouse", "Edge",-1,-1,-1
-"GESTURE_MULTI_ANGLE","14",-1,-1,"NaN","21","man","6+"
-"KEY_MULTI_MODI","46","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
-"KEY_MULTI_MODI","46","NaN","NaN","NaN","23","non_binary","6+"
-"GESTURE_MULTI_REPEAT","11","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
-"GESTURE_MULTI_REPEAT","11","NaN","NaN","NaN","23","non_binary","6+"
+DesignName,ParticipantID,keyboardLayout, browser, mouseType,user_age,user_gender,frequency, comment
+"GESTURE_MULTI_ANGLE","14","AZERTY","classic_mouse", "Edge",-1,-1,-1, NaN
+"GESTURE_MULTI_ANGLE","14",-1,-1,"NaN","21","man","6+", "A skip option would be better"
+"KEY_MULTI_MODI","46","QWERTY","touchpad","Mozilla","NaN","NaN","NaN", NaN
+"KEY_MULTI_MODI","46","NaN","NaN","NaN","23","non_binary","6+", "Show effect of hover"
+"GESTURE_MULTI_REPEAT","11","QWERTY","touchpad","Mozilla","NaN","NaN","NaN", NaN
+"GESTURE_MULTI_REPEAT","11","NaN","NaN","NaN","23","non_binary","6+", NaN
+"GESTURE_MULTI_REPEAT","61","AZERTY","classic_mouse","Mozilla","NaN","NaN","NaN", NaN
+"GESTURE_MULTI_REPEAT","61","NaN","NaN","NaN","21","man","6+", NaN
+"GESTURE_MULTI_ANGLE","9","AZERTY","touchpad","Mozilla","NaN","NaN","NaN", NaN
+"GESTURE_MULTI_ANGLE","9","NaN","NaN","NaN","22","man","6+", NaN
+"KEY_MULTI_MODI","48","AZERTY","touchpad","Mozilla","NaN","NaN","NaN", NaN
+"KEY_MULTI_MODI","48","NaN","NaN","NaN","19","man","3-6", NaN
+"KEY_MULTI_MODI","24","AZERTY","classic_mouse","Mozilla","NaN","NaN","NaN"
+"KEY_MULTI_REPEAT","20","QWERTY","touchpad","Mozilla","NaN","NaN","NaN"
+"KEY_MULTI_MODI","24","NaN","NaN","NaN","21","man","6+","NaN"
+"KEY_MULTI_REPEAT","20","NaN","NaN","NaN","24","man","3-6","NaN"
