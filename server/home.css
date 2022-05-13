@@ -18,16 +18,16 @@ table {
     margin: auto;
 }
 
-/* img {
+.gif {
+    max-width: 100%;
+}
+
+.img {
     width: 20em;
-} */
+}
 
 label:hover {
     cursor: pointer;
-}
-
-#gif {
-    max-width: 100%;
 }
 
 button {
