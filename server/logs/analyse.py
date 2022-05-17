@@ -57,6 +57,7 @@ def graph(df):
     ylim = 6
     path = os.path.dirname(os.path.abspath(__file__))
     sns.set(rc={"figure.figsize":(12, 9)})
+    nbEx = 2;
 
     
     ########## ALL ##########
@@ -200,7 +201,7 @@ def graph(df):
     
     # All_Block_DesignName
     data1 = df
-    palette = sns.color_palette("mako_r", 4)
+    palette = sns.color_palette("mako_r", nbEx)
 
     sns.lineplot(
         x="Block1", 
@@ -224,41 +225,41 @@ def graph(df):
     ########## KEY ##########
 
     #### KeyMultiModi ####
-    df = df.sort_values('NbModi')
+    # df = df.sort_values('NbModi')
 
-    data = df[(df.DesignName == 'KeyMultiModi')]
-    data1 = remove_outliers(data, 'finalExecTime')
-    data2 = remove_outliers(data, 'nbOfAttempts1')
+    # data = df[(df.DesignName == 'KeyMultiModi')]
+    # data1 = remove_outliers(data, 'finalExecTime')
+    # data2 = remove_outliers(data, 'nbOfAttempts1')
 
-    #KeyMultiModi_NbModi_finalExecTime
-    sns.lineplot(
-        x="NbModiNames", 
-        y="finalExecTime", 
-        data=data1,
-        color=palette[0],
-        marker='o'
-        )
-    plt.title("The average execution time for each number of modifiers in KeyMultiModi")
-    plt.ylabel(' time (seconds)')
-    plt.xlabel('Number of modifiers')
-    plt.ylim(0, ylim)
-    plt.savefig(path + '/graphs/KeyMultiModi_NbModi_finalExecTime.png')
-    plt.clf()
+    # #KeyMultiModi_NbModi_finalExecTime
+    # sns.lineplot(
+    #     x="NbModiNames", 
+    #     y="finalExecTime", 
+    #     data=data1,
+    #     color=palette[0],
+    #     marker='o'
+    #     )
+    # plt.title("The average execution time for each number of modifiers in KeyMultiModi")
+    # plt.ylabel(' time (seconds)')
+    # plt.xlabel('Number of modifiers')
+    # plt.ylim(0, ylim)
+    # plt.savefig(path + '/graphs/KeyMultiModi_NbModi_finalExecTime.png')
+    # plt.clf()
 
-    #KeyMultiModi_NbModi_nbOfAttempts1
-    sns.lineplot(
-        x="NbModiNames", 
-        y="nbOfAttempts1", 
-        data=data2,
-        color=palette[0],
-        marker='o'
-        )
-    plt.title("The average number of attempts for each number of modifiers in KeyMultiModi")
-    plt.ylabel('Number of attempts')
-    plt.xlabel('Nubmer of modifiers')
-    plt.ylim(0, ylim)
-    plt.savefig(path + '/graphs/KeyMultiModi_NbModi_nbOfAttempts1.png')
-    plt.clf()
+    # #KeyMultiModi_NbModi_nbOfAttempts1
+    # sns.lineplot(
+    #     x="NbModiNames", 
+    #     y="nbOfAttempts1", 
+    #     data=data2,
+    #     color=palette[0],
+    #     marker='o'
+    #     )
+    # plt.title("The average number of attempts for each number of modifiers in KeyMultiModi")
+    # plt.ylabel('Number of attempts')
+    # plt.xlabel('Nubmer of modifiers')
+    # plt.ylim(0, ylim)
+    # plt.savefig(path + '/graphs/KeyMultiModi_NbModi_nbOfAttempts1.png')
+    # plt.clf()
 
     #### KeyMultiRepeat ####
     data = df[(df.DesignName == 'KeyMultiRepeat')]
@@ -308,53 +309,53 @@ def graph(df):
 
     
     #### BOTH ####
-    # Gesture_Dir
-    data = df[(df.Name == 'Gesture') & ((df.Repeat == 2) | (df.NbAngle == 2))]
-    palette = sns.color_palette("mako_r", 2)
+    # # Gesture_Dir
+    # data = df[(df.Name == 'Gesture') & ((df.Repeat == 2) | (df.NbAngle == 2))]
+    # palette = sns.color_palette("mako_r", 2)
 
-    sns.lineplot(
-        x="Dir", 
-        y="finalExecTime", 
-        data=data, 
-        style="DesignName",
-        hue = "DesignName",
-        markers=True, 
-        dashes=False,
-        palette=palette,
-        )
+    # sns.lineplot(
+    #     x="Dir", 
+    #     y="finalExecTime", 
+    #     data=data, 
+    #     style="DesignName",
+    #     hue = "DesignName",
+    #     markers=True, 
+    #     dashes=False,
+    #     palette=palette,
+    #     )
 
-    plt.title("The time difference between drawing a gesture separately and consecutively")
-    # plt.legend()
-    plt.ylabel('time (seconds)')
-    plt.xlabel('Size')
-    plt.ylim(0, ylim)
-    plt.savefig(path + '/graphs/Gesture_Dir.png')
-    plt.clf()
+    # plt.title("The time difference between drawing a gesture separately and consecutively")
+    # # plt.legend()
+    # plt.ylabel('time (seconds)')
+    # plt.xlabel('Size')
+    # plt.ylim(0, ylim)
+    # plt.savefig(path + '/graphs/Gesture_Dir.png')
+    # plt.clf()
 
     #### GestureMultiAngle ####
 
     #GestureMultiAngle_Size_finalExecTime for Gestures
-    data = df[df.DesignName == 'GestureMultiAngle']
-    palette = sns.color_palette("mako_r", 2)
+    # data = df[df.DesignName == 'GestureMultiAngle']
+    # palette = sns.color_palette("mako_r", 2)
 
-    sns.lineplot(
-        x="SizeName", 
-        y="finalExecTime", 
-        data=data, 
-        style="NbAngle",
-        hue = "NbAngle",
-        markers=True, 
-        dashes=False,
-        palette=palette,
-        )
+    # sns.lineplot(
+    #     x="SizeName", 
+    #     y="finalExecTime", 
+    #     data=data, 
+    #     style="NbAngle",
+    #     hue = "NbAngle",
+    #     markers=True, 
+    #     dashes=False,
+    #     palette=palette,
+    #     )
 
-    plt.title("The average execution time for each size of the target in GestureMultiAngle")
-    # plt.legend()
-    plt.ylabel('time (seconds)')
-    plt.xlabel('Size')
-    plt.ylim(0, ylim)
-    plt.savefig(path + '/graphs/GestureMultiAngle_Size_finalExecTime.png')
-    plt.clf()
+    # plt.title("The average execution time for each size of the target in GestureMultiAngle")
+    # # plt.legend()
+    # plt.ylabel('time (seconds)')
+    # plt.xlabel('Size')
+    # plt.ylim(0, ylim)
+    # plt.savefig(path + '/graphs/GestureMultiAngle_Size_finalExecTime.png')
+    # plt.clf()
 
 
     #### GestureMultiRepeat ####
@@ -363,7 +364,7 @@ def graph(df):
 
     #GestureMultiRepeat_Size_finalExecTime for Gestures
 
-    palette = sns.color_palette("mako_r", 2)
+    palette = sns.color_palette("mako_r", 3)
     sns.lineplot(
         x="SizeName", 
         y="finalExecTime", 
@@ -401,8 +402,8 @@ def anova(df):
 if __name__=="__main__":
     df = load()
     
-    print(df.corr()["Size"].sort_values(ascending=False))
+    #print(df.corr()["Size"].sort_values(ascending=False))
     
-    #graph(df)
+    graph(df)
     
     #anova(df)
