@@ -43,7 +43,7 @@ async function loadExperiment(participantID, experimentType) {
 function toggleExperimentType(experimentType) {
     let selector = "#info";
 
-    if (experimentType == ONEDIR || experimentType == TWODIR || experimentType == TWODIRONEDRAW) {
+    if (exGesture.includes(experimentType)) {
         document.querySelector(selector + " p").innerHTML = "Level "+(lv+1)+"/"+totalNb+": Draw<br> <b id=\"shortcut\"></b> <br>to unlock next level.";
     } else {
         document.querySelector(selector + " p").innerHTML = "Level " + (lv + 1) + "/" + totalNb +": Click on the circle and press<br> <b id=\"shortcut\"></b> <br>to unlock next level.";

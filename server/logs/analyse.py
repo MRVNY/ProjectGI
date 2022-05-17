@@ -401,6 +401,8 @@ def anova(df):
 if __name__=="__main__":
     df = load()
     
-    graph(df)
+    print(df.corr()["Size"].sort_values(ascending=False))
+    
+    #graph(df)
     
     #anova(df)
