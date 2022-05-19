@@ -85,3 +85,7 @@ canvas {
 grey{
     color: #ccc;
 }
+
+#shortcut {
+    font-size: x-large;
+}
