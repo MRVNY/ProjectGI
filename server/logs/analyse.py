@@ -84,25 +84,19 @@ def all(df):
     plt.clf()
 
     # All_Size_mouseClick
-    
-    palette = sns.color_palette("mako_r", 2)
+    nbLines = data1.DesignName.unique().shape[0]
+    palette = sns.color_palette("mako_r", nbLines)
 
     sns.lineplot(
-        x="SizeName", 
+        x="SizeName",
         y="mouseClick1", 
-        data=df,
-        label="mouseClick1", 
-        color=palette[0],
-        marker='o'
+        data=data1,
+        style="Name",
+        hue = "Name",
+        markers=True, 
+        dashes=False,
+        palette=palette,
         )
-    sns.lineplot(
-        x="SizeName", 
-        y="mouseClick2", 
-        data=df,
-        label="mouseClick2", 
-        color=palette[1],
-        marker='X'
-    )
     plt.title("The average time it takes to click on the target for each size of the target")
     plt.ylabel('time (seconds)')
     plt.xlabel('Size')
@@ -410,4 +404,4 @@ if __name__=="__main__":
     key(df)
     gesture(df)
     
-    anova(df)
+    #anova(df)

@@ -6,8 +6,8 @@ async function loadExperiment(participantID, experimentType) {
     switch (experimentType) {
         //ver2    
         case KEY_MULTI_MODI:
-            var nbTrials = 96;
-            var response = await fetch('./config/ver2/KeyMultiModi.csv');
+            var nbTrials = 72;
+            var response = await fetch('./config/ver3/KeyMultiModi.csv');
             var text = await response.text();
             out = parseCSV(text).slice((participantID - 1) * nbTrials, participantID * nbTrials)
             break;
@@ -20,8 +20,8 @@ async function loadExperiment(participantID, experimentType) {
             break;
 
         case GESTURE_MULTI_ANGLE:
-            var nbTrials = 96;
-            var response = await fetch('./config/ver2/GestureMultiAngle.csv');
+            var nbTrials = 48;
+            var response = await fetch('./config/ver3/GestureMultiAngle.csv');
             var text = await response.text();
             out = parseCSV(text).slice((participantID - 1) * nbTrials, participantID * nbTrials)
             break;

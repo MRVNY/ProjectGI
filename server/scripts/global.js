@@ -42,24 +42,26 @@ const TWODIR = 3
 const TWODIRONEDRAW = 4;
 
 //Ver2
-const KEY_MULTI_MODI = 2;
+// const KEY_MULTI_MODI = 0;
 // const KEY_MULTI_REPEAT = 1;
-const GESTURE_MULTI_ANGLE = 3;
+// const GESTURE_MULTI_ANGLE = 2;
 // const GESTURE_MULTI_REPEAT = 3;
 
 //Ver3
 const KEY_MULTI_REPEAT = 0;
 const GESTURE_MULTI_REPEAT = 1;
+const KEY_MULTI_MODI = 2;
+const GESTURE_MULTI_ANGLE = 3;
 
 const exKey = [KEY_MULTI_MODI, KEY_MULTI_REPEAT];
 const exGesture = [GESTURE_MULTI_ANGLE, GESTURE_MULTI_REPEAT];
 const exRepeat = [KEY_MULTI_REPEAT, GESTURE_MULTI_REPEAT];
 
 // types = {
-//     0 : "KEY_MULTI_MODI",
-//     1 : "KEY_MULTI_REPEAT",
-//     2 : "GESTURE_MULTI_ANGLE",
-//     3 : "GESTURE_MULTI_REPEAT",
+//     2 : "KEY_MULTI_MODI",
+//     0 : "KEY_MULTI_REPEAT",
+//     3 : "GESTURE_MULTI_ANGLE",
+//     1 : "GESTURE_MULTI_REPEAT",
 // }
 
 types = {
