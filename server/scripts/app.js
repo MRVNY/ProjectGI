@@ -125,14 +125,30 @@ async function launch() {
             letters[0].push(tmp[1].toLowerCase());
             letters[0].push(tmp[2].toLowerCase());
 
-            letters[1].push(tmp[3].toLowerCase());
-            letters[2].push(tmp[4].toLowerCase());
-            letters[3].push(tmp[5].toLowerCase());
+            letters[3].push(tmp[3].toLowerCase());
+            letters[4].push(tmp[4].toLowerCase());
+            letters[5].push(tmp[5].toLowerCase());
             break;
 
         case GESTURE_MULTI_REPEAT:
             tmp = allAngles.sort(() => Math.random() - 0.5)
             myDir = tmp.slice(0,6)
+        case GESTURE_MULTI_ANGLE:
+            doubleAngles = [
+                ["N", "NE"], ["N", "E"], ["N", "SE"], ["N", "SW"], ["N", "W"], ["N", "NW"],
+                ["NE", "N"], ["NE", "E"], ["NE", "SE"], ["NE", "S"], ["NE", "W"], ["NE", "NW"],
+                ["E", "N"], ["E", "NE"], ["E", "SE"], ["E", "S"], ["E", "SW"], ["E", "NW"],
+                ["SE", "N"], ["SE", "NE"], ["SE", "E"], ["SE", "S"], ["SE", "SW"], ["SE", "W"],
+                ["S", "NE"], ["S", "E"], ["S", "SE"], ["S", "SW"], ["S", "W"], ["S", "NW"],
+                ["SW", "N"], ["SW", "E"], ["SW", "SE"], ["SW", "S"], ["SW", "W"], ["SW", "NW"],
+                ["W", "N"], ["W", "NE"], ["W", "SE"], ["W", "S"], ["W", "SW"], ["W", "NW"],
+                ["NW", "N"], ["NW", "NE"], ["NW", "E"], ["NW", "S"], ["NW", "SW"], ["NW", "W"]
+            ];
+            tmp = allAngles.sort(() => Math.random() - 0.5);
+            myDir = [tmp.slice(0,3)];
+            tmp = doubleAngles.sort(() => Math.random() - 0.5);
+            myDir.push(tmp.slice(0,3));
+            break;
     }
 
     resize();
@@ -212,15 +228,21 @@ function updateInstructions() {
             break;
 
         case GESTURE_MULTI_ANGLE:
-            dir = currentExperiment.Dir.split("_");
-            toDraw = [angles[dir[0]]];
+            var nbAngles = parseInt(currentExperiment.NbAngle) - 1;
+            console.log("nbAngles",nbAngles);
+            dir = myDir[nbAngles][Math.floor(Math.random() * myDir[nbAngles].length)];
 
-            if(currentExperiment.NbAngle==1){
-                shortcutElement.innerHTML = emoji[dir[0]];
+
+            if(nbAngles==0){
+                toDraw = [angles[dir]];
+                shortcutElement.innerHTML = "<img src=\"/res/Icons/" + dir + ".jpg\">";
             }
             else{
-                toDraw.push(angles[dir[1]]);
-                shortcutElement.innerHTML = "consecutively " + emoji[dir[0]] + " " + emoji[dir[1]];
+                toDraw = []
+                for (let i = 0; i < dir.length; i++) {
+                    toDraw.push(angles[dir[i]]);
+                }
+                shortcutElement.innerHTML = "<img src=\"/res/Icons/" + dir[0] + "-" + dir[1] + ".jpg\">";
             }
             break;
 
@@ -246,9 +268,12 @@ function updateInstructions() {
 }
 
 function nextTest() {
-    if(cpt==totalNb){
+    if(cpt>=totalNb){
         // window.location.assign(dirname+"thankyou?user_id="+user_id+"&experiment_type="+experimentType);
-        window.location.assign(dirname + "endform?user_id=" + user_id + "&experiment_type=" + experimentType);
+        const params = new URLSearchParams(document.location.search);
+        const keyboard_layout = params.get("keyboard_layout");
+        const mouse_type = params.get("mouse_type");
+        window.location.assign(dirname + "endform?user_id=" + user_id + "&experiment_type=" + experimentType + "&keyboard_layout=" + keyboard_layout + "&mouse_type=" + mouse_type);
         return;
     }
     
