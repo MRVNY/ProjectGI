@@ -7,7 +7,7 @@ import pingouin as pg
 
 
 #ylim = np.floor(df.finalExecTime.max())+1
-ylim = 6
+ylim = 5
 path = os.path.dirname(os.path.abspath(__file__))
 sns.set(rc={"figure.figsize":(12, 9)})
     
@@ -48,9 +48,11 @@ def load():
     df['SizeName'] = df.Size.replace({1:"Tiny", 2:"Small", 3:"Medium", 4:"Large"})
     df['NbModiNames'] = df.NbModi.replace({0:"0 Modifier" ,1:"1 Modifier", 2:"2 Modifiers", 3:"3 Modifiers"})
     df['Name'] = df.DesignName.replace({'KeyMultiModi':'Key', 'KeyMultiRepeat':'Key', 'GestureMultiAngle':'Gesture', 'GestureMultiRepeat':'Gesture'})
-    df.modifiers1 = df.modifiers1.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
-    df.modifiers2 = df.modifiers2.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
-    df.modifiers3 = df.modifiers3.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
+    df.ParticipantID = df.ParticipantID.astype(str)
+    df["experimentID"] = df.DesignName.replace({'KeyMultiModi':'KM', 'KeyMultiRepeat':'KR', 'GestureMultiAngle':'GA', 'GestureMultiRepeat':'GR'}) + df.ParticipantID
+    # df.modifiers1 = df.modifiers1.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
+    # df.modifiers2 = df.modifiers2.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
+    # df.modifiers3 = df.modifiers3.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
     
     return df
 
@@ -58,39 +60,55 @@ def load():
 def all(df):
     ########## ALL ##########
     df = df.sort_values('Size')
-
-    # All_Key_Gesture
-    data1 = df
-    nbLines = data1.Name.unique().shape[0]
+    
+    # All_User_Performance
+    nbLines = df.DesignName.unique().shape[0]
     palette = sns.color_palette("mako_r", nbLines)
-
-    sns.lineplot(
-        x="Repeat", 
+        
+    sns.barplot(
+        x='experimentID',
         y="finalExecTime", 
-        data=data1,
-        style="Name",
-        hue = "Name",
-        markers=True, 
-        dashes=False,
-        palette=palette,
+        data=df,
         )
 
-    plt.title("The average total execution time for each repeat for key and gesture")
-    plt.ylabel('time (seconds)')
-    plt.xlabel('Repeat')
-    plt.xticks(np.arange(1, 4))
-    plt.ylim(0, ylim)
-    plt.savefig(path + '/graphs/All_Key_Gesture.png')
+    plt.ylim(0, 8)
+    plt.savefig(path + '/graphs/All_User_Performance.png')
     plt.clf()
+    
+    
+
+    # # All_Key_Gesture
+    # data1 = df
+    # nbLines = data1.Name.unique().shape[0]
+    # palette = sns.color_palette("mako_r", nbLines)
+
+    # sns.lineplot(
+    #     x="Repeat", 
+    #     y="finalExecTime", 
+    #     data=data1,
+    #     style="Name",
+    #     hue = "Name",
+    #     markers=True, 
+    #     dashes=False,
+    #     palette=palette,
+    #     )
+
+    # plt.title("The average total execution time for each repeat for key and gesture")
+    # plt.ylabel('time (seconds)')
+    # plt.xlabel('Repeat')
+    # plt.xticks(np.arange(1, 4))
+    # plt.ylim(0, ylim)
+    # plt.savefig(path + '/graphs/All_Key_Gesture.png')
+    # plt.clf()
 
     # All_Size_mouseClick
-    nbLines = data1.DesignName.unique().shape[0]
+    nbLines = df.DesignName.unique().shape[0]
     palette = sns.color_palette("mako_r", nbLines)
 
     sns.lineplot(
         x="SizeName",
         y="mouseClick1", 
-        data=data1,
+        data=df,
         style="Name",
         hue = "Name",
         markers=True, 
@@ -128,7 +146,7 @@ def all(df):
         palette=palette,
         ax=axes[0,0]
         )
-    ax1.set_title("Tiny", y=-0.01)
+    ax1.set_title("Tiny", y=-10)
     ax1.set_ylabel('time (seconds)')
     ax1.set_xlabel('Repeat')
     ax1.set_ylim(0, ylim)
@@ -146,7 +164,7 @@ def all(df):
         palette=palette,
         ax=axes[0,1]
         )
-    ax2.set_title("Small", y=-0.01)
+    ax2.set_title("Small", y=-1)
     ax2.set_ylabel('time (seconds)')
     ax2.set_xlabel('Repeat')
     ax2.set_ylim(0, ylim)
@@ -163,7 +181,7 @@ def all(df):
         palette=palette,
         ax=axes[1,0]
         )
-    ax3.set_title("Medium", y=-0.01)
+    ax3.set_title("Medium", y=-1)
     ax3.set_ylabel('time (seconds)')
     ax3.set_xlabel('Repeat')
     ax3.set_ylim(0, ylim)
@@ -180,7 +198,7 @@ def all(df):
         palette=palette,
         ax=axes[1,1]
         )
-    ax4.set_title("Large", y=-0.01)
+    ax4.set_title("Large", y=-1)
     ax4.set_ylabel('time (seconds)')
     ax4.set_xlabel('Repeat')
     ax4.set_ylim(0, ylim)
@@ -400,10 +418,10 @@ def anova(df):
 if __name__=="__main__":
     df = load()
     
-    print(df.corr()["Size"].sort_values(ascending=False))
+    #print(df.corr()["Size"].sort_values(ascending=False))
     
-    # all(df)
-    # key(df)
-    # gesture(df)
+    all(df)
+    key(df)
+    gesture(df)
     
-    anova(df)
+    #anova(df)
