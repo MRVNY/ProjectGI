@@ -4,12 +4,13 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 import pingouin as pg
+from scipy.stats import f_oneway
 
 
 #ylim = np.floor(df.finalExecTime.max())+1
 ylim = 5
 path = os.path.dirname(os.path.abspath(__file__))
-sns.set(rc={"figure.figsize":(12, 9)})
+sns.set(rc={"figure.figsize":(8, 6)})
     
 # Load csv
 def load():
@@ -50,6 +51,7 @@ def load():
     df['Name'] = df.DesignName.replace({'KeyMultiModi':'Key', 'KeyMultiRepeat':'Key', 'GestureMultiAngle':'Gesture', 'GestureMultiRepeat':'Gesture'})
     df.ParticipantID = df.ParticipantID.astype(str)
     df["experimentID"] = df.DesignName.replace({'KeyMultiModi':'KM', 'KeyMultiRepeat':'KR', 'GestureMultiAngle':'GA', 'GestureMultiRepeat':'GR'}) + df.ParticipantID
+    df["DesignID"] = df.DesignName.replace({'KeyMultiModi':0, 'KeyMultiRepeat':1, 'GestureMultiAngle':2, 'GestureMultiRepeat':3})
     # df.modifiers1 = df.modifiers1.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
     # df.modifiers2 = df.modifiers2.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
     # df.modifiers3 = df.modifiers3.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
@@ -61,44 +63,18 @@ def all(df):
     ########## ALL ##########
     df = df.sort_values('Size')
     
-    # All_User_Performance
-    nbLines = df.DesignName.unique().shape[0]
-    palette = sns.color_palette("mako_r", nbLines)
+    # #All_User_Performance
         
-    sns.barplot(
-        x='experimentID',
-        y="finalExecTime", 
-        data=df,
-        )
-
-    plt.ylim(0, 8)
-    plt.savefig(path + '/graphs/All_User_Performance.png')
-    plt.clf()
-    
-    
-
-    # # All_Key_Gesture
-    # data1 = df
-    # nbLines = data1.Name.unique().shape[0]
-    # palette = sns.color_palette("mako_r", nbLines)
-
-    # sns.lineplot(
-    #     x="Repeat", 
+    # sns.barplot(
+    #     x='experimentID',
     #     y="finalExecTime", 
-    #     data=data1,
-    #     style="Name",
-    #     hue = "Name",
-    #     markers=True, 
-    #     dashes=False,
-    #     palette=palette,
+    #     data=df,
     #     )
-
-    # plt.title("The average total execution time for each repeat for key and gesture")
+    # plt.title("The average time it takes to execute a trial for each participant")
     # plt.ylabel('time (seconds)')
-    # plt.xlabel('Repeat')
-    # plt.xticks(np.arange(1, 4))
-    # plt.ylim(0, ylim)
-    # plt.savefig(path + '/graphs/All_Key_Gesture.png')
+    # plt.xlabel('Participant')
+    # plt.ylim(0, 8)
+    # plt.savefig(path + '/graphs/All_User_Performance.png')
     # plt.clf()
 
     # All_Size_mouseClick
@@ -109,8 +85,8 @@ def all(df):
         x="SizeName",
         y="mouseClick1", 
         data=df,
-        style="Name",
-        hue = "Name",
+        style="DesignName",
+        hue = "DesignName",
         markers=True, 
         dashes=False,
         palette=palette,
@@ -123,14 +99,14 @@ def all(df):
     plt.savefig(path + '/graphs/All_Size_mouseClick.png')
     plt.clf()
     
-    # All_Size_Key_Gesture
-    df = df.sort_values('Name')
+    # All_Repeat_By_Size
+    df = df.sort_values('DesignName')
     data1 = df[df.SizeName == 'Tiny']
     data2 = df[df.SizeName == 'Small']
     data3 = df[df.SizeName == 'Medium']
     data4 = df[df.SizeName == 'Large']
     
-    nbLines = data1.Name.unique().shape[0]
+    nbLines = data1.DesignName.unique().shape[0]
     palette = sns.color_palette("mako_r", nbLines)
     fig, axes = plt.subplots(2, 2)
     fig.suptitle('The average total execution time for each repeat for key and gesture categorized by size')
@@ -139,14 +115,14 @@ def all(df):
         x="Repeat", 
         y="finalExecTime", 
         data=data1,
-        style="Name",
-        hue = "Name",
+        style="DesignName",
+        hue = "DesignName",
         markers=True, 
         dashes=False,
         palette=palette,
         ax=axes[0,0]
         )
-    ax1.set_title("Tiny", y=-10)
+    ax1.set_title("Tiny", x=0.09, y=0.85, fontsize=20)
     ax1.set_ylabel('time (seconds)')
     ax1.set_xlabel('Repeat')
     ax1.set_ylim(0, ylim)
@@ -157,14 +133,14 @@ def all(df):
         x="Repeat", 
         y="finalExecTime", 
         data=data2,
-        style="Name",
-        hue = "Name",
+        style="DesignName",
+        hue = "DesignName",
         markers=True, 
         dashes=False,
         palette=palette,
         ax=axes[0,1]
         )
-    ax2.set_title("Small", y=-1)
+    ax2.set_title("Small", x=0.1, y=0.85, fontsize=20)
     ax2.set_ylabel('time (seconds)')
     ax2.set_xlabel('Repeat')
     ax2.set_ylim(0, ylim)
@@ -174,14 +150,14 @@ def all(df):
         x="Repeat", 
         y="finalExecTime", 
         data=data3,
-        style="Name",
-        hue = "Name",
+        style="DesignName",
+        hue = "DesignName",
         markers=True, 
         dashes=False,
         palette=palette,
         ax=axes[1,0]
         )
-    ax3.set_title("Medium", y=-1)
+    ax3.set_title("Medium", x=0.13, y=0.85, fontsize=20)
     ax3.set_ylabel('time (seconds)')
     ax3.set_xlabel('Repeat')
     ax3.set_ylim(0, ylim)
@@ -191,32 +167,33 @@ def all(df):
         x="Repeat", 
         y="finalExecTime", 
         data=data4,
-        style="Name",
-        hue = "Name",
+        style="DesignName",
+        hue = "DesignName",
         markers=True, 
         dashes=False,
         palette=palette,
         ax=axes[1,1]
         )
-    ax4.set_title("Large", y=-1)
+    ax4.set_title("Large", x=0.1, y=0.85, fontsize=20)
     ax4.set_ylabel('time (seconds)')
     ax4.set_xlabel('Repeat')
     ax4.set_ylim(0, ylim)
     ax4.set_xticks(range(1,4))
     
-    fig.savefig(path + '/graphs/All_Size_Key_Gesture.png')
+    fig.savefig(path + '/graphs/All_Repeat_By_Size.png')
     fig.clf()
     
     
-    # All_Block_DesignName
-    data1 = df
+    # All_Size
+    df = df.sort_values('Size')
+
     nbLines = data1.DesignName.unique().shape[0]
     palette = sns.color_palette("mako_r", nbLines)
 
     sns.lineplot(
-        x="Block1", 
+        x="SizeName", 
         y="finalExecTime", 
-        data=data1,
+        data=df,
         style="DesignName",
         hue = "DesignName",
         markers=True, 
@@ -224,36 +201,86 @@ def all(df):
         palette=palette,
         )
 
-    plt.title("The average total execution time with evolution of block for each experiment")
+    plt.title("The average execution time for each experiment by size")
     plt.ylabel('time (seconds)')
-    plt.xlabel('Block')
+    plt.xlabel('Repeat')
     plt.ylim(0, ylim)
-    plt.savefig(path + '/graphs/All_Block_DesignName.png')
+    plt.savefig(path + '/graphs/All_Size.png')
     plt.clf()
+
+  
+    
+    # All_Block_DesignName
+    # data1 = df
+    # nbLines = data1.DesignName.unique().shape[0]
+    # palette = sns.color_palette("mako_r", nbLines)
+
+    # sns.lineplot(
+    #     x="Block1", 
+    #     y="finalExecTime", 
+    #     data=data1,
+    #     style="DesignName",
+    #     hue = "DesignName",
+    #     markers=True, 
+    #     dashes=False,
+    #     palette=palette,
+    #     )
+
+    # plt.title("The average total execution time with evolution of block for each experiment")
+    # plt.ylabel('time (seconds)')
+    # plt.xlabel('Block')
+    # plt.ylim(0, ylim)
+    # plt.savefig(path + '/graphs/All_Block_DesignName.png')
+    # plt.clf()
 
 
 #### KeyMultiRepeat ####
 def key_repeat(df):
+    df = df.sort_values('Size')
     data = df[(df.DesignName == 'KeyMultiRepeat')]
-    palette = sns.color_palette("mako_r", 3)
-
-    #KeyMultiRepeat_Repeat_totalExecTime
     
+    #KeyMultiRepeat_Size_finalExecTime for Gestures
+
+    nbLines = data.SizeName.unique().shape[0]
+    palette = sns.color_palette("mako_r", nbLines)
     sns.lineplot(
         x="Repeat", 
         y="finalExecTime", 
-        data=data,
+        data=data, 
+        style="SizeName",
+        hue = "SizeName",
         markers=True, 
         dashes=False,
         palette=palette,
-        )
-    plt.title("The average execution time for each modifier in KeyMultiRepeat")
+        err_style=None,
+    )
+
+    plt.title("The average execution time for each size of the target in KeyMultiRepeat")
     plt.ylabel('time (seconds)')
     plt.xlabel('Repeat')
-    plt.xticks(np.arange(1, 4))
     plt.ylim(0, ylim)
-    plt.savefig(path + '/graphs/KeyMultiRepeat_Repeat_totalExecTime.png')
+    plt.xticks(range(1,4))
+    plt.savefig(path + '/graphs/KeyMultiRepeat_Size_finalExecTime.png')
     plt.clf()
+    
+
+    # #KeyMultiRepeat_Repeat_totalExecTime
+    
+    # sns.lineplot(
+    #     x="Repeat", 
+    #     y="finalExecTime", 
+    #     data=data,
+    #     markers=True, 
+    #     dashes=False,
+    #     palette=palette,
+    #     )
+    # plt.title("The average execution time for each modifier in KeyMultiRepeat")
+    # plt.ylabel('time (seconds)')
+    # plt.xlabel('Repeat')
+    # plt.xticks(np.arange(1, 4))
+    # plt.ylim(0, ylim)
+    # plt.savefig(path + '/graphs/KeyMultiRepeat_Repeat_totalExecTime.png')
+    # plt.clf()
 
 
 #### GestureMultiRepeat ####
@@ -279,8 +306,9 @@ def gesture_repeat(df):
 
     plt.title("The average execution time for each size of the target in GestureMultiRepeat")
     plt.ylabel('time (seconds)')
-    plt.xlabel('Size')
+    plt.xlabel('Repeat')
     plt.ylim(0, ylim)
+    plt.xticks(range(1,4))
     plt.savefig(path + '/graphs/GestureMultiRepeat_Size_finalExecTime.png')
     plt.clf()
 
@@ -401,27 +429,29 @@ def anova(df):
     GestureMultiAngle = df[(df.DesignName == 'GestureMultiAngle')]
     GestureMultiRepeat = df[(df.DesignName == 'GestureMultiRepeat')]
     
-    # res = pg.rm_anova(data=df, dv="finalExecTime", within=["Repeat", "Size", "Block1"], between=["DesignName"], subject="ParticipantID")
+    res = pg.rm_anova(data=df, dv="DesignID", within=["Repeat", "Size"], subject="ParticipantID")
     res1 = pg.rm_anova(data=KeyMultiRepeat, dv="finalExecTime", within=["Repeat", "Size"], subject="ParticipantID")
     res2 = pg.rm_anova(data=GestureMultiRepeat, dv="finalExecTime", within=["Repeat", "Size"], subject="ParticipantID")
 
-    #print(res)
+    
+    print(res)
     print(res1)
     print(res2)
     
     # # Posthoc test (if necessary)
-    # posthocs = pg.pairwise_ttests(dv='Time', within=['Condition', 'Size'], subject='Participant ID', data=df)
-    # pg.print_table(posthocs)
+    posthocs = pg.pairwise_ttests(dv='finalExecTime', within=['Repeat', 'Size'], subject='ParticipantID', data=KeyMultiRepeat)
+    pg.print_table(posthocs)
 
 
 
 if __name__=="__main__":
     df = load()
+    df = df[df.Block1 > 1]
     
-    #print(df.corr()["Size"].sort_values(ascending=False))
+    print(df.corr()["DesignID"].sort_values(ascending=False))
+    #print(f_oneway(df.finalExecTime, df.Repeat, df.Size, df.Block1))
+    # all(df)
+    # key(df)
+    # gesture(df)
     
-    all(df)
-    key(df)
-    gesture(df)
-    
-    #anova(df)
+    anova(df)
