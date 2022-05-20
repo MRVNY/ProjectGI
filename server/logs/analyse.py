@@ -383,9 +383,11 @@ def anova(df):
     GestureMultiAngle = df[(df.DesignName == 'GestureMultiAngle')]
     GestureMultiRepeat = df[(df.DesignName == 'GestureMultiRepeat')]
     
+    # res = pg.rm_anova(data=df, dv="finalExecTime", within=["Repeat", "Size", "Block1"], between=["DesignName"], subject="ParticipantID")
     res1 = pg.rm_anova(data=KeyMultiRepeat, dv="finalExecTime", within=["Repeat", "Size"], subject="ParticipantID")
     res2 = pg.rm_anova(data=GestureMultiRepeat, dv="finalExecTime", within=["Repeat", "Size"], subject="ParticipantID")
 
+    #print(res)
     print(res1)
     print(res2)
     
@@ -398,10 +400,10 @@ def anova(df):
 if __name__=="__main__":
     df = load()
     
-    #print(df.corr()["Size"].sort_values(ascending=False))
+    print(df.corr()["Size"].sort_values(ascending=False))
     
-    all(df)
-    key(df)
-    gesture(df)
+    # all(df)
+    # key(df)
+    # gesture(df)
     
-    #anova(df)
+    anova(df)
