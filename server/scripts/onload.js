@@ -1,14 +1,12 @@
 async function home() {
     user_id = document.getElementById("user_id");
     experiment_type = document.getElementById("experiment_type");
-    browser = document.getElementById("browser");
     // id = document.getElementById("id");
     // type = document.getElementById("type");
     // descri = document.getElementById("descri");
 
     experiment_type.value = Math.floor(Math.random() * experimentNb);
     user_id.value = Math.floor(Math.random() * (participantNb-1)) + 1;
-    browser.value = navigator.appCodeName;
 
     cpt = 0;
 
@@ -36,27 +34,26 @@ async function tuto() {
     const experimentType = Number(params.get("experiment_type"));
     const keyboard_layout = params.get("keyboard_layout");
     const mouse_type = params.get("mouse_type");
-    const browser = params.get("browser");
 
     if (!(parseInt(user_id) > 0 && allKeyboardLayouts.includes(keyboard_layout) && allMouseTypes.includes(mouse_type))) {
         alert("Broken experiment parameters in the URL, go back to the home page !");
         window.location.assign(dirname);
     }
 
-    JSONObject = {
-        "DesignName": types[experimentType],
-        "ParticipantID": user_id,
-        "keyboardLayout": keyboard_layout,
-        "mouseType": mouse_type,
-        "browser": browser,
-        "user_age": "NaN",
-        "user_gender": "NaN",
-        "frequency": "NaN",
-        "comment" : "NaN"
-    };
+    // JSONObject = {
+    //     "DesignName": types[experimentType],
+    //     "ParticipantID": user_id,
+    //     "keyboardLayout": keyboard_layout,
+    //     "mouseType": mouse_type,
+    //     "browser": browser,
+    //     "user_age": "NaN",
+    //     "user_gender": "NaN",
+    //     "frequency": "NaN",
+    //     "comment" : "NaN"
+    // };
 
-    csvUserData =  await convertUserToCSV([JSONObject]);
-    sendToUserLogger(csvUserData);
+    // csvUserData =  await convertUserToCSV([JSONObject]);
+    // sendToUserLogger(csvUserData);
 
     type = document.getElementById("type");
     text = document.getElementById("text");
@@ -83,17 +80,23 @@ function next(){
 
     const user_id = params.get("user_id");
     const experimentType = Number(params.get("experiment_type"));
+    const keyboard_layout = params.get("keyboard_layout");
+    const mouse_type = params.get("mouse_type");
 
-    window.location.assign(dirname+"experiment?user_id="+user_id+"&experiment_type="+experimentType);
+    window.location.assign(dirname+"experiment?user_id="+user_id+"&experiment_type="+experimentType+"&keyboard_layout="+keyboard_layout+"&mouse_type="+mouse_type);
 }
 
 function endform() {
     const params = new URLSearchParams(document.location.search);
     const user_id = params.get("user_id");
     const experimentType = Number(params.get("experiment_type"));
+    const keyboard_layout = params.get("keyboard_layout");
+    const mouse_type = params.get("mouse_type");
 
     document.getElementById("user_id").value = user_id;
     document.getElementById("experiment_type").value = experimentType;
+    document.getElementById("keyboard_layout").value = keyboard_layout;
+    document.getElementById("mouse_type").value = mouse_type;
 }
 
 function thankyou(){

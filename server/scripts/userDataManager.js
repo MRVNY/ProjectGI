@@ -1,4 +1,4 @@
-async function sendUserData(experimentType,user_id, user_age, user_gender, frequency, comment) {
+async function sendUserData(experimentType,user_id, keyboard_layout, mouse_type, user_age, user_gender, frequency, comment) {
     var brwsr = "NaN";
     if (navigator.userAgent.includes('Firefox/')) {
         brwsr = "Firefox";
@@ -12,8 +12,8 @@ async function sendUserData(experimentType,user_id, user_age, user_gender, frequ
     JSONObject = {
         "DesignName" : types[experimentType],
         "ParticipantID": user_id,
-        "keyboardLayout": "NaN", 
-        "mouseType": "NaN",
+        "keyboardLayout": keyboard_layout, 
+        "mouseType": mouse_type,
         "browser": brwsr,
         "user_age": user_age,
         "user_gender": user_gender,
@@ -33,7 +33,9 @@ const user_age = params.get("user_age");
 const user_gender = params.get("user_gender");
 const frequency = params.get("frequency");
 const comment = params.get("comment");
+const keyboard_layout = params.get("keyboard_layout");
+const mouse_type = params.get("mouse_type");
 
 if(parseInt(user_id) > 0 && parseInt(user_age) > 0 && user_gender != null && frequency != null) {
-    sendUserData(experimentType,user_id, user_age, user_gender, frequency, comment);
+    sendUserData(experimentType, user_id, keyboard_layout, mouse_type, user_age, user_gender, frequency, comment);
 }

@@ -67,6 +67,8 @@ const exRepeat = [KEY_MULTI_REPEAT, GESTURE_MULTI_REPEAT];
 types = {
     0: "KEY_MULTI_REPEAT",
     1: "GESTURE_MULTI_REPEAT",
+    2: "KEY_MULTI_MODI",
+    3: "GESTURE_MULTI_ANGLE",
 }
 
 // description = {
@@ -78,7 +80,9 @@ types = {
 
 description = {
     0: "1-3 keyboard shortcuts with 1 modifier",
-    1: "1-3 gesture shortcuts of 1 angle",
+    1: "1-3 gesture shortcuts with 1 angle",
+    2: "1 keyboard shortcut with 0-3 modifiers",
+    3: "1 gesture shortcuts with 1-2 angle",
 }
 
 // tutos = {
@@ -91,6 +95,8 @@ description = {
 tutos = {
     0: ["1-3 keyboard shortcuts ", "keyboard shortcuts are ", "keyboard shortcuts have "],
     1: ["1-3 gestural shortcuts ", "gestural shortcuts are ", "gestural shortcuts have "],
+    2: ["1 keyboard shortcut ", "keyboard shortcut is ", "keyboard shortcut has "],
+    3: ["1 gestural shortcut ", "gestural shortcut is ", "gestural shortcut has "],
 }
 
 const experimentNb = Object.keys(types).length;
