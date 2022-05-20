@@ -125,9 +125,9 @@ async function launch() {
             letters[0].push(tmp[1].toLowerCase());
             letters[0].push(tmp[2].toLowerCase());
 
-            letters[3].push(tmp[3].toLowerCase());
-            letters[4].push(tmp[4].toLowerCase());
-            letters[5].push(tmp[5].toLowerCase());
+            letters[1].push(tmp[3].toLowerCase());
+            letters[2].push(tmp[4].toLowerCase());
+            letters[3].push(tmp[5].toLowerCase());
             break;
 
         case GESTURE_MULTI_REPEAT:
