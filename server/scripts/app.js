@@ -133,6 +133,7 @@ async function launch() {
         case GESTURE_MULTI_REPEAT:
             tmp = allAngles.sort(() => Math.random() - 0.5)
             myDir = tmp.slice(0,6)
+            break;
         case GESTURE_MULTI_ANGLE:
             doubleAngles = [
                 ["N", "NE"], ["N", "E"], ["N", "SE"], ["N", "SW"], ["N", "W"], ["N", "NW"],
