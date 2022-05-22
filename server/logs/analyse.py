@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import pingouin as pg
 from scipy.stats import f_oneway
+from statsmodels.stats.anova import AnovaRM
+
 
 
 #ylim = np.floor(df.finalExecTime.max())+1
@@ -36,7 +38,7 @@ def load():
             "mouseClick1", "totalExecTime1", "nbOfAttempts1",
             "mouseClick2", "totalExecTime2", "nbOfAttempts2",
             "mouseClick3", "totalExecTime3", "nbOfAttempts3",
-            "targetDist", "keyboardLayout", "mouseType"
+            "targetDist"
         ]
 
     path = os.path.dirname(os.path.abspath(__file__))
@@ -55,7 +57,7 @@ def load():
     # df.modifiers1 = df.modifiers1.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
     # df.modifiers2 = df.modifiers2.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
     # df.modifiers3 = df.modifiers3.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
-    
+        
     # Outliers
     #df = df[df.Block1 > 1]
     df = df[(df.nbOfAttempts1==1) | ((df.nbOfAttempts1==1) & (df.nbOfAttempts2==1) & (df.Repeat==2)) | ((df.nbOfAttempts1==1) & (df.nbOfAttempts2==1) & (df.nbOfAttempts3==1) & (df.Repeat==3))]
@@ -68,7 +70,7 @@ def load():
             if(i==1 and j==1):
                 out = tmp
             else: 
-                out = pd.concat([out, tmp])
+                out = pd.concat([out, tmp],ignore_index=True)
         
     df = out
     
@@ -354,7 +356,6 @@ def corr(df):
     res = pg.rm_anova(data=df, dv="DesignID", within=["Repeat", "Size"], subject="ParticipantID")
     res1 = pg.rm_anova(data=KeyMultiRepeat, dv="finalExecTime", within=["Repeat", "Size"], subject="ParticipantID")
     res2 = pg.rm_anova(data=GestureMultiRepeat, dv="finalExecTime", within=["Repeat", "Size"], subject="ParticipantID")
-
     
     print(res)
     print(res1)
@@ -363,6 +364,32 @@ def corr(df):
     # # Posthoc test (if necessary)
     # posthocs = pg.pairwise_ttests(dv='finalExecTime', within=['Repeat', 'Size'], subject='ParticipantID', data=KeyMultiRepeat)
     # pg.print_table(posthocs)
+    
+def user(df):
+    headers = ["DesignName", "ParticipantID", "keyboardLayout", "mouseType", "browser", "user_age", "user_gender", "frequency", "comment"]
+    user_df = pd.read_csv(path + "/userdata.csv", skiprows=1, names=headers, na_values="-1")
+
+    df.ParticipantID = df.ParticipantID.astype(int)
+    df = pd.merge(df[["DesignName", "ParticipantID","experimentID","finalExecTime"]],user_df, on=['DesignName','ParticipantID'],how='left')
+    #df[["DesignName", "ParticipantID","experimentID","finalExecTime"]]
+    
+    #print(df.corr()["finalExecTime"].sort_values(ascending=False))
+    
+    # data1 = df[df.keyboardLayout.notnull() & (df.mouseType.notnull())]
+    # data1['keyboardLayout'] = data1.keyboardLayout.replace({'QWERTY':0 , 'AZERTY':1})
+    # data1['mouseType'] = data1.mouseType.replace({'touchpad':0 , 'classic_mouse':1})
+    # res = pg.rm_anova(data=data1, dv="finalExecTime", within=["keyboardLayout","mouseType"], subject="DesignName")
+    # print(res)
+    # res2 = AnovaRM(data=data1, depvar='finalExecTime',subject='DesignName', within=['keyboardLayout']).fit()
+    # print(res2)
+    
+
+    data2 = df[(df.user_age.notnull()) & (df.user_gender.notnull()) & (df.finalExecTime.notnull())]
+    #print(AnovaRM(data=data2, depvar='finalExecTime',subject='DesignName', within=['user_gender']).fit())
+    #data2.user_gender = data2.user_gender.replace({"man":0, "woman":1, "non-binary":2})
+    print(pg.rm_anova(data=data2, dv="finalExecTime", within="user_age", subject="DesignName"))
+    print(pg.rm_anova(data=data2, dv="finalExecTime", within="user_gender", subject="DesignName"))
+
 
 def remove_outliers(df, col):
     return df[np.abs(df[col] - df[col].mean()) <= (3*df[col].std())]
@@ -370,9 +397,10 @@ def remove_outliers(df, col):
 if __name__=="__main__":
     df = load()
     
-    all(df)
-    key(df)
-    gesture(df)
-    four_size(df)
+    # all(df)
+    # key(df)
+    # gesture(df)
+    # four_size(df)
     
-    corr(df)
+    #corr(df)
+    user(df)
