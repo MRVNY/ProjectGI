@@ -1,12 +1,10 @@
-from email import header
 import os
-from textwrap import indent
-import numpy as np
+
 import pandas as pd
 import seaborn as sns
-import pingouin as pg
 import matplotlib.pyplot as plt
-import json
+import numpy as np
+import matplotlib as mpl
 
 ylim = 8
 path = os.path.dirname(os.path.abspath(__file__))
@@ -14,7 +12,7 @@ sns.set(rc={'figure.figsize': (12, 9)})
 
 #### Usefull functions ####
 
-def get_categories(df):
+def get_categories(df, ids):
     ndf = df.to_numpy()
     cats = {
         "age": {
@@ -49,12 +47,13 @@ def get_categories(df):
     }
     for entry in ndf:
         entry_id = str(entry[1])
-        parsed_age = f'{str(entry[5])[0]}0-{str(entry[5])[0]}9'
-        cats["age"][parsed_age].append(entry_id)
-        cats["gender"][entry[6]].append(entry_id)
-        cats["frequency"][entry[7]].append(entry_id)
-        cats["keyboard"][entry[2]].append(entry_id)
-        cats["mouse"][entry[3]].append(entry_id)
+        if entry_id in ids:
+            parsed_age = f'{str(entry[5])[0]}0-{str(entry[5])[0]}9'
+            cats["age"][parsed_age].append(entry_id)
+            cats["gender"][entry[6]].append(entry_id)
+            cats["frequency"][entry[7]].append(entry_id)
+            cats["keyboard"][entry[2]].append(entry_id)
+            cats["mouse"][entry[3]].append(entry_id) 
     return cats
 
 def plot_distribution(ax, cat, title, rot=0):
@@ -124,7 +123,22 @@ def load():
     df.ParticipantID = df.ParticipantID.astype(str)
     df["experimentID"] = df.DesignName.replace({'KeyMultiModi':'KM', 'KeyMultiRepeat':'KR', 'GestureMultiAngle':'GA', 'GestureMultiRepeat':'GR'}) + df.ParticipantID
     
-    return df
+    df = df[(df.nbOfAttempts1==1) | ((df.nbOfAttempts1==1) & (df.nbOfAttempts2==1) & (df.Repeat==2)) | ((df.nbOfAttempts1==1) & (df.nbOfAttempts2==1) & (df.nbOfAttempts3==1) & (df.Repeat==3))]
+    
+    for i in range(1,5):
+        for j in range(1,4):
+                
+            tmp = df[(df.Size==i) & (df.Repeat==j)][np.abs(df['finalExecTime'] - df['finalExecTime'].mean()) <= (3*df['finalExecTime'].std())]
+            
+            if(i==1 and j==1):
+                out = tmp
+            else: 
+                out = pd.concat([out, tmp])
+        
+    df = out
+
+    ids = df.ParticipantID.unique()
+    return df, ids
 
 
 #### Data analysis ####
@@ -133,6 +147,8 @@ def all(df, cats):
     ########## ALL ##########
     df = df.sort_values('Size')
     
+    mpl.rcParams.update({'axes.grid': True, 'grid.color': '202020', 'axes.edgecolor': 'black'})
+
     # All_User_Performance
     cats = remove_empty(cats)
     for cat_name in cats.keys():
@@ -150,7 +166,7 @@ def all(df, cats):
             axs[i].set_title(cat_keys[i])
             
         fig.tight_layout()
-        plt.savefig(path + '/graphs/User_Performance_by_' + cat_name + '.png')
+        plt.savefig(path + '/graphs/User_Performance_by_' + cat_name + '.png', transparent=True)
         plt.clf()
         plt.close(fig=fig)
 
@@ -173,11 +189,11 @@ def all(df, cats):
             axs[i].set_title(cat_keys[i])
             axs[i].set_ylabel('time (seconds)')
             axs[i].set_xlabel('Size')
-            axs[i].set_ylim(0, ylim)
+            axs[i].set_ylim(0.5, 2)
             axs[i].legend(loc='upper left')
         fig.suptitle("The average time it takes to click on the target for each size of the target")
         fig.tight_layout()
-        plt.savefig(path + '/graphs/Size_mouseClick_by_' + cat_name + '.png')
+        plt.savefig(path + '/graphs/Size_mouseClick_by_' + cat_name + '.png', transparent=True)
         plt.clf()
         plt.close(fig=fig)
         
@@ -186,12 +202,12 @@ def all(df, cats):
     sizes = ['Tiny', 'Small', 'Medium', 'Large']
     for cat_name in cats.keys():
         cat_keys = list(cats[cat_name].keys())
-        fig, axs = plt.subplots(len(cat_keys)*2, 2, figsize=(10, 5*len(cat_keys)))
+        fig, axs = plt.subplots(len(cat_keys), 4, figsize=(20, 3*len(cat_keys)))
 
         for i in range(len(cat_keys)):
             for j in range(len(sizes)):
-                x = int(i*2+int(j/2))
-                y = j%2
+                x = i #int(i*2+int(j/2))
+                y = j #j%2
                 data = df[df.SizeName == sizes[j]]
                 sns.lineplot(
                     x="Repeat", 
@@ -206,11 +222,11 @@ def all(df, cats):
                 axs[x, y].set_title(cat_keys[i] + " and " + sizes[j] + " target")
                 axs[x, y].set_ylabel('time (seconds)')
                 axs[x, y].set_xlabel('Repeat')
-                axs[x, y].set_ylim(0, ylim)
+                axs[x, y].set_ylim(1, 5)
                 axs[x, y].set_xticks(range(1,4))
         fig.suptitle('The average total execution time for each repeat for key and gesture categorized by size')
         fig.tight_layout() 
-        fig.savefig(path + '/graphs/All_Size_Key_Gesture_by_' + cat_name + '.png')
+        fig.savefig(path + '/graphs/All_Size_Key_Gesture_by_' + cat_name + '.png', transparent=True)
         fig.clf()
         plt.close(fig=fig)
     
@@ -232,19 +248,20 @@ def all(df, cats):
             )
             axs[i].set_ylabel('time (seconds)')
             axs[i].set_xlabel('Block')
-            axs[i].set_ylim(0, ylim)
+            axs[i].set_ylim(1, 4)
             axs[i].set_title(cat_keys[i])
 
         fig.suptitle("The average total execution time with evolution of block for each experiment")
         fig.tight_layout()
-        plt.savefig(path + '/graphs/All_Block_DesignName_by_' + cat_name + '.png')
+        plt.savefig(path + '/graphs/All_Block_DesignName_by_' + cat_name + '.png', transparent=True)
         plt.clf()
         plt.close(fig=fig)
 
+
 if __name__ == "__main__":
     userdata_df = load_userdata()
-    df = load()
-    cats = get_categories(userdata_df)
+    df, available_ids = load()
+    cats = get_categories(userdata_df, available_ids)
     all(df, cats)
     fig, axs = plt.subplots(1, 5, figsize=(25,5))
     plot_distribution(axs[0], cats["age"], "Users age", rot=45)
