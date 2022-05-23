@@ -6,8 +6,7 @@ import pandas as pd
 import pingouin as pg
 from scipy.stats import f_oneway
 from statsmodels.stats.anova import AnovaRM
-
-
+import matplotlib as mpl
 
 #ylim = np.floor(df.finalExecTime.max())+1
 ylim = 5
@@ -58,25 +57,33 @@ def load():
     # df.modifiers2 = df.modifiers2.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
     # df.modifiers3 = df.modifiers3.replace({'Option':'Alt/Option', 'CMD':'Ctrl/CMD', 'Alt':'Alt/Option', 'Ctrl':'Ctrl/CMD'})
         
+    outliers(df,1)
+    
     # Outliers
-    #df = df[df.Block1 > 1]
+    df = df[df.Block1 > 1]
     df = df[(df.nbOfAttempts1==1) | ((df.nbOfAttempts1==1) & (df.nbOfAttempts2==1) & (df.Repeat==2)) | ((df.nbOfAttempts1==1) & (df.nbOfAttempts2==1) & (df.nbOfAttempts3==1) & (df.Repeat==3))]
     
     for i in range(1,5):
         for j in range(1,4):
+            for k in df.experimentID.unique():
                 
-            tmp = df[(df.Size==i) & (df.Repeat==j)][np.abs(df['finalExecTime'] - df['finalExecTime'].mean()) <= (3*df['finalExecTime'].std())]
-            
-            if(i==1 and j==1):
-                out = tmp
-            else: 
-                out = pd.concat([out, tmp],ignore_index=True)
+                tmp = df[(df.Size==i) & (df.Repeat==j) & (df.experimentID==k)][np.abs(df['finalExecTime'] - df['finalExecTime'].mean()) <= (3*df['finalExecTime'].std())]
+                
+                if(i==1 and j==1) and k == df.experimentID.unique()[0]:
+                    out = tmp
+                else: 
+                    out = pd.concat([out, tmp],ignore_index=True)
         
     df = out
     
+    outliers(df,2)
+    
     return df
 
-def outliers(df):
+def outliers(df,i):
+    #sns.set(rc={"figure.figsize":(12, 5)})
+    mpl.rcParams.update({'axes.grid': True, 'grid.color': '202020', 'axes.edgecolor': 'black'})
+
     #All_User_Performance
     sns.barplot(
         x='experimentID',
@@ -87,8 +94,8 @@ def outliers(df):
     plt.ylabel('time (seconds)')
     plt.xlabel('Participant')
     plt.ylim(0, 8)
-    plt.savefig(path + '/graphs/All_User_Performance.png')
-    plt.show()
+    plt.savefig(path + '/graphs/All_User_Performance'+str(i)+'.png',transparent=True)
+    #plt.show()
     plt.clf()
 
 def all(df):
@@ -116,20 +123,21 @@ def all(df):
     plt.xlabel('Size')
     plt.ylim(0, ylim)
     plt.legend()
-    plt.savefig(path + '/graphs/All_Size_mouseClick.png')
+    plt.savefig(path + '/graphs/All_Size_mouseClick.png',transparent=True)
     plt.clf()
     
     
     # All_Size
     df = df.sort_values('Size')
+    data = df#[df.Repeat==1]
 
-    nbLines = df.DesignName.unique().shape[0]
+    nbLines = data.DesignName.unique().shape[0]
     palette = sns.color_palette("mako_r", nbLines)
 
     sns.lineplot(
         x="SizeName", 
         y="finalExecTime", 
-        data=df,
+        data=data,
         style="DesignName",
         hue = "DesignName",
         markers=True, 
@@ -141,7 +149,7 @@ def all(df):
     plt.ylabel('time (seconds)')
     plt.xlabel('Repeat')
     plt.ylim(0, ylim)
-    plt.savefig(path + '/graphs/All_Size.png')
+    plt.savefig(path + '/graphs/All_Size.png',transparent=True)
     plt.clf()
 
   
@@ -166,7 +174,7 @@ def all(df):
     plt.ylabel('time (seconds)')
     plt.xlabel('Block')
     plt.ylim(0, ylim)
-    plt.savefig(path + '/graphs/All_Block_DesignName.png')
+    plt.savefig(path + '/graphs/All_Block_DesignName.png',transparent=True)
     plt.clf()
 
 
@@ -196,7 +204,7 @@ def key_repeat(df):
     plt.xlabel('Repeat')
     plt.ylim(0, ylim)
     plt.xticks(range(1,4))
-    plt.savefig(path + '/graphs/KeyMultiRepeat_Size_finalExecTime.png')
+    plt.savefig(path + '/graphs/KeyMultiRepeat_Size_finalExecTime.png',transparent=True)
     plt.clf()
 
 
@@ -227,7 +235,7 @@ def gesture_repeat(df):
     plt.xlabel('Repeat')
     plt.ylim(0, ylim)
     plt.xticks(range(1,4))
-    plt.savefig(path + '/graphs/GestureMultiRepeat_Size_finalExecTime.png')
+    plt.savefig(path + '/graphs/GestureMultiRepeat_Size_finalExecTime.png',transparent=True)
     plt.clf()
 
 
@@ -259,6 +267,8 @@ def four_size(df):
     # All_Repeat_By_Size
     
     sns.set(rc={"figure.figsize":(12, 9)})
+    mpl.rcParams.update({'axes.grid': True, 'grid.color': '202020', 'axes.edgecolor': 'black'})
+
     df = df.sort_values('DesignName')
     data1 = df[df.SizeName == 'Tiny']
     data2 = df[df.SizeName == 'Small']
@@ -339,7 +349,7 @@ def four_size(df):
     ax4.set_ylim(0, ylim)
     ax4.set_xticks(range(1,4))
     
-    fig.savefig(path + '/graphs/All_Repeat_By_Size.png')
+    fig.savefig(path + '/graphs/All_Repeat_By_Size.png',transparent=True)
     fig.clf()
 
 
@@ -370,10 +380,14 @@ def user(df):
     user_df = pd.read_csv(path + "/userdata.csv", skiprows=1, names=headers, na_values="-1")
 
     df.ParticipantID = df.ParticipantID.astype(int)
-    df = pd.merge(df[["DesignName", "ParticipantID","experimentID","finalExecTime"]],user_df, on=['DesignName','ParticipantID'],how='left')
+    df = pd.merge(df[["DesignName", "ParticipantID","DesignID","finalExecTime"]],user_df, on=['DesignName','ParticipantID'],how='left')
     #df[["DesignName", "ParticipantID","experimentID","finalExecTime"]]
     
-    #print(df.corr()["finalExecTime"].sort_values(ascending=False))
+    # df['keyboardLayout'] = df.keyboardLayout.replace({'QWERTY':0 , 'AZERTY':1})
+    # df['mouseType'] = df.mouseType.replace({'touchpad':0 , 'classic_mouse':1})
+    # df.user_gender = df.user_gender.replace({"man":0, "woman":1, "non-binary":2})
+    
+    print(df.corr()["DesignID"].sort_values(ascending=False))
     
     # data1 = df[df.keyboardLayout.notnull() & (df.mouseType.notnull())]
     # data1['keyboardLayout'] = data1.keyboardLayout.replace({'QWERTY':0 , 'AZERTY':1})
@@ -384,11 +398,11 @@ def user(df):
     # print(res2)
     
 
-    data2 = df[(df.user_age.notnull()) & (df.user_gender.notnull()) & (df.finalExecTime.notnull())]
-    #print(AnovaRM(data=data2, depvar='finalExecTime',subject='DesignName', within=['user_gender']).fit())
-    #data2.user_gender = data2.user_gender.replace({"man":0, "woman":1, "non-binary":2})
-    print(pg.rm_anova(data=data2, dv="finalExecTime", within="user_age", subject="DesignName"))
-    print(pg.rm_anova(data=data2, dv="finalExecTime", within="user_gender", subject="DesignName"))
+    # data2 = df[(df.user_age.notnull()) & (df.user_gender.notnull()) & (df.finalExecTime.notnull())]
+    # #print(AnovaRM(data=data2, depvar='finalExecTime',subject='DesignName', within=['user_gender']).fit())
+    # #data2.user_gender = data2.user_gender.replace({"man":0, "woman":1, "non-binary":2})
+    # print(pg.rm_anova(data=data2, dv="finalExecTime", within="user_age", subject="DesignName"))
+    # print(pg.rm_anova(data=data2, dv="finalExecTime", within="user_gender", subject="DesignName"))
 
 
 def remove_outliers(df, col):
@@ -397,10 +411,11 @@ def remove_outliers(df, col):
 if __name__=="__main__":
     df = load()
     
-    # all(df)
-    # key(df)
-    # gesture(df)
-    # four_size(df)
+    mpl.rcParams.update({'axes.grid': True, 'grid.color': '202020', 'axes.edgecolor': 'black'})
+    all(df)
+    key(df)
+    gesture(df)
+    four_size(df)
     
-    #corr(df)
-    user(df)
+    corr(df)
+    #user(df)
